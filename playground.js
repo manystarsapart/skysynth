@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+
+    // getting from DOM & assigning variables
     let messages = [];
+    let transposeValue = 0;
     const statusDiv = document.getElementById("status-div");
     const transposeValueBox = document.getElementById("transpose-value");
     const scaleValueBox = document.getElementById("scale-value");
@@ -10,8 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const notesDiv = document.getElementById("notes-div")
 
     updateStatusMsg("Initialised!");
-    let transposeValue = 0;
-
+    
+    // for double music pad
     const dbLetterMap = {
         'q': 48, 'w': 50, 'e': 52, 'r': 53, 't': 55,
         'a': 57, 's': 59, 'd': 60, 'f': 62, 'g': 64,
@@ -21,24 +24,29 @@ document.addEventListener("DOMContentLoaded", () => {
         'n': 77, 'm': 79, ',': 81, '.': 83, '/': 84,
     };
 
+    // for singular (low) music pad
     const sgLetterMap1 = {
         'q': 36, 'w': 38, 'e': 40, 'r': 41, 't': 43,
         'a': 45, 's': 47, 'd': 48, 'f': 50, 'g': 52,
         'z': 53, 'x': 55, 'c': 57, 'v': 59, 'b': 60,
     };
 
+    // for singular (high) music pad
     const sgLetterMap2 = {
         'q': 60, 'w': 62, 'e': 64, 'r': 65, 't': 67,
         'a': 69, 's': 71, 'd': 72, 'f': 74, 'g': 76,
         'z': 77, 'x': 79, 'c': 81, 'v': 83, 'b': 84,
     };
 
+    // for keys pressed to initiate transposing
     const pitchMap = {
         '`': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, 
         '6': 6, '7': 7, '8': 8, '9': 9, '0':10, '-': 11, 
         '=': 12
     }
 
+    // shows exact scale of tranposed key
+    // note that this is separate because pitchMap values are the ones used in the midiNotes
     const transposeMap = {
         '0': "C", '1': "C#",
         '2': "D", '3': "D#",
@@ -50,6 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
         '12': "C"
     }
 
+    // ===========================================
+    // ONLY for visual guide of note names
     function mapNumbersToNotes(currentKey) {
         const notes = {
             'C': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
@@ -65,81 +75,112 @@ document.addEventListener("DOMContentLoaded", () => {
             'Bb': ['Bb', 'C', 'D', 'Eb', 'F', 'G', 'A'],
             'B': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'Bb']
         };
-    
         const mapping = [
             [1, 2, 3, 4, 5],
             [6, 7, 1, 2, 3],
             [4, 5, 6, 7, 8]
         ];
-    
         const keyNotes = notes[currentKey];
-
         return mapping.flatMap(row => 
             row.map(num => `<div class="flex items-center justify-center p-2">${keyNotes[(num - 1) % 7]}</div>`)
         ).join('');
     }
     
+    // ===========================================
 
+    // grabs set of KEYS PRESSED
     let letterMap = dbLetterMap;
     const pressedKeys = new Set();
     const synth = new Tone.PolySynth(Tone.Synth).toDestination();
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
+
+    // detects for SHIFT pressed & released
+    let shiftPressed = false;
+    document.addEventListener('keydown', function(e) {
+        if (e.shiftKey) {
+            shiftPressed = true;
+        }
+    });
+    document.addEventListener('keyup', function(e) {
+        if (e.key === 'Shift') {
+            shiftPressed = false;
+        }
+    });
     
-    function handleKeyDown(event) {
-        const key = event.key.toLowerCase();
-        if (key in letterMap && !pressedKeys.has(key)) {
-            // play according note
+    // when any key is pressed
+    function handleKeyDown(e) {
+        const key = e.key.toLowerCase();
+        if (key in letterMap && !pressedKeys.has(key)) { // key in noteplaying map
             pressedKeys.add(key);
-            synth.triggerAttack(Tone.Frequency(letterMap[key]+transposeValue, "midi"));
+            let midiNote = letterMap[key] + transposeValue;
+            if (shiftPressed) {midiNote += 1;}
+            synth.triggerAttack(Tone.Frequency(midiNote, "midi"));
+            // console.log(midiNote); // debug
+
         } else if (key in pitchMap && !pressedKeys.has(key)) {
             // detecting for transposing. number keys
-            transposeValue = pitchMap[key];
-            transposeValueBox.innerHTML = pitchMap[key];
-            scaleValueBox.innerHTML = transposeMap[pitchMap[key]];
-            scaleValueBox2.innerHTML = transposeMap[pitchMap[key]];
+            transposeValue = pitchMap[key]; // in semitones
+            transposeValueBox.innerHTML = pitchMap[key]; // returns semitone count
+            scaleValueBox.innerHTML = transposeMap[pitchMap[key]]; // returns scale ("C", "D", etc)
+            scaleValueBox2.innerHTML = transposeMap[pitchMap[key]]; // returns the same scale for better visualisation
+            notesDiv.innerHTML = mapNumbersToNotes(transposeMap[pitchMap[key]]); // changes the VISUAL GUIDE
+
             updateStatusMsg(`transpose value updated to: ${pitchMap[key]}`);
-            const currentKey = transposeMap[pitchMap[key]]
-            notesDiv.innerHTML = mapNumbersToNotes(currentKey);
         }
     }
     
-    function handleKeyUp(event) {
-        const key = event.key.toLowerCase();
+    function handleKeyUp(e) {
+        const key = e.key.toLowerCase();
         if (key in letterMap) {
             pressedKeys.delete(key);
-            synth.triggerRelease(Tone.Frequency(letterMap[key]+transposeValue, "midi"));
+            let midiNote = letterMap[key] + transposeValue;
+            // if (shiftPressed) {
+            //     midiNote = getNextSemitone(midiNote); 
+            // // THIS IS REMOVED TO COMPENSATE FOR CASE WHERE TONE DOESNT STOP WHEN: 
+            // // 1. note is pressed
+            // // 2. shift is held down
+            // // 3. note is released
+            // // ==> by releasing both the midiNote and midiNote + 1 we release the original midinote and the semitone midinote
+            // }
+            synth.triggerRelease(Tone.Frequency(midiNote, "midi"));
+            synth.triggerRelease(Tone.Frequency(midiNote + 1, "midi")); 
+            // failsafe for tone not stopping when:
+            // 1. shift is held down
+            // 2. note is pressed
+            // 3. shift is released
         }
     }
 
+    // ensures audio playback only starts after user interaction. autoplay policies
     document.addEventListener('click', async () => {
         await Tone.start();
+        updateStatusMsg("Audio initialised!");
     });
 
 
-// buttons in html & their behaviour
-    let sgToggle1 = document.getElementById("singlekeyboard1");
-    let sgToggle2 = document.getElementById("singlekeyboard2");
-    let dbToggle = document.getElementById("doublekeyboard");
+// buttons & toggles
+    const sgToggle1 = document.getElementById("singlekeyboard1");
+    const sgToggle2 = document.getElementById("singlekeyboard2");
+    const dbToggle = document.getElementById("doublekeyboard");
+    const resetButton = document.getElementById("reset-button")
 
     sgToggle1.addEventListener("click", (e) => {
-        // update lettermap to single keyboard 1
+        // update lettermap to single keyboard 1 (low)
         letterMap = sgLetterMap1;
         updateStatusMsg("current: single keyboard (low)");
         layoutValueBox.innerHTML = "single (low)"
-        
     })
 
     sgToggle2.addEventListener("click", (e) => {
-        // update lettermap to single keyboard 2
+        // update lettermap to single keyboard 2 (high)
         letterMap = sgLetterMap2;
         updateStatusMsg("current: single keyboard (high)");
         layoutValueBox.innerHTML = "single (high)" 
-        
     })
 
     dbToggle.addEventListener("click", (e) => {
-        // update lettermap to double keyboard
+        // update lettermap to double keyboard (default)
         letterMap = dbLetterMap;
         updateStatusMsg("current: doublekeyboard");
         layoutValueBox.innerHTML = "double (default)"        
@@ -151,7 +192,24 @@ document.addEventListener("DOMContentLoaded", () => {
         statusDiv.innerHTML = "";
     })
 
-    // for logging
+    // resetButton.addEventListener("click", (e) => {
+    //     // stops all playing notes, resets all to default state
+    //     synth.releaseAll();
+    //     letterMap = dbLetterMap;
+    //     transposeValue = 0; 
+    //     transposeValueBox.innerHTML = 0;
+    //     scaleValueBox.innerHTML = "C"; // returns scale ("C", "D", etc)
+    //     scaleValueBox2.innerHTML = transposeMap[pitchMap[key]]; // returns the same scale for better visualisation
+    //     notesDiv.innerHTML = mapNumbersToNotes(0); // changes the VISUAL GUIDE
+
+
+
+    //     messages = [];
+    //     statusDiv.innerHTML = "";
+        
+    // })
+
+    // logs message into status div
     function updateStatusMsg(message) {
         const now = new Date(Date.now());
         const formattedTime = now.toLocaleString();

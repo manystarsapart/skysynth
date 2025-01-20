@@ -21,21 +21,31 @@
     </header>
 
     <main>
-    <ul class="text-2xl">
-        <li>"` 1 2 3 4 5 6 7 8 9 0 - =" are keys that transpose the notes. click letters below to play these notes</li>
-        <li>laptop only. sorry no phone compatibility yet </li>
+    <ul class="text-2xl text-right fixed top-20 right-10">
+        <li>To <span class="text-blue-200">TRANSPOSE</span>: press ` 1 2 3 4 5 6 7 8 9 0 - =</li>
+        <li>To PLAY <span class="text-green-200">NOTES</span>: press Q W E R T ... & Y U I O P ...</li>
+        <li>To PLAY <span class="text-red-300">ACCIDENTALS</span>: hold SHIFT while playing note (e.g. shift + D)</li>
+        <br \>
+        <li><b>laptop only</b>. sorry no phone compatibility yet </li>
         <li>if you are lost, please try pressing your laptop keyboard for sounds</li>
         <li>if note persists after releasing, refresh page</li>
-    
+    </ul>
+    <br \>
+    <ul class="text-4xl">
+        <li class="text-yellow-400">current transpose value = <span id="transpose-value">0</span></li>
         <br \>
-        <li>current transpose value = <span id="transpose-value">0</span></li>
-        <li>current key: <span id="scale-value">C</span></li>
-        <li>(i.e. the current "D" key on the keyboard maps to the music note: <span id="scale-value-2">C</span>)</li>
-        <li>current music pad layout: <span id="layout-value">double (default)</span></li>
+        <li class="text-yellow-400">current key: <span id="scale-value">C</span></li>
+        <li class="text-lg">(i.e. the current "D" key on the keyboard maps to the music note: <span id="scale-value-2">C</span>)</li>
+        <br \>
+        <li class="text-yellow-400">current music pad layout: <span id="layout-value">double (default)</span></li>
     </ul> 
 
     <br \>
     <br \>
+
+    <div>
+        here's a (dynamic) visual guide for you. try pressing number keys!
+    </div>
 
     <div id="notes-div" class="grid grid-cols-5 gap-2 p-2 text-3xl">
         <div class="flex items-center justify-center p-2">C</div>
@@ -79,6 +89,9 @@
     <button id="singlekeyboard1" class="p-3 m-3 rounded-lg border-2 border-white hover:bg-red-600">single keyboard (low)</button>
     <button id="singlekeyboard2" class="p-3 m-3 rounded-lg border-2 border-white hover:bg-red-600">single keyboard (high)</button>
     <button id="clear-button" class="p-3 m-3 rounded-lg border-2 border-white hover:bg-red-600">clear status</button>
+    <!-- <button id="reset-button" class="p-3 m-3 rounded-lg border-2 border-white hover:bg-red-600">reset responses <button> -->
+
+    <br \>
 
     <div id="status-div">
         
@@ -86,9 +99,10 @@
 
 </main>
 
-<footer class="text-xs fixed bottom-0 right-0 p-10">
+<footer class="text-xs fixed bottom-0 right-0 p-10 text-right">
 
-    made by @manystarsapart
+    made by @manystarsapart <br>
+    for any feedback, please contact through discord
 
 </footer>
     
