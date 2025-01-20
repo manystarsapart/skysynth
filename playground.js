@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
     const transposeValueBox = document.getElementById("transpose-value");
     const scaleValueBox = document.getElementById("scale-value");
     const clearButton = document.getElementById("clear-button");
+    const layoutValueBox = document.getElementById("layout-value");
+
     updateStatusMsg("Initialised!");
     let transposeValue = 0;
 
@@ -89,14 +91,16 @@ document.addEventListener("DOMContentLoaded", (e) => {
     sgToggle1.addEventListener("click", (e) => {
         // update lettermap to single keyboard 1
         letterMap = sgLetterMap1;
-        updateStatusMsg("current: single keyboard (lower)");
+        updateStatusMsg("current: single keyboard (low)");
+        layoutValueBox.innerHTML = "single (low)"
         
     })
 
     sgToggle2.addEventListener("click", (e) => {
         // update lettermap to single keyboard 2
         letterMap = sgLetterMap2;
-        updateStatusMsg("current: single keyboard (higher)");
+        updateStatusMsg("current: single keyboard (high)");
+        layoutValueBox.innerHTML = "single (high)" 
         
     })
 
@@ -104,6 +108,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
         // update lettermap to double keyboard
         letterMap = dbLetterMap;
         updateStatusMsg("current: doublekeyboard");
+        layoutValueBox.innerHTML = "double (default)"        
     })
 
     clearButton.addEventListener("click", (e) => {

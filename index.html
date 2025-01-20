@@ -10,28 +10,32 @@
 
     <title>SkySynth</title>
     <link rel="icon" type="image/png" href="./assets/thumbnail.jpeg"/>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./output.css">
     <script src="playground.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
     <script src="https://unpkg.com/@tonejs/midi"></script>
 </head>
-<body>
+<body class="bg-black text-white p-5 ">
     <div>  
-        <div style="font-size: xx-large;">play notes</div>
+        <div class="text-5xl font-pressstart2p p-5">play notes</div>
     </div>
-    <div style="font-size:large">
+    <div class="text-2xl">
+        <br \>
         "` 1 2 3 4 5 6 7 8 9 0 - =" are keys that transpose the notes. click letters below to play these notes<br \>
         laptop only. sorry no phone compatibility yet <br \>
         if you are lost, please try pressing your laptop keyboard for sounds <br \> 
         if note persists after releasing, refresh page <br \>
+    
+        <br \>
+        current transpose value = <span id="transpose-value">0</span> <br \>
+        current key: <span id="scale-value">C</span> <br \>
+        current music pad layout: <span id="layout-value">double (default)</span>
         <br \>
         <br \>
-        <br \>
-        current transpose value =<span id="transpose-value">0</span>. current key:<span id="scale-value">C</span>
     </div> 
 
-    <div class="column-container" style="font-size: x-large;">
-        <div class="column">
+    <div class="p-3 flex flex-row flex-wrap justify-around" style="font-size: x-large;">
+        <div class="">
             q w e r t <br \>
             a s d f g <br \>
             z x c v b     
@@ -41,7 +45,7 @@
             6 7 1 2 3 <br \>
             4 5 6 7 8 
         </div>
-        <div class="column">
+        <div class="">
             y u i o p <br \>
             h j k l ; <br \>
             n m , . / <br \>
@@ -50,10 +54,10 @@
         </div>
     </div>
 
-    <button id="doublekeyboard" class="playground-button">double keyboard (default)</button>
-    <button id="singlekeyboard1" class="playground-button">single keyboard (low)</button>
-    <button id="singlekeyboard2" class="playground-button">single keyboard (high)</button>
-    <button id="clear-button" class="playground-button">clear status</button>
+    <button id="doublekeyboard" class="p-3 m-3 rounded-lg border-2 border-white hover:bg-red-600">double keyboard (default)</button>
+    <button id="singlekeyboard1" class="p-3 m-3 rounded-lg border-2 border-white hover:bg-red-600">single keyboard (low)</button>
+    <button id="singlekeyboard2" class="p-3 m-3 rounded-lg border-2 border-white hover:bg-red-600">single keyboard (high)</button>
+    <button id="clear-button" class="p-3 m-3 rounded-lg border-2 border-white hover:bg-red-600">clear status</button>
 
     <div id="status-div">
         
