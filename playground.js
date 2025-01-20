@@ -52,17 +52,17 @@ document.addEventListener("DOMContentLoaded", (e) => {
     function mapNumbersToNotes(currentKey) {
         const notes = {
             'C': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
-            'C#': ['C#', 'D#', 'F', 'F#', 'G#', 'A#', 'C'],
+            'C#': ['C#', 'D#', 'F', 'F#', 'G#', 'Bb', 'C'],
             'D': ['D', 'E', 'F#', 'G', 'A', 'B', 'C#'],
-            'D#': ['D#', 'F', 'G', 'G#', 'A#', 'C', 'D'],
+            'D#': ['D#', 'F', 'G', 'G#', 'Bb', 'C', 'D'],
             'E': ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],
-            'F': ['F', 'G', 'A', 'A#', 'C', 'D', 'E'],
-            'F#': ['F#', 'G#', 'A#', 'B', 'C#', 'D#', 'F'],
+            'F': ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'],
+            'F#': ['F#', 'G#', 'Bb', 'B', 'C#', 'D#', 'F'],
             'G': ['G', 'A', 'B', 'C', 'D', 'E', 'F#'],
-            'G#': ['G#', 'A#', 'C', 'C#', 'D#', 'F', 'G'],
+            'G#': ['G#', 'Bb', 'C', 'C#', 'D#', 'F', 'G'],
             'A': ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'],
             'Bb': ['Bb', 'C', 'D', 'Eb', 'F', 'G', 'A'],
-            'B': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'A#']
+            'B': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'Bb']
         };
     
         const mapping = [
