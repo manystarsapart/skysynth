@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     const statusDiv = document.getElementById("status-div");
     const transposeValueBox = document.getElementById("transpose-value");
     const scaleValueBox = document.getElementById("scale-value");
+    const scaleValueBox2 = document.getElementById("scale-value-2")
     const clearButton = document.getElementById("clear-button");
     const layoutValueBox = document.getElementById("layout-value");
     const notesDiv = document.getElementById("notes-div")
@@ -95,7 +96,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
             transposeValue = pitchMap[key];
             transposeValueBox.innerHTML = pitchMap[key];
             scaleValueBox.innerHTML = transposeMap[pitchMap[key]];
-            updateStatusMsg("transpose value updated to: " + pitchMap[key] + ". this means Q is playing " + pitchMap[key] + " semitones higher than C.");
+            scaleValueBox2.innerHTML = transposeMap[pitchMap[key]];
+            updateStatusMsg("transpose value updated to: " + pitchMap[key]);
             // console.log("key: " + key);
 
 
@@ -156,7 +158,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     function updateStatusMsg(message) {
         const now = new Date(Date.now());
         const formattedTime = now.toLocaleString();
-        messages.push(message + " | Log time: " + formattedTime);
+        messages.push(message + " | Time: " + formattedTime);
         const status = messages.join('<br>');
         statusDiv.innerHTML = status;
     }
