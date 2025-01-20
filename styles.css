@@ -1,0 +1,33 @@
+* {
+    padding: 1rem;
+    color: white;
+    background-color: black;
+}
+
+.column-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.name-button {
+    font-size: large;
+    border-radius: 1rem;
+    width: 7rem;
+    height: 5rem;
+}
+
+.name-button:hover {
+    background-color: red;
+}
+
+.playground-button {
+    font-size: large;
+    border-radius: 1rem;
+    width: auto;
+    height: 5rem;
+}
+
+.playground-button:hover {
+    background-color: red;
+}

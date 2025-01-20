@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>skysynth</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="playground.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+    <script src="https://unpkg.com/@tonejs/midi"></script>
+</head>
+<body>
+    <div>  
+        <div style="font-size: xx-large;">play notes</div>
+    </div>
+    <div style="font-size:large">
+        "` 1 2 3 4 5 6 7 8 9 0 - =" are keys that transpose the notes. click letters below to play these notes<br \>
+        laptop only. sorry no phone compatibility yet <br \>
+        if you are lost, please try pressing your laptop keyboard for sounds <br \> 
+        if note persists after releasing, refresh page <br \>
+        <br \>
+        <br \>
+        <br \>
+        current transpose value =<span id="transpose-value">0</span>. current key:<span id="scale-value">C</span>
+    </div> 
+
+    <div class="column-container" style="font-size: x-large;">
+        <div class="column">
+            q w e r t <br \>
+            a s d f g <br \>
+            z x c v b     
+        </div>
+        <div>
+            1 2 3 4 5 <br \>
+            6 7 1 2 3 <br \>
+            4 5 6 7 8 
+        </div>
+        <div class="column">
+            y u i o p <br \>
+            h j k l ; <br \>
+            n m , . / <br \>
+            <br \>
+            (if doublekeyboard)
+        </div>
+    </div>
+
+    <button id="doublekeyboard" class="playground-button">double keyboard (default)</button>
+    <button id="singlekeyboard1" class="playground-button">single keyboard (low)</button>
+    <button id="singlekeyboard2" class="playground-button">single keyboard (high)</button>
+    <button id="clear-button" class="playground-button">clear status</button>
+
+    <div id="status-div">
+        
+    </div>
+    
+</body>
+</html>
