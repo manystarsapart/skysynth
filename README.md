@@ -5,5 +5,9 @@ greetings ! this is a beginner's first attempt at making something in javascript
 2. transpose to a different key
 3. use one half or both halves of your keyboard!
 
+ALSO: visual guide to playing is included
+
 just press random keys to get started. it can be a lot of fun !
 (especially if you're familiar with the Sky: CoTL music keyboard like i am)
+
+tap away!
