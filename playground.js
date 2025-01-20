@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     const scaleValueBox = document.getElementById("scale-value");
     const clearButton = document.getElementById("clear-button");
     const layoutValueBox = document.getElementById("layout-value");
+    const notesDiv = document.getElementById("notes-div")
 
     updateStatusMsg("Initialised!");
     let transposeValue = 0;
@@ -48,6 +49,36 @@ document.addEventListener("DOMContentLoaded", (e) => {
         '12': "C"
     }
 
+    function mapNumbersToNotes(currentKey) {
+        const notes = {
+            'C': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+            'C#': ['C#', 'D#', 'F', 'F#', 'G#', 'A#', 'C'],
+            'D': ['D', 'E', 'F#', 'G', 'A', 'B', 'C#'],
+            'D#': ['D#', 'F', 'G', 'G#', 'A#', 'C', 'D'],
+            'E': ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],
+            'F': ['F', 'G', 'A', 'A#', 'C', 'D', 'E'],
+            'F#': ['F#', 'G#', 'A#', 'B', 'C#', 'D#', 'F'],
+            'G': ['G', 'A', 'B', 'C', 'D', 'E', 'F#'],
+            'G#': ['G#', 'A#', 'C', 'C#', 'D#', 'F', 'G'],
+            'A': ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'],
+            'Bb': ['Bb', 'C', 'D', 'Eb', 'F', 'G', 'A'],
+            'B': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'A#']
+        };
+    
+        const mapping = [
+            [1, 2, 3, 4, 5],
+            [6, 7, 1, 2, 3],
+            [4, 5, 6, 7, 8]
+        ];
+    
+        const keyNotes = notes[currentKey];
+
+        return mapping.flatMap(row => 
+            row.map(num => `<div class="flex items-center justify-center p-2">${keyNotes[(num - 1) % 7]}</div>`)
+        ).join('');
+    }
+    
+
     let letterMap = dbLetterMap;
     const pressedKeys = new Set();
     const synth = new Tone.PolySynth(Tone.Synth).toDestination();
@@ -66,6 +97,10 @@ document.addEventListener("DOMContentLoaded", (e) => {
             scaleValueBox.innerHTML = transposeMap[pitchMap[key]];
             updateStatusMsg("transpose value updated to: " + pitchMap[key] + ". this means Q is playing " + pitchMap[key] + " semitones higher than C.");
             // console.log("key: " + key);
+
+
+            const currentKey = transposeMap[pitchMap[key]]
+            notesDiv.innerHTML = mapNumbersToNotes(currentKey);
             
         }
     }
