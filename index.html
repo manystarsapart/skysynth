@@ -16,25 +16,26 @@
     <script src="https://unpkg.com/@tonejs/midi"></script>
 </head>
 <body class="bg-black text-white p-5 ">
-    <div>  
-        <div class="text-5xl font-pressstart2p p-5">play notes</div>
-    </div>
-    <div class="text-2xl">
-        <br \>
-        "` 1 2 3 4 5 6 7 8 9 0 - =" are keys that transpose the notes. click letters below to play these notes<br \>
-        laptop only. sorry no phone compatibility yet <br \>
-        if you are lost, please try pressing your laptop keyboard for sounds <br \> 
-        if note persists after releasing, refresh page <br \>
+    <header>
+        <h1 class="text-5xl font-pressstart2p p-5">play notes</h1>
+    </header>
+
+    <main>
+    <ul class="text-2xl">
+        <li>"` 1 2 3 4 5 6 7 8 9 0 - =" are keys that transpose the notes. click letters below to play these notes</li>
+        <li>laptop only. sorry no phone compatibility yet </li>
+        <li>if you are lost, please try pressing your laptop keyboard for sounds</li>
+        <li>if note persists after releasing, refresh page</li>
     
         <br \>
-        current transpose value = <span id="transpose-value">0</span> <br \>
-        current key: <span id="scale-value">C</span> <br \>
-        (i.e. the current "D" key on the keyboard maps to the music note: <span id="scale-value-2">C</span>) <br \>
-        current music pad layout: <span id="layout-value">double (default)</span> <br \>
-        
-        <br \>
-        <br \>
-    </div> 
+        <li>current transpose value = <span id="transpose-value">0</span></li>
+        <li>current key: <span id="scale-value">C</span></li>
+        <li>(i.e. the current "D" key on the keyboard maps to the music note: <span id="scale-value-2">C</span>)</li>
+        <li>current music pad layout: <span id="layout-value">double (default)</span></li>
+    </ul> 
+
+    <br \>
+    <br \>
 
     <div id="notes-div" class="grid grid-cols-5 gap-2 p-2 text-3xl">
         <div class="flex items-center justify-center p-2">C</div>
@@ -82,6 +83,14 @@
     <div id="status-div">
         
     </div>
+
+</main>
+
+<footer class="text-xs fixed bottom-0 right-0 p-10">
+
+    made by @manystarsapart
+
+</footer>
     
 </body>
 </html>

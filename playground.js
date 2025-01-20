@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", (e) => {
+document.addEventListener("DOMContentLoaded", () => {
 
     let messages = [];
     const statusDiv = document.getElementById("status-div");
@@ -89,21 +89,18 @@ document.addEventListener("DOMContentLoaded", (e) => {
     function handleKeyDown(event) {
         const key = event.key.toLowerCase();
         if (key in letterMap && !pressedKeys.has(key)) {
+            // play according note
             pressedKeys.add(key);
             synth.triggerAttack(Tone.Frequency(letterMap[key]+transposeValue, "midi"));
-            // console.log("played: " + letterMap[key]+transposeValue); 
         } else if (key in pitchMap && !pressedKeys.has(key)) {
+            // detecting for transposing. number keys
             transposeValue = pitchMap[key];
             transposeValueBox.innerHTML = pitchMap[key];
             scaleValueBox.innerHTML = transposeMap[pitchMap[key]];
             scaleValueBox2.innerHTML = transposeMap[pitchMap[key]];
-            updateStatusMsg("transpose value updated to: " + pitchMap[key]);
-            // console.log("key: " + key);
-
-
+            updateStatusMsg(`transpose value updated to: ${pitchMap[key]}`);
             const currentKey = transposeMap[pitchMap[key]]
             notesDiv.innerHTML = mapNumbersToNotes(currentKey);
-            
         }
     }
     
@@ -158,7 +155,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     function updateStatusMsg(message) {
         const now = new Date(Date.now());
         const formattedTime = now.toLocaleString();
-        messages.push(message + " | Time: " + formattedTime);
+        messages.push(`${message} | Time: ${formattedTime}`);
         const status = messages.join('<br>');
         statusDiv.innerHTML = status;
     }
