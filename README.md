@@ -1,3 +1,7 @@
+# THIS ONLY WORKS ON NON-CHROMIUM BASED BROWSERS!
+(eg. firefox, macbook safari etc)
+
+
 greetings ! this is a beginner's first attempt at making something in javascript. hope it is not too buggy
 
 # FUNCTIONALITY & FEATURES
