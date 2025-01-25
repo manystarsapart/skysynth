@@ -286,5 +286,6 @@ document.addEventListener("DOMContentLoaded", () => {
         messages.push(`${message} | Time: ${formattedTime}`);
         const status = messages.join('<br>');
         statusDiv.innerHTML = status;
+        statusDiv.scrollTop = statusDiv.scrollHeight
     }
 });
