@@ -15,13 +15,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
     <script src="https://unpkg.com/@tonejs/midi"></script>
 </head>
-<body class="bg-black text-white p-5 ">
+<body class="bg-black text-white p-5 overflow-hidden">
     <header>
         <h1 class="text-5xl font-pressstart2p p-5">play notes</h1>
     </header>
 
     <main>
-    <ul class="text-2xl lg:text-right lg:fixed lg:top-20 lg:right-10">
+    <ul class="text-xl lg:text-right lg:fixed lg:top-20 lg:right-10">
         <li>To <span class="text-blue-200">TRANSPOSE</span>: press ` 1 2 3 4 5 6 7 8 9 0 - =</li>
         <li>To PLAY <span class="text-green-200">NOTES</span>: press Q W E R T ... & Y U I O P ...</li>
         <li>To PLAY <span class="text-red-300">ACCIDENTALS</span>: hold SHIFT while playing note (e.g. shift + D)</li>
@@ -31,21 +31,17 @@
         <li>if note persists after releasing, refresh page</li>
     </ul>
     <br \>
-    <ul class="text-4xl">
-        <li class="text-yellow-400">current transpose value = <span id="transpose-value">0</span></li>
-        <br \>
-        <li class="text-yellow-400">current key: <span id="scale-value">C</span></li>
+    <ul class="text-3xl">
+        <li class="text-yellow-400">current transpose value = <span id="transpose-value">0</span> | current key: <span id="scale-value">C</span></li>
+
+        <li class="text-yellow-400"></li>
         <li class="text-lg">(i.e. the current "D" key on the keyboard maps to the music note: <span id="scale-value-2">C</span>)</li>
         <br \>
         <li class="text-yellow-400">current music pad layout: <span id="layout-value">double (default)</span></li>
+        <li class="text-lg">here's a (dynamic) visual guide for you. try pressing number keys!</li>
     </ul> 
 
-    <br \>
-    <br \>
-
-    <div>
-        here's a (dynamic) visual guide for you. try pressing number keys!
-    </div>
+<br \>
 
     <div id="notes-div" class="grid grid-cols-5 gap-2 p-2 text-3xl">
         <div class="flex items-center justify-center p-2">C</div>
@@ -99,7 +95,7 @@
         <button id="save-record-button" class="p-3 m-3 rounded-lg border-2 border-white hover:bg-red-600">save recording<button>
         <!-- <button id="clear-record-button" class="p-3 m-3 rounded-lg border-2 border-white hover:bg-red-600">clear recording<button> -->
     </div>
-    <div id="status-div" class="text-left p-5">
+    <div id="status-div" class="max-h-40 text-left p-5 overflow-y-scroll">
         
     </div>
 
