@@ -7,10 +7,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusDiv = document.getElementById("status-div");
     const transposeValueBox = document.getElementById("transpose-value");
     const scaleValueBox = document.getElementById("scale-value");
-    const scaleValueBox2 = document.getElementById("scale-value-2")
+    const scaleValueBox2 = document.getElementById("scale-value-2");
+    const octaveValueBox = document.getElementById("octave-value");
     const clearButton = document.getElementById("clear-button");
     const layoutValueBox = document.getElementById("layout-value");
     const notesDiv = document.getElementById("notes-div");
+
+
+    // ===========================================
+    // RECORDING FUNCTIONALITY
 
     let mediaRecorder;
     let audioChunks = [];
@@ -106,6 +111,8 @@ document.addEventListener("DOMContentLoaded", () => {
     //     updateStatusMsg("Recording cleared!");
     // }
 
+    // ===========================================
+
     updateStatusMsg("Initialised!");
     
     // for double music pad
@@ -137,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
         '`': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, 
         '6': 6, '7': 7, '8': 8, '9': 9, '0':10, '-': 11, 
         '=': 12
-    }
+    };
 
     // shows exact scale of tranposed key
     // note that this is separate because pitchMap values are the ones used in the midiNotes
@@ -150,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
         '9': "A", '10': "Bb",
         '11': "B", 
         '12': "C"
-    }
+    };
 
     // ===========================================
     // ONLY for visual guide of note names
@@ -181,6 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     // ===========================================
+    // HANDLING KEYPRESSES
 
     // grabs set of KEYS PRESSED
     let letterMap = dbLetterMap;
@@ -207,7 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const key = e.key.toLowerCase();
         if (key in letterMap && !pressedKeys.has(key)) { // key in noteplaying map
             pressedKeys.add(key);
-            let midiNote = letterMap[key] + transposeValue;
+            let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
             if (shiftPressed) {midiNote += 1;}
             synth.triggerAttack(Tone.Frequency(midiNote, "midi"));
             // console.log(midiNote); // debug
@@ -221,14 +229,29 @@ document.addEventListener("DOMContentLoaded", () => {
             notesDiv.innerHTML = mapNumbersToNotes(transposeMap[pitchMap[key]]); // changes the VISUAL GUIDE
 
             updateStatusMsg(`transpose value updated to: ${pitchMap[key]}`);
-        }
+        }    
+        // detect arrow key: octave change
+        switch(e.key) {
+            case 'ArrowLeft':
+                octaveDown();
+                break;
+            case 'ArrowDown':
+                octaveDown();
+                break;
+            case 'ArrowRight':
+                octaveUp();
+                break;
+            case 'ArrowUp':
+                octaveUp();
+                break;
+        }        
     }
     
     function handleKeyUp(e) {
         const key = e.key.toLowerCase();
         if (key in letterMap) {
             pressedKeys.delete(key);
-            let midiNote = letterMap[key] + transposeValue;
+            let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
             // if (shiftPressed) {
             //     midiNote = getNextSemitone(midiNote); 
             // // THIS IS REMOVED TO COMPENSATE FOR CASE WHERE TONE DOESNT STOP WHEN: 
@@ -246,11 +269,36 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-// buttons & toggles
+    // ===========================================
+
+    let octave = 0;
+    let octaveAdjustment = 0;
+    
+    function octaveUp() {
+        if (octave < 2) {
+            octave++;
+            octaveAdjustment += 12;
+            updateStatusMsg(`Octave shift updated to ${octave}`);
+            octaveValueBox.innerHTML = octave;
+        } else updateStatusMsg("Already at maximum octave!");
+    }
+
+    function octaveDown() {
+        if (octave > -2) {
+            octave--;
+            octaveAdjustment -= 12;
+            updateStatusMsg(`Octave shift updated to ${octave}`);
+            octaveValueBox.innerHTML = octave;
+        } else updateStatusMsg("Already at maximum octave!");   
+    }
+
+    // ===========================================
+
+    // buttons & toggles
     const sgToggle1 = document.getElementById("singlekeyboard1");
     const sgToggle2 = document.getElementById("singlekeyboard2");
     const dbToggle = document.getElementById("doublekeyboard");
-    const resetButton = document.getElementById("reset-button")
+    const resetButton = document.getElementById("reset-button");
 
     sgToggle1.addEventListener("click", (e) => {
         // update lettermap to single keyboard 1 (low)
@@ -270,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // update lettermap to double keyboard (default)
         letterMap = dbLetterMap;
         updateStatusMsg("current: doublekeyboard");
-        layoutValueBox.innerHTML = "double (default)"        
+        layoutValueBox.innerHTML = "double (default)";        
     })
 
     clearButton.addEventListener("click", (e) => {
@@ -286,6 +334,6 @@ document.addEventListener("DOMContentLoaded", () => {
         messages.push(`${message} | Time: ${formattedTime}`);
         const status = messages.join('<br>');
         statusDiv.innerHTML = status;
-        statusDiv.scrollTop = statusDiv.scrollHeight
+        statusDiv.scrollTop = statusDiv.scrollHeight;
     }
 });
