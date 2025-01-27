@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const volumeValueBox = document.getElementById("volume-value");
     volumeControl.addEventListener("input", (e) => {
         const volume = e.target.value;
-        volumeValueBox.textContent = volume;
+        volumeValueBox.textContent = `${volume}%`;
         volumeNode.volume.value = Tone.gainToDb(volume/100);
         console.log(`volume in db: ${volumeNode.volume.value}`);
 
