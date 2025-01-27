@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const octaveValueBox = document.getElementById("octave-value");
     const clearButton = document.getElementById("clear-button");
     const layoutValueBox = document.getElementById("layout-value");
-    const notesDiv = document.getElementById("notes-div");
+
 
 
     // ===========================================
@@ -150,19 +150,61 @@ document.addEventListener("DOMContentLoaded", () => {
     // shows exact scale of tranposed key
     // note that this is separate because pitchMap values are the ones used in the midiNotes
     const transposeMap = {
-        '0': "C", '1': "C#",
-        '2': "D", '3': "D#",
+        '0': "C", 
+        '1': "C#",
+        '2': "D", 
+        '3': "D#",
         '4': "E", 
-        '5': "F", '6': "F#",
-        '7': "G", '8': "G#",
-        '9': "A", '10': "Bb",
+        '5': "F", 
+        '6': "F#",
+        '7': "G", 
+        '8': "G#",
+        '9': "A", 
+        '10': "Bb",
         '11': "B", 
         '12': "C"
     };
 
+
+    // ===========================================
+    // OCTAVE CHANGE
+
+    let lastPressedTransposeKey = "`";
+    // ` 1 2 3 4 5 6 7 8 9 0 - =
+
+    let octave = 0;
+    let octaveAdjustment = 0;
+    
+    function octaveUp() {
+        if (octave < 2) {
+            octave++;
+            octaveAdjustment += 12;
+            updateStatusMsg(`Octave shift updated to: ${octave}`);
+            octaveValueBox.innerHTML = octave;
+        } else updateStatusMsg("Already at maximum octave!");
+        updateVisualGuide(lastPressedTransposeKey);
+    }
+
+    function octaveDown() {
+        if (octave > -2) {
+            octave--;
+            octaveAdjustment -= 12;
+            updateStatusMsg(`Octave shift updated to: ${octave}`);
+            octaveValueBox.innerHTML = octave;
+        } else updateStatusMsg("Already at maximum octave!");   
+        updateVisualGuide(lastPressedTransposeKey); 
+    }
+
     // ===========================================
     // FOR VISUAL GUIDE FOR NOTE NAMES
-    function mapNumbersToNotes(currentKey) {
+
+    const notesDivL = document.getElementById("notes-div-left");
+    const notesDivR = document.getElementById("notes-div-right")
+
+    let realOctaveLeft = octave + 3;
+    let realOctaveRight = realOctaveLeft + 1;
+
+    function mapNumbersToNotes(currentKey, leftright) {
         const notes = {
             'C': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
             'C#': ['C#', 'D#', 'F', 'F#', 'G#', 'Bb', 'C'],
@@ -177,17 +219,43 @@ document.addEventListener("DOMContentLoaded", () => {
             'Bb': ['Bb', 'C', 'D', 'Eb', 'F', 'G', 'A'],
             'B': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'Bb']
         };
+    
         const mapping = [
             [1, 2, 3, 4, 5],
             [6, 7, 1, 2, 3],
             [4, 5, 6, 7, 8]
         ];
+    
+        realOctaveLeft = octave + 2;
+        realOctaveRight = realOctaveLeft + 1;
+    
         const keyNotes = notes[currentKey];
-        return mapping.flatMap(row => 
-            row.map(num => `<div class="flex items-center justify-center p-2">${keyNotes[(num - 1) % 7]}</div>`)
-        ).join('');
+        const octaveBase = leftright === 0 ? realOctaveLeft : realOctaveRight;
+    
+        const mappingFlattened = mapping.flat();
+        let countC = 0;
+    
+        const elements = mappingFlattened.map(num => {
+            const isC = (num - 1) % 7 === 0;
+            if (isC) {
+                countC++;
+            }
+            const noteIndex = (num - 1) % 7;
+            const note = keyNotes[noteIndex];
+            const currentOctave = octaveBase + (countC - 1);
+            return `<div class="flex items-center justify-center p-2">${note}${currentOctave}</div>`;
+        });
+    
+        return elements.join('');
     }
 
+    // THIS FUNCTION WAS IMPROVED BY DEEPSEEK R1 TO HELP DISPLAY EACH OCTAVES NUMBER CORRECTLY
+    // ALL HAIL OUR AI OVERLORDS
+
+    function updateVisualGuide(key) {
+        notesDivL.innerHTML = mapNumbersToNotes(transposeMap[pitchMap[key]], 0);
+        notesDivR.innerHTML = mapNumbersToNotes(transposeMap[pitchMap[key]], 1);
+    }
 
     // ===========================================
     // VOLUME CONTROL
@@ -259,8 +327,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const pressedKeys = new Set();
     const synth = new Tone.PolySynth(Tone.Synth).connect(volumeNode);
 
-
-
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
 
@@ -280,7 +346,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // when any key is pressed
     function handleKeyDown(e) {
         const key = e.key.toLowerCase();
-        if (key in letterMap && !pressedKeys.has(key)) { // key in noteplaying map
+        e.preventDefault(); // to stop other action e.g. shortcuts & spacebar scrolling from happening
+        if (key in letterMap && !pressedKeys.has(key)) { 
+            
+            // key in noteplaying map: play MIDI note
             pressedKeys.add(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
             if (shiftPressed) {midiNote += 1;}
@@ -290,27 +359,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } else if (key in pitchMap && !pressedKeys.has(key)) {
             // detecting for transposing. number keys
+            lastPressedTransposeKey = key;
             transposeValue = pitchMap[key]; // in semitones
             transposeValueBox.innerHTML = pitchMap[key]; // returns semitone count
             scaleValueBox.innerHTML = transposeMap[pitchMap[key]]; // returns scale ("C", "D", etc)
             scaleValueBox2.innerHTML = transposeMap[pitchMap[key]]; // returns the same scale for better visualisation
-            notesDiv.innerHTML = mapNumbersToNotes(transposeMap[pitchMap[key]]); // changes the VISUAL GUIDE
-
+            updateVisualGuide(key);
             updateStatusMsg(`transpose value updated to: ${pitchMap[key]}`);
         }    
         // detect arrow key: octave change
         switch(e.key) {
             case 'ArrowLeft':
-                octaveDown();
+                octaveDown(pitchMap[key]);
                 break;
             case 'ArrowDown':
-                octaveDown();
+                octaveDown(pitchMap[key]);
                 break;
             case 'ArrowRight':
-                octaveUp();
+                octaveUp(pitchMap[key]);
                 break;
             case 'ArrowUp':
-                octaveUp();
+                octaveUp(pitchMap[key]);
                 break;
         }        
     }
@@ -327,29 +396,6 @@ document.addEventListener("DOMContentLoaded", () => {
             // 2. note is pressed
             // 3. shift is released
         }
-    }
-
-    // ===========================================
-
-    let octave = 0;
-    let octaveAdjustment = 0;
-    
-    function octaveUp() {
-        if (octave < 2) {
-            octave++;
-            octaveAdjustment += 12;
-            updateStatusMsg(`Octave shift updated to ${octave}`);
-            octaveValueBox.innerHTML = octave;
-        } else updateStatusMsg("Already at maximum octave!");
-    }
-
-    function octaveDown() {
-        if (octave > -2) {
-            octave--;
-            octaveAdjustment -= 12;
-            updateStatusMsg(`Octave shift updated to ${octave}`);
-            octaveValueBox.innerHTML = octave;
-        } else updateStatusMsg("Already at maximum octave!");   
     }
 
     // ===========================================
