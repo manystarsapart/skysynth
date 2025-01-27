@@ -399,6 +399,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ===========================================
+    // TODO: MAKE THE VISUAL GUIDE LIGHT UP WHEN CORRESPONDING KEY IS PRESSED
+    // what i have already done: 
+    // create ids for each of these divs that correspond to the key pressed
+    
+
+
+
+
+
+
+    // ===========================================
 
     // buttons & toggles
     const sgToggle1 = document.getElementById("singlekeyboard1");
