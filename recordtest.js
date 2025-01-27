@@ -112,6 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // }
 
     // ===========================================
+    // MAPS FOR KEY --- MIDINOTE
 
     updateStatusMsg("Initialised!");
     
@@ -160,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ===========================================
-    // ONLY for visual guide of note names
+    // FOR VISUAL GUIDE FOR NOTE NAMES
     function mapNumbersToNotes(currentKey) {
         const notes = {
             'C': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
@@ -189,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ===========================================
-    // volume control
+    // VOLUME CONTROL
 
     const volumeNode = new Tone.Volume().toDestination();
     
@@ -203,7 +204,52 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(`volume in db: ${volumeNode.volume.value}`);
 
     }); 
+
+    // ===========================================
+    // CUMULATIVE NOTES PLAYED
+
+    const cumKeypressBox = document.getElementById("cum-keypress");
+    let cumulativeKeypress = parseInt(localStorage.getItem("cumulativeKeypress")) || 0;
+    cumKeypressBox.textContent = cumulativeKeypress;
+    function incrementCumKeypress() {
+        cumulativeKeypress ++;
+        cumKeypressBox.textContent = cumulativeKeypress;
+        localStorage.setItem("cumulativeKeypress", cumulativeKeypress.toString());
+    }
     
+    // ===========================================
+    // CUMULATIVE TIME SPENT
+
+    const cumTimeBox = document.getElementById("cum-time");
+    let cumulativeTime = parseInt(localStorage.getItem("cumulativeTime")) || 0;
+    cumTimeBox.textContent = formatTime(cumulativeTime);
+
+    function formatTime(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    // start timer
+    let startTime = Date.now();
+    const interval = setInterval(() => {
+        const currentTime = Date.now();
+        const elapsedTime = Math.floor((currentTime - startTime) / 1000); // to seconds
+        cumulativeTime += elapsedTime;
+        startTime = currentTime; 
+        cumTimeBox.textContent = formatTime(cumulativeTime);
+        localStorage.setItem("cumulativeTime", cumulativeTime.toString());
+    }, 1000); // updates every second
+
+    // on page exit
+    window.addEventListener("beforeunload", () => {
+        clearInterval(interval); // stop timer
+        const currentTime = Date.now();
+        const elapsedTime = Math.floor((currentTime - startTime) / 1000); // to seconds
+        cumulativeTime += elapsedTime;
+        localStorage.setItem("cumulativeTime", cumulativeTime.toString());
+    });
     
     // ===========================================
     // HANDLING KEYPRESSES
@@ -212,7 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let letterMap = dbLetterMap;
     const pressedKeys = new Set();
     const synth = new Tone.PolySynth(Tone.Synth).connect(volumeNode);
-    
+
 
 
     document.addEventListener('keydown', handleKeyDown);
@@ -239,6 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
             if (shiftPressed) {midiNote += 1;}
             synth.triggerAttack(Tone.Frequency(midiNote, "midi"));
+            incrementCumKeypress();
             // console.log(midiNote); // debug
 
         } else if (key in pitchMap && !pressedKeys.has(key)) {

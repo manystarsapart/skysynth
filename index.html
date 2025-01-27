@@ -21,7 +21,7 @@
     </header>
 
     <main>
-    <ul class="text-xl lg:text-right lg:fixed lg:top-20 lg:right-10">
+    <ul class="text-l lg:text-right lg:fixed lg:top-20 lg:right-10">
         <li>To <span class="text-blue-200">TRANSPOSE</span>: press ` 1 2 3 4 5 6 7 8 9 0 - =</li>
         <li>To PLAY <span class="text-green-200">NOTES</span>: press Q W E R T ... & Y U I O P ...</li>
         <li>To PLAY <span class="text-red-300">ACCIDENTALS</span>: hold SHIFT while playing note (e.g. shift + D)</li>
@@ -35,14 +35,16 @@
         <li><input type="range" id="volume-control" min="0" max="100" value="100">volume: <span id="volume-value">100% (default)</span></li>
     </ul>
     <br \>
-    <ul class="text-3xl">
+    <ul class="text-xl">
         <li class="text-yellow-400">current transpose value = <span id="transpose-value">0</span> | current key: <span id="scale-value">C</span></li> 
         <li class="text-yellow-400"> current octave shift: <span id="octave-value">0 (default)</span></li> 
         <li class="text-yellow-400"></li>
-        <li class="text-lg">(i.e. the current "D" key on the keyboard maps to the music note: <span id="scale-value-2">C</span>)</li>
+        <li class="text-base">(i.e. the current "D" key on the keyboard maps to the music note: <span id="scale-value-2">C</span>)</li>
         <br \>
         <li class="text-yellow-400">current music pad layout: <span id="layout-value">double (default)</span></li>
-        <li class="text-lg">here's a (dynamic) visual guide for you. try pressing number keys to change keys!</li>
+        <li class="text-base">here's a (dynamic) visual guide for you. try pressing number keys to change keys!</li>
+        <li class="text-base">cumulative time you spent on this page: <span id="cum-time">loading...</span></li>
+        <li class="text-base">cumulative number of notes played: <span id="cum-keypress">loading...</span></li>
     </ul> 
 
 <br \>
@@ -114,11 +116,12 @@
 
     made by @manystarsapart <br>
     for any feedback, please contact through discord <br>
-    last updated: 25 jan 2025 <br>
+    last updated: 27 jan 2025 <br>
     newest patch notes: <br>
     improve general layout <br>
-    add recordig & octave shift feature <br>
-    add volume slider 
+    add recording & octave shift <br>
+    add volume slider <br>
+    add cumulative time & notes played 
 
     <!-- known issues:
     1. space being highest note means it auto presses the buttons
