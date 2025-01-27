@@ -186,6 +186,24 @@ document.addEventListener("DOMContentLoaded", () => {
             row.map(num => `<div class="flex items-center justify-center p-2">${keyNotes[(num - 1) % 7]}</div>`)
         ).join('');
     }
+
+
+    // ===========================================
+    // volume control
+
+    const volumeNode = new Tone.Volume().toDestination();
+    
+
+    const volumeControl = document.getElementById("volume-control");
+    const volumeValueBox = document.getElementById("volume-value");
+    volumeControl.addEventListener("input", (e) => {
+        const volume = e.target.value;
+        volumeValueBox.textContent = volume;
+        volumeNode.volume.value = Tone.gainToDb(volume/100);
+        console.log(`volume in db: ${volumeNode.volume.value}`);
+
+    }); 
+    
     
     // ===========================================
     // HANDLING KEYPRESSES
@@ -193,7 +211,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // grabs set of KEYS PRESSED
     let letterMap = dbLetterMap;
     const pressedKeys = new Set();
-    const synth = new Tone.PolySynth(Tone.Synth).toDestination();
+    const synth = new Tone.PolySynth(Tone.Synth).connect(volumeNode);
+    
+
+
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
 
@@ -252,14 +273,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (key in letterMap) {
             pressedKeys.delete(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
-            // if (shiftPressed) {
-            //     midiNote = getNextSemitone(midiNote); 
-            // // THIS IS REMOVED TO COMPENSATE FOR CASE WHERE TONE DOESNT STOP WHEN: 
-            // // 1. note is pressed
-            // // 2. shift is held down
-            // // 3. note is released
-            // // ==> by releasing both the midiNote and midiNote + 1 we release the original midinote and the semitone midinote
-            // }
             synth.triggerRelease(Tone.Frequency(midiNote, "midi"));
             synth.triggerRelease(Tone.Frequency(midiNote + 1, "midi")); 
             // failsafe for tone not stopping when:
@@ -327,7 +340,11 @@ document.addEventListener("DOMContentLoaded", () => {
         statusDiv.innerHTML = "";
     })
 
-    // logs message into status div
+
+
+    // ===========================================
+    // log message into status div
+
     function updateStatusMsg(message) {
         const now = new Date(Date.now());
         const formattedTime = now.toLocaleString();
