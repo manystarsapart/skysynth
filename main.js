@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-
     // getting from DOM & assigning variables
     let messages = [];
     let transposeValue = 0;
@@ -11,8 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const octaveValueBox = document.getElementById("octave-value");
     const clearButton = document.getElementById("clear-button");
     const layoutValueBox = document.getElementById("layout-value");
-
-
 
     // ===========================================
     // RECORDING FUNCTIONALITY
@@ -65,7 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             updateStatusMsg("Recording already in progress!");
         }
-
     }
     
     function stopRecording() {
@@ -171,10 +167,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let lastPressedTransposeKey = "`";
     // ` 1 2 3 4 5 6 7 8 9 0 - =
-
     let octave = 0;
     let octaveAdjustment = 0;
-    
+
     function octaveUp() {
         if (octave < 2) {
             octave++;
@@ -228,28 +223,21 @@ document.addEventListener("DOMContentLoaded", () => {
     
         realOctaveLeft = octave + 2;
         realOctaveRight = realOctaveLeft + 1;
-    
         const keyNotes = notes[currentKey];
         const octaveBase = leftright === 0 ? realOctaveLeft : realOctaveRight;
-    
         const mappingFlattened = mapping.flat();
         let countC = 0;
-    
         const elements = mappingFlattened.map(num => {
             const isC = (num - 1) % 7 === 0;
-            if (isC) {
-                countC++;
-            }
+            if (isC) countC++;
             const noteIndex = (num - 1) % 7;
             const note = keyNotes[noteIndex];
             const currentOctave = octaveBase + (countC - 1);
             return `<div class="flex items-center justify-center p-2">${note}${currentOctave}</div>`;
         });
-    
         return elements.join('');
     }
-
-    // THIS FUNCTION WAS IMPROVED BY DEEPSEEK R1 TO HELP DISPLAY EACH OCTAVES NUMBER CORRECTLY
+    // ^^^ THIS FUNCTION WAS IMPROVED BY DEEPSEEK R1 TO HELP DISPLAY EACH OCTAVES NUMBER CORRECTLY
     // ALL HAIL OUR AI OVERLORDS
 
     function updateVisualGuide(key) {
@@ -409,6 +397,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
+
+
     // ===========================================
 
     // buttons & toggles
@@ -443,8 +434,6 @@ document.addEventListener("DOMContentLoaded", () => {
         messages = [];
         statusDiv.innerHTML = "";
     })
-
-
 
     // ===========================================
     // log message into status div
