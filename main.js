@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'z': 65, 'x': 67, 'c': 69, 'v': 71, 'b': 72,
         'y': 60, 'u': 62, 'i': 64, 'o': 65, 'p': 67,
         'h': 69, 'j': 71, 'k': 72, 'l': 74, ';': 76,
-        'n': 77, 'm': 79, ',': 81, '.': 83, ' ': 84,
+        'n': 77, 'm': 79, ',': 81, '.': 83, '/': 84,
     };
 
     // for singular (low) music pad
@@ -144,6 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // shows exact scale of tranposed key
+    // JUST FOR VISUAL GUIDE
     // note that this is separate because pitchMap values are the ones used in the midiNotes
     const transposeMap = {
         '0': "C", 
@@ -215,6 +216,42 @@ document.addEventListener("DOMContentLoaded", () => {
             'B': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'Bb']
         };
     
+        const preserveKeyIDLeft = {
+            '0':'q',
+            '1':'w',
+            '2':'e',
+            '3':'r',
+            '4':'t',
+            '5':'a',
+            '6':'s',
+            '7':'d',
+            '8':'f',
+            '9':'g',
+            '10':'z',
+            '11':'x',
+            '12':'c',
+            '13':'v',
+            '14':'b'
+        };
+
+        const preserveKeyIDRight = {
+            '0':'y',
+            '1':'u',
+            '2':'i',
+            '3':'o',
+            '4':'p',
+            '5':'h',
+            '6':'j',
+            '7':'k',
+            '8':'l',
+            '9':';',
+            '10':'n',
+            '11':'m',
+            '12':',',
+            '13':'.',
+            '14':'/'
+        };
+
         const mapping = [
             [1, 2, 3, 4, 5],
             [6, 7, 1, 2, 3],
@@ -227,14 +264,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const octaveBase = leftright === 0 ? realOctaveLeft : realOctaveRight;
         const mappingFlattened = mapping.flat();
         let countC = 0;
+        let keyIDcount = 0;
         const elements = mappingFlattened.map(num => {
+            keyIDcount++;
             const isC = (num - 1) % 7 === 0;
             if (isC) countC++;
             const noteIndex = (num - 1) % 7;
             const note = keyNotes[noteIndex];
             const currentOctave = octaveBase + (countC - 1);
-            return `<div class="flex items-center justify-center p-2">${note}${currentOctave}</div>`;
+            if (leftright == 0) {
+                return `<div id="${preserveKeyIDLeft[keyIDcount-1]}" class="flex items-center justify-center p-2">${note}${currentOctave}</div>`;
+            } else {
+                return `<div id="${preserveKeyIDRight[keyIDcount-1]}" class="flex items-center justify-center p-2">${note}${currentOctave}</div>`;
+            }
         });
+        // console.log(elements);
         return elements.join('');
     }
     // ^^^ THIS FUNCTION WAS IMPROVED BY DEEPSEEK R1 TO HELP DISPLAY EACH OCTAVES NUMBER CORRECTLY
@@ -306,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cumulativeTime += elapsedTime;
         localStorage.setItem("cumulativeTime", cumulativeTime.toString());
     });
-    
+
     // ===========================================
     // HANDLING KEYPRESSES
 
@@ -336,14 +380,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const key = e.key.toLowerCase();
         e.preventDefault(); // to stop other action e.g. shortcuts & spacebar scrolling from happening
         if (key in letterMap && !pressedKeys.has(key)) { 
-            
             // key in noteplaying map: play MIDI note
             pressedKeys.add(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
             if (shiftPressed) {midiNote += 1;}
             synth.triggerAttack(Tone.Frequency(midiNote, "midi"));
+            document.getElementById(key).style.backgroundColor = "green"; // lights up key to green
             incrementCumKeypress();
-            // console.log(midiNote); // debug
 
         } else if (key in pitchMap && !pressedKeys.has(key)) {
             // detecting for transposing. number keys
@@ -375,6 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleKeyUp(e) {
         const key = e.key.toLowerCase();
         if (key in letterMap) {
+            document.getElementById(key).style.backgroundColor = ""; 
             pressedKeys.delete(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
             synth.triggerRelease(Tone.Frequency(midiNote, "midi"));
@@ -385,20 +429,6 @@ document.addEventListener("DOMContentLoaded", () => {
             // 3. shift is released
         }
     }
-
-    // ===========================================
-    // TODO: MAKE THE VISUAL GUIDE LIGHT UP WHEN CORRESPONDING KEY IS PRESSED
-    // what i have already done: 
-    // create ids for each of these divs that correspond to the key pressed
-    
-
-
-
-
-
-
-
-
 
     // ===========================================
 
