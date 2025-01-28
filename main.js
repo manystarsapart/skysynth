@@ -25,12 +25,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const stopRecordButton = document.getElementById('stop-record-button');
     const playRecordButton = document.getElementById('play-record-button');
     const saveRecordButton = document.getElementById('save-record-button');
+    const stopPlaybackButton = document.getElementById("stop-playback-button");
     // const clearRecordButton = document.getElementById('clear-record-button');
     
     startRecordButton.addEventListener('click', startRecording);
     stopRecordButton.addEventListener('click', stopRecording);
     playRecordButton.addEventListener('click', playRecording);
     saveRecordButton.addEventListener('click', saveRecording);
+    stopPlaybackButton.addEventListener('click', stopPlayback)
     // clearRecordButton.addEventListener('click', clearRecording);
     
     function startRecording() {
@@ -83,6 +85,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // TODO: ADD STOP PLAYBACK BUTTON
+    function stopPlayback() {
+        if (audio) {
+            audio.pause();
+            audio.currentTime = 0;
+            updateStatusMsg("Playback stopped.");
+        }
+    }
 
     function saveRecording() {
         updateStatusMsg("Saving recording...");
@@ -398,8 +407,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // when any key is pressed
     function handleKeyDown(e) {
         const key = e.key.toLowerCase();
-        e.preventDefault(); // to stop other action e.g. shortcuts & spacebar scrolling from happening
-        if (key in letterMap && !pressedKeys.has(key)) { 
+        if (key != 'r' && key != 'Shift') {
+            e.preventDefault(); 
+            // to stop other action e.g. shortcuts & spacebar scrolling from happening
+            // r is let through to reload
+        }
+                if (key in letterMap && !pressedKeys.has(key)) { 
             // key in noteplaying map: play MIDI note
             pressedKeys.add(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
