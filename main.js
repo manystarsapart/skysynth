@@ -352,7 +352,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const instrumentSelection = document.getElementById("instrument-selection");
     
 
-    const effectNodes = [
+    let effectNodes = [
         null, // 0 no effect
         new Tone.Distortion(), // 1
         new Tone.AutoWah(),    // 2
@@ -388,12 +388,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // rewiring to include new effect node
         currentInstrument.disconnect();
-        if (currentEffectNode) {
+        if (currentEffectNode) { // if existing effect is connected, unwire
             currentEffectNode.disconnect(volumeNode);
         }
-        currentEffectNode = newEffectNode;
-        if (currentEffectNode) {
-            
+        currentEffectNode = newEffectNode; 
+        if (currentEffectNode) { // rewire to new effect
             currentInstrument.connect(currentEffectNode);
             currentEffectNode.connect(volumeNode);
         } else {
@@ -419,7 +418,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    effectLevelControl.addEventListener("input", getEffectLevelInput);
+    effectLevelControl.addEventListener("input", (e) => {effectSelection.dispatchEvent(new Event('input'))});
+    // THIS IS THE ISSUE. THIS DOES NOT SET IT TO NEW
 
     // update
     instrumentSelection.dispatchEvent(new Event('input'));
@@ -447,6 +447,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     // sounds better for me at lower values
                     break;
            } 
+           
+
         } else {
             console.log("No Effect")
             effectLevelControl.style.display = "none";
