@@ -110,19 +110,20 @@
 
     <div>
         instrument: <select name="instrument selection" id="instrument-selection" class="p-3 m-1 rounded-lg border-2 border-white">
-            <option value="0">Synth</option>
-            <option value="1">DuoSynth</option>
-            <option value="2">FMSynth</option>
-            <option value="3">AMSynth</option>
+            <option value="0">synth (default)</option>
+            <option value="1">duo synth</option>
+            <option value="2">FM synth</option>
+            <option value="3">AM synth</option>
         </select>
         effect (experimental): <select name="effect selection" id="effect-selection" class="p-3 m-1 rounded-lg border-2 border-white">
-            <option value=0>No Effect</option>
-            <option value="1">Distortion</option>
-            <option value="2">Wah</option>
-            <option value="3">Bit Crusher</option>
-            <option value="4">weird everb</option>
+            <option value=0>no effect</option>
+            <option value="1">distortion</option>
+            <option value="2">wah (wet)</option>
+            <option value="3">bit crusher</option>
+            <option value="4">weird reverb</option>
             <option value="5">secret fifth option (currently empty)</option>
         </select>
+        <input type="range" id="effect-level-control" min="0" max="100" value="50">
 
         <br \>
         <button id="doublekeyboard" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">double keyboard (default)</button>
@@ -148,12 +149,14 @@
 
     made by @manystarsapart <br>
     for any feedback, please contact through discord <br>
-    last updated: 28 jan 2025 <br>
+    last updated: 29 jan 2025 (happy lunar new year!)<br>
     newest patch notes: <br>
     recording, octave, volume adjustment, <br>
     cumulative time & notes played, <br>
     improved visual guide, <br>
-    change instruments & effects
+    change instruments & effects <br>
+    NEWEST: adjustable effects
+
 
     <!-- known issues:
     1. space being highest note means it auto presses the buttons
