@@ -217,39 +217,15 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     
         const preserveKeyIDLeft = {
-            '0':'q',
-            '1':'w',
-            '2':'e',
-            '3':'r',
-            '4':'t',
-            '5':'a',
-            '6':'s',
-            '7':'d',
-            '8':'f',
-            '9':'g',
-            '10':'z',
-            '11':'x',
-            '12':'c',
-            '13':'v',
-            '14':'b'
+            '0':'q', '1':'w', '2':'e', '3':'r', '4':'t', 
+            '5':'a', '6':'s', '7':'d', '8':'f', '9':'g', 
+            '10':'z', '11':'x', '12':'c', '13':'v', '14':'b'
         };
 
         const preserveKeyIDRight = {
-            '0':'y',
-            '1':'u',
-            '2':'i',
-            '3':'o',
-            '4':'p',
-            '5':'h',
-            '6':'j',
-            '7':'k',
-            '8':'l',
-            '9':';',
-            '10':'n',
-            '11':'m',
-            '12':',',
-            '13':'.',
-            '14':'/'
+            '0':'y', '1':'u', '2':'i', '3':'o', '4':'p',
+            '5':'h', '6':'j', '7':'k', '8':'l', '9':';',
+            '10':'n', '11':'m', '12':',', '13':'.', '14':'/'
         };
 
         const mapping = [
@@ -293,16 +269,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // VOLUME CONTROL
 
     const volumeNode = new Tone.Volume().toDestination();
-    
-
+    let volume = parseInt(localStorage.getItem("savedVolume")) || 0; 
     const volumeControl = document.getElementById("volume-control");
     const volumeValueBox = document.getElementById("volume-value");
+    volumeValueBox.textContent = `${volume}%`;
     volumeControl.addEventListener("input", (e) => {
-        const volume = e.target.value;
-        volumeValueBox.textContent = `${volume}%`;
-        volumeNode.volume.value = Tone.gainToDb(volume/100);
-        console.log(`volume in db: ${volumeNode.volume.value}`);
-
+        volume = e.target.value;
+        localStorage.setItem("savedVolume", volume.toString()); // stored in localStorage
+        volumeValueBox.textContent = `${volume}%`; // display
+        volumeNode.volume.value = Tone.gainToDb(volume/100); // % to db
+        // console.log(`volume in db: ${volumeNode.volume.value}`); // debug
     }); 
 
     // ===========================================
@@ -311,8 +287,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const cumKeypressBox = document.getElementById("cum-keypress");
     let cumulativeKeypress = parseInt(localStorage.getItem("cumulativeKeypress")) || 0;
     cumKeypressBox.textContent = cumulativeKeypress;
-    function incrementCumKeypress() {
-        cumulativeKeypress ++;
+    function incrementCumKeypress() { // logs each time a key is pressed
+        cumulativeKeypress ++; 
         cumKeypressBox.textContent = cumulativeKeypress;
         localStorage.setItem("cumulativeKeypress", cumulativeKeypress.toString());
     }
