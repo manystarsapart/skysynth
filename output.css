@@ -539,11 +539,17 @@
   .m-4 {
     margin: calc(var(--spacing) * 4);
   }
+  .block {
+    display: block;
+  }
   .flex {
     display: flex;
   }
   .grid {
     display: grid;
+  }
+  .inline-block {
+    display: inline-block;
   }
   .max-h-40 {
     max-height: calc(var(--spacing) * 40);
@@ -608,6 +614,12 @@
   }
   .text-right {
     text-align: right;
+  }
+  .font-\[pressstart2p\] {
+    font-family: pressstart2p;
+  }
+  .font-mono {
+    font-family: var(--font-mono);
   }
   .text-2xl {
     font-size: var(--text-2xl);
