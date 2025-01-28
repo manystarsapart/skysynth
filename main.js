@@ -34,34 +34,34 @@ document.addEventListener("DOMContentLoaded", () => {
     // clearRecordButton.addEventListener('click', clearRecording);
     
     function startRecording() {
-        if (!isRecording) {
-            hasRecording = false;
-            isRecording = true;
-            startRecordButton.style.backgroundColor = "red";
-            audioChunks = [];
-            const audioStream = Tone.context.createMediaStreamDestination();
-            synth.connect(audioStream);
-            
-            mediaRecorder = new MediaRecorder(audioStream.stream);
-            mediaRecorder.ondataavailable = (e) => {
-                audioChunks.push(e.data);
-            };
-            mediaRecorder.onstop = () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                audioUrl = URL.createObjectURL(audioBlob);
-                audio = new Audio(audioUrl);
-                hasRecording = true;
-                isRecording = false;
-                updateStatusMsg("Recording stopped!");
-                startRecordButton.style.backgroundColor = "";
-                // TODO: something is wrong here. i forgot what i was going to fix
-                // i will come back to fixing this later
-            };
-            mediaRecorder.start();
-            updateStatusMsg("Recording started...");
-        } else {
+        if (isRecording) {
             updateStatusMsg("Recording already in progress!");
+            return;
         }
+        hasRecording = false;
+        isRecording = true;
+        startRecordButton.style.backgroundColor = "red";
+        audioChunks = [];
+        const audioStream = Tone.context.createMediaStreamDestination();
+        volumeNode.connect(audioStream);
+        
+        mediaRecorder = new MediaRecorder(audioStream.stream);
+        mediaRecorder.ondataavailable = (e) => {
+            audioChunks.push(e.data);
+        };
+        mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            audioUrl = URL.createObjectURL(audioBlob);
+            audio = new Audio(audioUrl);
+            hasRecording = true;
+            isRecording = false;
+            updateStatusMsg("Recording stopped!");
+            startRecordButton.style.backgroundColor = "";
+            // TODO: something is wrong here. i forgot what i was going to fix
+            // i will come back to fixing this later
+        };
+        mediaRecorder.start();
+        updateStatusMsg("Recording started...");
     }
     
     function stopRecording() {
@@ -70,12 +70,15 @@ document.addEventListener("DOMContentLoaded", () => {
     
     function playRecording() {
         if (hasRecording && audio) {
+            audio.onended = () => {
+                updateStatusMsg("Recording playback finished.");
+            }
             audio.play();
             updateStatusMsg("Playing recording...");
         } else if (isRecording) {
             updateStatusMsg("There is a recording in progress! Cannot play!");
         } else {
-            updateStatusMsg("No stored recording");
+            updateStatusMsg("No stored recording.");
         }
     }
 
