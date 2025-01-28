@@ -13,7 +13,8 @@ greetings ! this is a beginner's first attempt at making something in javascript
 4. play ACCIDENTALS
 5. view statistics on amount of time spent & no. of notes played
 6. control the volume
-7. RECORD and SAVE your melodies!
+7. change instruments to different synths
+8. RECORD and SAVE your melodies!
 
 ALSO: visual guide to playing is included
 
