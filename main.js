@@ -1,3 +1,6 @@
+const { freemem } = require("os");
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
     // getting from DOM & assigning variables
@@ -342,21 +345,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ===========================================
+    // CHOOSING EFFECT
+
+    const effectSelection = document.getElementById("effect-selection");
+
+    let synthEffect = volumeNode;
+    // defaults to no effect; channeled straight to volume then dest
+
+    // TODO: FIX ERROR
+
+    // effectSelection.addEventListener("input", (e) => {
+    //     switch (e.target.value) {
+    //         case 0: // no effect
+    //             synthEffect = volumeNode;
+    //             break;
+
+    //         case 1: // distortion
+    //             synthEffect = new Tone.Distortion(0.8).connect(volumeNode);
+    //             break;
+
+    //         case 2: // autowah
+    //             synthEffect = new Tone.AutoWah(40, 6, -30).connect(volumeNode);
+    //             break;
+
+    //         case 3: // bitcrusher
+    //             synthEffect = new Tone.BitCrusher(4).connect(volumeNode);
+    //             break;
+        
+    //         case 4: // phaser
+    //             synthEffect = new Tone.Phaser({
+    //                 frequency: 15,
+    //                 octaves: 5,
+    //                 baseFrequency: 1000
+    //             }).connect(volumeNode);
+    //             break;
+
+    //         case 5: // reverb (w. freeverb)
+    //             synthEffect = new Tone.Freeverb({
+    //                 roomSize: 0.7, // (0 to 1)
+    //                 dampening: 2000, // dampens high f
+    //                 wet: 0.5
+    //             }).connect(volumeNode);
+    //             break;
+    //     }
+
+    //     // to reconnect to new effect
+    //     instruments.forEach(inst => {
+    //         inst.disconnect(); // disconnect
+    //         inst.connect(synthEffect)
+    //     });
+    // });
+
+    
+    // ===========================================
     // CHOOSING INSTRUMENT
 
     const instrumentSelection = document.getElementById("instrument-selection");
     // defaults to Synth
     
-    let synthFinalDest = volumeNode;
-    let synthDest3 = synthFinalDest;
-    let synthDest2 = synthDest3;
-    let synthDest1 = synthDest2;
-    let synthDest0 = synthDest1;
+    
 
-    let instSynth = new Tone.PolySynth(Tone.Synth).connect(synthDest0);
-    let instDuoSynth = new Tone.PolySynth(Tone.DuoSynth).connect(synthDest0);
-    let instFMSynth = new Tone.PolySynth(Tone.FMSynth).connect(synthDest0);
-    let instAMSynth = new Tone.PolySynth(Tone.AMSynth).connect(synthDest0);
+    let instSynth = new Tone.PolySynth(Tone.Synth).connect(synthEffect);
+    let instDuoSynth = new Tone.PolySynth(Tone.DuoSynth).connect(synthEffect);
+    let instFMSynth = new Tone.PolySynth(Tone.FMSynth).connect(synthEffect);
+    let instAMSynth = new Tone.PolySynth(Tone.AMSynth).connect(synthEffect);
 
     const instruments = [instSynth, instDuoSynth, instFMSynth, instAMSynth];
     // Synth: default
@@ -365,21 +417,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // AMSynth: slow buildup & higher ambience
 
     let currentInstrument = instruments[instrumentSelection.value]; 
-
-    // const autoWah = new Tone.AutoWah(40, 6, -30).connect(volumeNode);
-    // const chorus = new Tone.Chorus(4, 2.5, 0.5).connect(volumeNode);
-    // const distortion = new Tone.Distortion(0).connect(volumeNode)
-    // let synth = new Tone.PolySynth(Tone.Synth).connect(synthDest0);
     
     instrumentSelection.addEventListener("input", (e) => {
         currentInstrument = instruments[e.target.value];
     })
-
-    // ===========================================
-    // CHOOSING EFFECT
-
-    // TODO
-
 
     // ===========================================
     // HANDLING KEYPRESSES
