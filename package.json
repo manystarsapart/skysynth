@@ -4,7 +4,8 @@
   "description": "(eg. firefox, macbook safari etc)",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx @tailwindcss/cli -i ./input.css -o ./output.css --watch"
   },
   "keywords": [],
   "author": "",

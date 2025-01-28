@@ -4,6 +4,11 @@
 
 greetings ! this is a beginner's first attempt at making something in javascript. hope it is not too buggy
 
+# HOW TO RUN
+everything is written in vanilla html and js. tailwindcss is used for styling purposes.
+
+open `index.html` to test. to compile tailwindcss, run `npm run dev`.
+
 # FUNCTIONALITY & FEATURES
 #### play music. yes. you can legitimately play music on this
 
