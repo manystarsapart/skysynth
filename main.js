@@ -266,22 +266,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ===========================================
-    // VOLUME CONTROL
-
-    const volumeNode = new Tone.Volume().toDestination();
-    let volume = parseInt(localStorage.getItem("savedVolume")) || 0; 
-    const volumeControl = document.getElementById("volume-control");
-    const volumeValueBox = document.getElementById("volume-value");
-    volumeValueBox.textContent = `${volume}%`;
-    volumeControl.addEventListener("input", (e) => {
-        volume = e.target.value;
-        localStorage.setItem("savedVolume", volume.toString()); // stored in localStorage
-        volumeValueBox.textContent = `${volume}%`; // display
-        volumeNode.volume.value = Tone.gainToDb(volume/100); // % to db
-        // console.log(`volume in db: ${volumeNode.volume.value}`); // debug
-    }); 
-
-    // ===========================================
     // CUMULATIVE NOTES PLAYED
 
     const cumKeypressBox = document.getElementById("cum-keypress");
@@ -327,13 +311,70 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("cumulativeTime", cumulativeTime.toString());
     });
 
+
+    // ===========================================
+    // VOLUME CONTROL
+
+    const volumeNode = new Tone.Volume().toDestination();
+    let volume = parseInt(localStorage.getItem("savedVolume")) || 0; 
+    const volumeControl = document.getElementById("volume-control");
+    const volumeValueBox = document.getElementById("volume-value");
+    volumeValueBox.textContent = `${volume}%`;
+    volumeControl.addEventListener("input", (e) => {
+        volume = e.target.value;
+        localStorage.setItem("savedVolume", volume.toString()); // stored in localStorage
+        volumeValueBox.textContent = `${volume}%`; // display
+        volumeNode.volume.value = Tone.gainToDb(volume/100); // % to db
+        // console.log(`volume in db: ${volumeNode.volume.value}`); // debug
+    }); 
+
+
+    // ===========================================
+    // CHOOSING INSTRUMENT
+
+    const instrumentSelection = document.getElementById("instrument-selection");
+    // defaults to Synth
+    
+    let synthFinalDest = volumeNode;
+    let synthDest3 = synthFinalDest;
+    let synthDest2 = synthDest3;
+    let synthDest1 = synthDest2;
+    let synthDest0 = synthDest1;
+
+    let instSynth = new Tone.PolySynth(Tone.Synth).connect(synthDest0);
+    let instDuoSynth = new Tone.PolySynth(Tone.DuoSynth).connect(synthDest0);
+    let instFMSynth = new Tone.PolySynth(Tone.FMSynth).connect(synthDest0);
+    let instAMSynth = new Tone.PolySynth(Tone.AMSynth).connect(synthDest0);
+
+    const instruments = [instSynth, instDuoSynth, instFMSynth, instAMSynth];
+    // Synth: default
+    // DuoSynth: noisy 
+    // FMSynth: slow buildup & lower ambience
+    // AMSynth: slow buildup & higher ambience
+
+    let currentInstrument = instruments[instrumentSelection.value]; 
+
+    // const autoWah = new Tone.AutoWah(40, 6, -30).connect(volumeNode);
+    // const chorus = new Tone.Chorus(4, 2.5, 0.5).connect(volumeNode);
+    // const distortion = new Tone.Distortion(0).connect(volumeNode)
+    // let synth = new Tone.PolySynth(Tone.Synth).connect(synthDest0);
+    
+    instrumentSelection.addEventListener("input", (e) => {
+        currentInstrument = instruments[e.target.value];
+    })
+
+    // ===========================================
+    // CHOOSING EFFECT
+
+    // TODO
+
+
     // ===========================================
     // HANDLING KEYPRESSES
 
     // grabs set of KEYS PRESSED
     let letterMap = dbLetterMap;
     const pressedKeys = new Set();
-    const synth = new Tone.PolySynth(Tone.Synth).connect(volumeNode);
 
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
@@ -360,7 +401,7 @@ document.addEventListener("DOMContentLoaded", () => {
             pressedKeys.add(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
             if (shiftPressed) {midiNote += 1;}
-            synth.triggerAttack(Tone.Frequency(midiNote, "midi"));
+            currentInstrument.triggerAttack(Tone.Frequency(midiNote, "midi"));
             document.getElementById(key).style.backgroundColor = "green"; // lights up key to green
             incrementCumKeypress();
 
@@ -397,8 +438,8 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById(key).style.backgroundColor = ""; 
             pressedKeys.delete(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
-            synth.triggerRelease(Tone.Frequency(midiNote, "midi"));
-            synth.triggerRelease(Tone.Frequency(midiNote + 1, "midi")); 
+            currentInstrument.triggerRelease(Tone.Frequency(midiNote, "midi"));
+            currentInstrument.triggerRelease(Tone.Frequency(midiNote + 1, "midi")); 
             // failsafe for tone not stopping when:
             // 1. shift is held down
             // 2. note is pressed
