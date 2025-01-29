@@ -354,7 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const instrumentSelection = document.getElementById("instrument-selection");
     const effectSelection = document.getElementById("effect-selection");
     const effectLevelControl = document.getElementById("effect-level-control");
-    let effectLevel = 0;
+    let effectLevel = 50;
     
     let effectNodes = [
         null, // 0 no effect
@@ -416,7 +416,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     effectLevelControl.addEventListener("input", (e) => {effectSelection.dispatchEvent(new Event('input'))});
-    // THIS IS THE ISSUE. THIS DOES NOT SET IT TO NEW
 
     // update
     instrumentSelection.dispatchEvent(new Event('input'));
@@ -428,6 +427,8 @@ document.addEventListener("DOMContentLoaded", () => {
             effectLevelControl.style.display = "none";
             return;
         }
+
+        effectLevel = parseInt(effectLevelControl.value);
 
         effectLevelControl.style.display = "inline-block";
         console.log(node.name);

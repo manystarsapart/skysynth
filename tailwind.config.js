@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'pressstart2p': ["PressStart2P"]  
+        "pressstart2p": ["PressStart2P"]  
       }
     },
   },
