@@ -436,11 +436,28 @@ document.addEventListener("DOMContentLoaded", () => {
             onload: () => {
                 console.log("horn samples loaded");
             }, 
-        }), // 3 flute sampler
-        new Tone.PolySynth(Tone.Synth), // 4
-        new Tone.PolySynth(Tone.DuoSynth), // 5
-        new Tone.PolySynth(Tone.FMSynth), // 6
-        new Tone.PolySynth(Tone.AMSynth), // 7
+        }), // 4 horn sampler
+        new Tone.PolySynth(Tone.Synth), // 5
+        new Tone.PolySynth(Tone.DuoSynth), // 6
+        new Tone.PolySynth(Tone.FMSynth), // 7
+        new Tone.PolySynth(Tone.AMSynth), // 8
+        new Tone.Sampler({ 
+            urls: {
+                "A3": "a3.mp3",
+                "B2": "b2.mp3",
+                "B4": "b4.mp3",
+                "B5": "b5.mp3",
+                "C4": "c4.mp3",
+                "D#4": "ds4.mp3",
+                "F3": "f3.mp3",
+                "F4": "f4.mp3",
+                "F5": "f5.mp3"
+            },
+            baseUrl: "./assets/audio/meow/",
+            onload: () => {
+                console.log("meow samples loaded");
+            }, 
+        }), // 9 meow sampler
  
         // todo: explore & add more
     ];
@@ -454,7 +471,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "Synth",
         "Duo Synth",
         "FM Synth",
-        "AM Synth"
+        "AM Synth",
+        "Meow",
     ]
 
     // dynamically update select elements
@@ -580,6 +598,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // when any key is pressed
     function handleKeyDown(e) {
+        const keyPressTime = performance.now(); // for latency
         const key = e.key.toLowerCase();
         if (key != 'r' && key != 'Shift') {
             e.preventDefault(); 
@@ -591,6 +610,12 @@ document.addEventListener("DOMContentLoaded", () => {
             pressedKeys.add(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
             if (shiftPressed) {midiNote += 1;}
+            
+            // calculating latency 
+            const audioStartTime = performance.now();
+            const latency = audioStartTime - keyPressTime;
+            console.log(`Latency: ${latency} ms`); 
+
             currentInstrument.triggerAttack(Tone.Frequency(midiNote, "midi"));
             document.getElementById(key).style.backgroundColor = "green"; // lights up key to green
             incrementCumKeypress();
