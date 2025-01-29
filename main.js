@@ -371,9 +371,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 "A4": "a4.mp3",
                 "A5": "a5.mp3",
                 "A6": "a6.mp3",
+                "A7": "a7.mp3",
                 "D#4": "ds4.mp3",
                 "D#5": "ds5.mp3",
                 "D#6": "ds6.mp3",
+                "D#7": "ds7.mp3"
             },
             baseUrl: "./assets/audio/piano/",
             onload: () => {
@@ -403,6 +405,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "D#4": "ds4.mp3",
                 "D#5": "ds5.mp3",
                 "D#6": "ds6.mp3",
+                "D#7": "ds7.mp3"
             },
             baseUrl: "./assets/audio/musicbox/",
             onload: () => {
@@ -437,10 +440,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("horn samples loaded");
             }, 
         }), // 4 horn sampler
-        new Tone.PolySynth(Tone.Synth), // 5
-        new Tone.PolySynth(Tone.DuoSynth), // 6
-        new Tone.PolySynth(Tone.FMSynth), // 7
-        new Tone.PolySynth(Tone.AMSynth), // 8
+        new Tone.Sampler({ 
+            urls: {
+                "A4": "a4.mp3",
+                "A5": "a5.mp3",
+                "A6": "a6.mp3",
+                "D#4": "ds4.mp3",
+                "D#5": "ds5.mp3",
+                "D#6": "ds6.mp3",
+            },
+            baseUrl: "./assets/audio/bugle/",
+            onload: () => {
+                console.log("bugle samples loaded");
+            }, 
+        }), // 5 bugle sampler
+        new Tone.PolySynth(Tone.Synth), // 6
+        new Tone.PolySynth(Tone.DuoSynth), // 7
+        new Tone.PolySynth(Tone.FMSynth), // 8
+        new Tone.PolySynth(Tone.AMSynth), // 9
         new Tone.Sampler({ 
             urls: {
                 "A3": "a3.mp3",
@@ -457,7 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
             onload: () => {
                 console.log("meow samples loaded");
             }, 
-        }), // 9 meow sampler
+        }), // 10 meow sampler
  
         // todo: explore & add more
     ];
@@ -468,6 +485,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Music Box (Sampler)",
         "Flute (Sampler)",
         "Horn (Sampler)",
+        "Bugle (Sampler)",
         "Synth",
         "Duo Synth",
         "FM Synth",
