@@ -409,13 +409,72 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("musicbox samples loaded");
             }, 
         }), // 2 musicbox sampler
-        new Tone.PolySynth(Tone.Synth), // 3
-        new Tone.PolySynth(Tone.DuoSynth), // 4
-        new Tone.PolySynth(Tone.FMSynth), // 5
-        new Tone.PolySynth(Tone.AMSynth), // 6
+        new Tone.Sampler({ 
+            urls: {
+                "A4": "a4.mp3",
+                "A5": "a5.mp3",
+                "A6": "a6.mp3",
+                "D#4": "ds4.mp3",
+                "D#5": "ds5.mp3",
+                "D#6": "ds6.mp3",
+            },
+            baseUrl: "./assets/audio/flute/",
+            onload: () => {
+                console.log("flute samples loaded");
+            }, 
+        }), // 3 flute sampler
+        new Tone.Sampler({ 
+            urls: {
+                "A3": "a3.mp3",
+                "A4": "a4.mp3",
+                "A5": "a5.mp3",
+                "D#3": "ds3.mp3",
+                "D#4": "ds4.mp3",
+                "D#5": "ds5.mp3",
+            },
+            baseUrl: "./assets/audio/horn/",
+            onload: () => {
+                console.log("horn samples loaded");
+            }, 
+        }), // 3 flute sampler
+        new Tone.PolySynth(Tone.Synth), // 4
+        new Tone.PolySynth(Tone.DuoSynth), // 5
+        new Tone.PolySynth(Tone.FMSynth), // 6
+        new Tone.PolySynth(Tone.AMSynth), // 7
  
         // todo: explore & add more
     ];
+
+    const instrumentNames = [
+        "Piano (Sampler)",
+        "E-Guitar (Sampler)",
+        "Music Box (Sampler)",
+        "Flute (Sampler)",
+        "Horn (Sampler)",
+        "Synth",
+        "Duo Synth",
+        "FM Synth",
+        "AM Synth"
+    ]
+
+    // dynamically update select elements
+    for (var i = 0; i < instrumentNames.length; i++) {
+        instrumentSelection.appendChild(
+            Object.assign(
+                document.createElement("option"),
+                { value: i, innerHTML: instrumentNames[i] }
+            )
+        );
+    }
+
+    for (var i = 0; i < effectNodes.length; i++) {
+        effectSelection.appendChild(
+            Object.assign(
+                document.createElement("option"),
+                { value: i, innerHTML: effectNodes[i] != null ? effectNodes[i].name : "None" }
+            )
+        )
+    }
   
     // effectNodes[4].dampening = 5000; // or 1000 if you want a rough sound
 
