@@ -187,22 +187,26 @@ document.addEventListener("DOMContentLoaded", () => {
     let octaveAdjustment = 0;
 
     function octaveUp() {
-        if (octave < 2) {
-            octave++;
-            octaveAdjustment += 12;
-            updateStatusMsg(`Octave shift updated to: ${octave}`);
-            octaveValueBox.innerHTML = octave;
-        } else updateStatusMsg("Already at maximum octave!");
+        if (octave >= 2) {
+            updateStatusMsg("Already at maximum octave!");
+            return;
+        }
+        octave++;
+        octaveAdjustment += 12;
+        octaveValueBox.innerHTML = octave;
+        updateStatusMsg(`Octave shift updated to: ${octave}`);
         updateVisualGuide(lastPressedTransposeKey);
     }
 
     function octaveDown() {
-        if (octave > -2) {
-            octave--;
-            octaveAdjustment -= 12;
-            updateStatusMsg(`Octave shift updated to: ${octave}`);
-            octaveValueBox.innerHTML = octave;
-        } else updateStatusMsg("Already at maximum octave!");   
+        if (octave <= -2) {
+            updateStatusMsg("Already at maximum octave!");  
+            return;
+        }
+        octave--;
+        octaveAdjustment -= 12;
+        octaveValueBox.innerHTML = octave; 
+        updateStatusMsg(`Octave shift updated to: ${octave}`);
         updateVisualGuide(lastPressedTransposeKey); 
     }
 
@@ -347,11 +351,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===========================================
     // CHOOSING INSTRUMENTS & EFFECTS
     
+    const instrumentSelection = document.getElementById("instrument-selection");
     const effectSelection = document.getElementById("effect-selection");
     const effectLevelControl = document.getElementById("effect-level-control");
-    const instrumentSelection = document.getElementById("instrument-selection");
+    let effectLevel = 0;
     
-
     let effectNodes = [
         null, // 0 no effect
         new Tone.Distortion(), // 1
@@ -359,8 +363,8 @@ document.addEventListener("DOMContentLoaded", () => {
         new Tone.BitCrusher(),  // 3
         new Tone.Freeverb(), // 4
         // todo: explore & add more
-
     ];
+    
     const instruments = [
         new Tone.PolySynth(Tone.Synth),
         new Tone.PolySynth(Tone.DuoSynth),
@@ -369,22 +373,19 @@ document.addEventListener("DOMContentLoaded", () => {
         // todo: explore & add more
     ];
   
-
-
-
-    
     // effectNodes[4].dampening = 5000; // or 1000 if you want a rough sound
 
     // default: synth & no effect
     let currentInstrument = instruments[0];
-    let currentEffectNode = null;
+    let currentEffectNode = effectNodes[0];
   
     // changing EFFECTS
     effectSelection.addEventListener("input", (e) => {
         const selectedID = parseInt(e.target.value); 
         getEffectLevelInput(effectNodes[selectedID]); 
         // ^^read from slider BEFORE setting new effect. this ensures we are setting things for the correct node
-        const newEffectNode = effectNodes[selectedID]; // set new effect 
+
+        let newEffectNode = effectNodes[selectedID]; // set new effect 
 
         // rewiring to include new effect node
         currentInstrument.disconnect();
@@ -393,12 +394,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         currentEffectNode = newEffectNode; 
         if (currentEffectNode) { // rewire to new effect
-            currentInstrument.connect(currentEffectNode);
+            currentInstrument.connect(currentEffectNode); // rewire only for
             currentEffectNode.connect(volumeNode);
         } else {
             currentInstrument.connect(volumeNode);
         }
-        // console.log(currentEffectNode.name);
     });
 
 
@@ -411,11 +411,8 @@ document.addEventListener("DOMContentLoaded", () => {
         currentInstrument = instruments[e.target.value]; 
         // rewiring
         currentInstrument.disconnect();
-        if (currentEffectNode) {
-            currentInstrument.connect(currentEffectNode);
-        } else {
-            currentInstrument.connect(volumeNode);
-        }
+        if (currentEffectNode) currentInstrument.connect(currentEffectNode);
+        else currentInstrument.connect(volumeNode);
     });
 
     effectLevelControl.addEventListener("input", (e) => {effectSelection.dispatchEvent(new Event('input'))});
@@ -426,32 +423,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // read from slider
     function getEffectLevelInput(node) {
-        if (node != null) {
-            effectLevelControl.style.display = "inline-block";
-            console.log(node.name);
-            switch (node.name) {
-                case "Distortion":
-                    effectNodes[1].distortion = parseInt(effectLevelControl.value) / 100;
-                    // sounds better around mid range
-                    break;
-                case "AutoWah":
-                    effectNodes[2].sensitivity = parseInt(effectLevelControl.value) / 100 * 60 - 60;
-                    // effect more apparent at higher values
-                    break;
-                case "BitCrusher":
-                    effectNodes[3].bits = parseInt(effectLevelControl.value) / 100 * 15 + 1;
-                    // sounds better at higher values
-                    break;
-                case "Freeverb":
-                    effectNodes[4].roomSize = parseInt(effectLevelControl.value) / 100;
-                    // sounds better for me at lower values
-                    break;
-           } 
-           
-
-        } else {
-            console.log("No Effect")
+        if (node == null) {
+            console.log("No effect.");
             effectLevelControl.style.display = "none";
+            return;
+        }
+
+        effectLevelControl.style.display = "inline-block";
+        console.log(node.name);
+        switch (node.name) {
+            case "Distortion":
+                effectNodes[1].distortion = effectLevel / 100;
+                // sounds better around mid range
+                break;
+            case "AutoWah":
+                effectNodes[2].sensitivity = effectLevel / 100 * 60 - 60;
+                // effect more apparent at higher values
+                break;
+            case "BitCrusher":
+                effectNodes[3].bits = effectLevel / 100 * 15 + 1;
+                // sounds better at higher values
+                break;
+            case "Freeverb":
+                effectNodes[4].roomSize = effectLevel / 100;
+                // sounds better for me at lower values
+                break;
         }
     }
 
@@ -486,7 +482,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // to stop other action e.g. shortcuts & spacebar scrolling from happening
             // r is let through to reload
         }
-                if (key in letterMap && !pressedKeys.has(key)) { 
+        if (key in letterMap && !pressedKeys.has(key)) { 
             // key in noteplaying map: play MIDI note
             pressedKeys.add(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
