@@ -416,6 +416,35 @@ document.addEventListener("DOMContentLoaded", () => {
  
         // todo: explore & add more
     ];
+
+    const instrumentNames = [
+        "Piano (Sampler)",
+        "E-Guitar (Sampler)",
+        "Music Box (Sampler)",
+        "Synth",
+        "Duo Synth",
+        "FM Synth",
+        "AM Synth"
+    ]
+
+    // dynamically update select elements
+    for (var i = 0; i < instrumentNames.length; i++) {
+        instrumentSelection.appendChild(
+            Object.assign(
+                document.createElement("option"),
+                { value: i, innerHTML: instrumentNames[i] }
+            )
+        );
+    }
+
+    for (var i = 0; i < effectNodes.length; i++) {
+        effectSelection.appendChild(
+            Object.assign(
+                document.createElement("option"),
+                { value: i, innerHTML: effectNodes[i] != null ? effectNodes[i].name : "None" }
+            )
+        )
+    }
   
     // effectNodes[4].dampening = 5000; // or 1000 if you want a rough sound
 
