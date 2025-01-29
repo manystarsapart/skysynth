@@ -18,7 +18,7 @@ open `index.html` to test. to compile tailwindcss, run `npm run dev`.
 4. play ACCIDENTALS
 5. view statistics on amount of time spent & no. of notes played
 6. control the volume
-7. change instruments to different synths
+7. change instruments to different ones (from Sky: CoTL) or synths
 8. add effects to instrument (e.g. distortion) which you can adjust
 9. RECORD and SAVE your melodies!
 

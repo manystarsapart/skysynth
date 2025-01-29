@@ -409,10 +409,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("musicbox samples loaded");
             }, 
         }), // 2 musicbox sampler
-        new Tone.PolySynth(Tone.Synth), // 2
-        new Tone.PolySynth(Tone.DuoSynth), // 3
-        new Tone.PolySynth(Tone.FMSynth), // 4
-        new Tone.PolySynth(Tone.AMSynth), // 5
+        new Tone.PolySynth(Tone.Synth), // 3
+        new Tone.PolySynth(Tone.DuoSynth), // 4
+        new Tone.PolySynth(Tone.FMSynth), // 5
+        new Tone.PolySynth(Tone.AMSynth), // 6
  
         // todo: explore & add more
     ];
