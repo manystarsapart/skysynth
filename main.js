@@ -362,14 +362,28 @@ document.addEventListener("DOMContentLoaded", () => {
         new Tone.AutoWah(),    // 2
         new Tone.BitCrusher(),  // 3
         new Tone.Freeverb(), // 4
-        // todo: explore & add more
+
     ];
     
     const instruments = [
-        new Tone.PolySynth(Tone.Synth),
-        new Tone.PolySynth(Tone.DuoSynth),
-        new Tone.PolySynth(Tone.FMSynth),
-        new Tone.PolySynth(Tone.AMSynth)
+        new Tone.PolySynth(Tone.Synth), // 0
+        new Tone.PolySynth(Tone.DuoSynth), // 1
+        new Tone.PolySynth(Tone.FMSynth), // 2
+        new Tone.PolySynth(Tone.AMSynth), // 3
+        new Tone.Sampler({ 
+            urls: {
+                "A4": "a4.mp3",
+                "A5": "a5.mp3",
+                "A6": "a6.mp3",
+                "D#4": "ds4.mp3",
+                "D#5": "ds5.mp3",
+                "D#6": "ds6.mp3",
+            },
+            baseUrl: "./assets/audio/piano/",
+            onload: () => {
+                console.log("samples loaded");
+            }, 
+        }), // 4
         // todo: explore & add more
     ];
   
