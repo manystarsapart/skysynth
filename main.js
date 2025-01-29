@@ -366,10 +366,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
     
     const instruments = [
-        new Tone.PolySynth(Tone.Synth), // 0
-        new Tone.PolySynth(Tone.DuoSynth), // 1
-        new Tone.PolySynth(Tone.FMSynth), // 2
-        new Tone.PolySynth(Tone.AMSynth), // 3
         new Tone.Sampler({ 
             urls: {
                 "A4": "a4.mp3",
@@ -381,9 +377,43 @@ document.addEventListener("DOMContentLoaded", () => {
             },
             baseUrl: "./assets/audio/piano/",
             onload: () => {
-                console.log("samples loaded");
+                console.log("piano samples loaded");
             }, 
-        }), // 4
+        }), // 0 piano sampler
+        new Tone.Sampler({ 
+            urls: {
+                "A3": "a3.mp3",
+                "A4": "a4.mp3",
+                "A5": "a5.mp3",
+                "D#3": "ds3.mp3",
+                "D#4": "ds4.mp3",
+                "D#5": "ds5.mp3",
+            },
+            baseUrl: "./assets/audio/eguitar/",
+            onload: () => {
+                console.log("e-guitar samples loaded");
+            }, 
+        }), // 1 eguitar sampler
+        new Tone.Sampler({ 
+            urls: {
+                "A3": "a3.mp3",
+                "A4": "a4.mp3",
+                "A5": "a5.mp3",
+                "A6": "a6.mp3",
+                "D#4": "ds4.mp3",
+                "D#5": "ds5.mp3",
+                "D#6": "ds6.mp3",
+            },
+            baseUrl: "./assets/audio/musicbox/",
+            onload: () => {
+                console.log("musicbox samples loaded");
+            }, 
+        }), // 2 musicbox sampler
+        new Tone.PolySynth(Tone.Synth), // 2
+        new Tone.PolySynth(Tone.DuoSynth), // 3
+        new Tone.PolySynth(Tone.FMSynth), // 4
+        new Tone.PolySynth(Tone.AMSynth), // 5
+ 
         // todo: explore & add more
     ];
   
@@ -539,7 +569,8 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById(key).style.backgroundColor = ""; 
             pressedKeys.delete(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
-            if (currentInstrument.name == "Sampler") return;
+            if (currentInstrument.name == "Sampler" && instrumentSelection.value != 1) return; // IF SAMPLER && NOT E-GUITAR
+            else;
             currentInstrument.triggerRelease(Tone.Frequency(midiNote, "midi"));
             currentInstrument.triggerRelease(Tone.Frequency(midiNote + 1, "midi")); 
             // failsafe for tone not stopping when:

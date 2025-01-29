@@ -1,2 +1,0 @@
-sampled from:
-https://github.com/McbeEringi/sky/tree/master/audio/instr/piano
