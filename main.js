@@ -539,6 +539,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById(key).style.backgroundColor = ""; 
             pressedKeys.delete(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
+            if (currentInstrument.name == "Sampler") return;
             currentInstrument.triggerRelease(Tone.Frequency(midiNote, "midi"));
             currentInstrument.triggerRelease(Tone.Frequency(midiNote + 1, "midi")); 
             // failsafe for tone not stopping when:
