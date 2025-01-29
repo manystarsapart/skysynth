@@ -28,3 +28,17 @@ just press random keys to get started. it can be a lot of fun !
 (especially if you're familiar with the Sky: CoTL music keyboard like i am)
 
 tap away!
+
+
+## instrument selection
+1. piano (sky)
+2. e-guitar (sky)
+3. music box (mcbeeringi)
+4. flute (sky)
+5. horn (sky)
+6. bugle (sky)
+7. synth
+8. duo synth
+9. FM synth
+10. AM synth
+11. meow
