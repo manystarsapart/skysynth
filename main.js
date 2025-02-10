@@ -475,7 +475,41 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("meow samples loaded");
             }, 
         }), // 10 meow sampler
- 
+        new Tone.Sampler({ 
+            urls: {
+                "F3": "f3.wav",
+                "A3": "a3.wav",
+                "C4": "c4.wav",
+                "F4": "f4.wav",
+                "Bb4": "bb4.wav",
+                "C5": "c5.wav",
+                "F5": "f5.wav",
+                "C6": "c6.wav",
+                "F6": "f6.wav",
+            },
+            baseUrl: "./assets/audio/otto-doo/",
+            onload: () => {
+                console.log("otto doo samples loaded");
+            }, 
+        }), // 11 otto doo
+        new Tone.Sampler({ 
+            urls: {
+                "C3": "c3.wav",
+                "F3": "f3.wav",
+                "C4": "c4.wav",
+                "F4": "f4.wav",
+                "Bb4": "bb4.wav",
+                "C5": "c5.wav",
+                "F5": "f5.wav",
+                "C6": "c6.wav",
+                "F6": "f6.wav",
+            },
+            baseUrl: "./assets/audio/otto-synth/",
+            onload: () => {
+                console.log("otto synth samples loaded");
+            }, 
+        }), // 12 otto synth
+
         // todo: explore & add more
     ];
 
@@ -491,6 +525,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "FM Synth",
         "AM Synth",
         "Meow",
+        "Otto - Doo",
+        "Otto - Synth",
     ]
 
     // dynamically update select elements
@@ -671,7 +707,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById(key).style.backgroundColor = ""; 
             pressedKeys.delete(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
-            if (currentInstrument.name == "Sampler" && instrumentSelection.value != 1) return; // IF SAMPLER && NOT E-GUITAR
+            if (currentInstrument.name == "Sampler" && instrumentSelection.value != 1 && instrumentSelection.value != 12) return; // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH
             else;
             currentInstrument.triggerRelease(Tone.Frequency(midiNote, "midi"));
             currentInstrument.triggerRelease(Tone.Frequency(midiNote + 1, "midi")); 
@@ -683,8 +719,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ===========================================
-
-    // buttons & toggles
+    // 
+    
     const sgToggle1 = document.getElementById("singlekeyboard1");
     const sgToggle2 = document.getElementById("singlekeyboard2");
     const dbToggle = document.getElementById("doublekeyboard");
@@ -718,7 +754,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     // ===========================================
-    // log message into status div
+    // LOGGING: STATUS DIV
 
     function updateStatusMsg(message) {
         const now = new Date(Date.now());
