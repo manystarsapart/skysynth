@@ -42,3 +42,5 @@ tap away!
 9. FM synth
 10. AM synth
 11. meow
+12. otto - doo
+13. otto - synth
