@@ -21,13 +21,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - changelog
 
+### Changed
+- improve otto-doo source sound effect (cut off excess time in front)
+
 
 ## [0.9.0] - 2025-02-10
 ### Added
 - instruments: otto-doo & otto-synth
-
-### Changed
-- improve otto-doo source sound effect (cut off excess time in front)
 
 
 ## [0.8.0] - 2025-01-29
