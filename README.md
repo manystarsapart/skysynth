@@ -1,15 +1,18 @@
-# THIS ONLY WORKS ON NON-CHROMIUM BASED BROWSERS!
-(eg. firefox, macbook safari etc)
-
-
+# Overview
 greetings ! this is a beginner's first attempt at making something in javascript. hope it is not too buggy
 
-# HOW TO RUN
+deployed on [this website](https://www.skysynth.space/) as of 2025.
+
+## Changelog
+
+For a detailed list of changes, see the [CHANGELOG.md](CHANGELOG.md) file.
+
+## How to run
 everything is written in vanilla html and js. tailwindcss is used for styling purposes.
 
 open `index.html` to test. to compile tailwindcss, run `npm run dev`.
 
-# FUNCTIONALITY & FEATURES
+# Functionality & Features
 #### play music. yes. you can legitimately play music on this
 
 1. play with both halves of your keyboard! (or only opt for one half)
@@ -30,7 +33,7 @@ just press random keys to get started. it can be a lot of fun !
 tap away!
 
 
-## instrument selection
+## Instrument Selection
 1. piano (sky)
 2. e-guitar (sky)
 3. music box (mcbeeringi)

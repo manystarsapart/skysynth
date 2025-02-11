@@ -1,9 +1,28 @@
-# changelog
+# Changelog
 
-all notable changes to this project will be documented in this file
+All notable changes to this project will be documented in this file.
 
-based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## Table of Contents
+
+<!-- - [Unreleased](#unreleased) -->
+- [0.9.1 - 2025-02-11](#091---2025-02-11)
+- [0.9.0 - 2025-02-10](#090---2025-02-10)
+- [0.8.0 - 2025-01-29](#080---2025-01-29)
+- [0.7.0 - 2025-01-28](#070---2025-01-28)
+- [0.6.0 - 2025-01-27](#060---2025-01-27)
+- [0.5.0 - 2025-01-25](#050---2025-01-25)
+- [0.4.0 - 2025-01-24](#040---2025-01-24)
+- [0.3.0 - 2025-01-21](#030---2025-01-21)
+- [0.2.0 - 2025-01-20](#020---2025-01-20)
+- [0.1.0 - 2025-01-20](#010---2025-01-20)
+- [0.0.0 - 2025-01-18](#000---2025-01-18)
+
+---
 
 <!-- 
 ## [X.X.X] - 2025-MM-DD
@@ -23,6 +42,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 - improve otto-doo source sound effect (cut off excess time in front)
+- add changelog link to readme
+- changelog.md --> CHANGELOG.md
 
 
 ## [0.9.0] - 2025-02-10
@@ -137,6 +158,3 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - main structure & key recognition for playing notes
 - option to switch between double & single keyboard (high) & single keyboard (low)
 - keypress visual guide
-
-
-
