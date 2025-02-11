@@ -45,6 +45,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - add changelog link to readme
 - changelog.md --> CHANGELOG.md
 
+### Fixed
+- otto-doo path issue
+
 
 ## [0.9.0] - 2025-02-10
 ### Added

@@ -487,7 +487,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "C6": "c6.wav",
                 "F6": "f6.wav",
             },
-            baseUrl: "./assets/audio/otto-doo-improved/",
+            baseUrl: "./assets/audio/otto-doo/",
             onload: () => {
                 console.log("otto doo samples loaded");
             }, 
