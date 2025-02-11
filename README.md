@@ -3,6 +3,8 @@ greetings ! this is a beginner's first attempt at making something in javascript
 
 deployed on [this website](https://www.skysynth.space/) as of 2025.
 
+"absolute orchestra" ~ fwyr
+
 ## Changelog
 
 For a detailed list of changes, see the [CHANGELOG.md](CHANGELOG.md) file.

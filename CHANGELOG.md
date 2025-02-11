@@ -39,14 +39,17 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [0.9.1] - 2025-02-11
 ### Added
 - changelog
+- toggle key release feature (tab key)
 
 ### Changed
 - improve otto-doo source sound effect (cut off excess time in front)
 - add changelog link to readme
 - changelog.md --> CHANGELOG.md
+- max octave shift: +2 --> +3
 
 ### Fixed
 - otto-doo path issue
+- octave change message issue
 
 
 ## [0.9.0] - 2025-02-10

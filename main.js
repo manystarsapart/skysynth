@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // getting from DOM & assigning variables
     let messages = [];
     let transposeValue = 0;
+    let stopAudioWhenReleased = 0;
     const statusDiv = document.getElementById("status-div");
     const transposeValueBox = document.getElementById("transpose-value");
     const scaleValueBox = document.getElementById("scale-value");
@@ -13,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const octaveValueBox = document.getElementById("octave-value");
     const clearButton = document.getElementById("clear-button");
     const layoutValueBox = document.getElementById("layout-value");
+    const stopAudioWhenReleasedButton = document.getElementById("stop-audio-when-released-button");
 
     // ===========================================
     // RECORDING FUNCTIONALITY
@@ -187,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let octaveAdjustment = 0;
 
     function octaveUp() {
-        if (octave >= 2) {
+        if (octave >= 3) {
             updateStatusMsg("Already at maximum octave!");
             return;
         }
@@ -200,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function octaveDown() {
         if (octave <= -2) {
-            updateStatusMsg("Already at maximum octave!");  
+            updateStatusMsg("Already at minimum octave!");  
             return;
         }
         octave--;
@@ -588,7 +590,30 @@ document.addEventListener("DOMContentLoaded", () => {
         currentInstrument.disconnect();
         if (currentEffectNode) currentInstrument.connect(currentEffectNode);
         else currentInstrument.connect(volumeNode);
+        if (currentInstrument == "Sampler" && e.target.value != 1 && e.target.value != 12) {
+            // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH
+            stopAudioWhenReleased = false;
+            stopAudioWhenReleasedButton.style.backgroundColor = "red";
+            stopAudioWhenReleasedButton.textContent = "false"
+        } 
+        else {
+            stopAudioWhenReleased = true;
+            stopAudioWhenReleasedButton.style.backgroundColor = "green";
+            stopAudioWhenReleasedButton.textContent = "true"
+        } 
     });
+
+    stopAudioWhenReleasedButton.addEventListener("click", (e) => {
+        if (stopAudioWhenReleased == true) {
+            stopAudioWhenReleased = false;
+            stopAudioWhenReleasedButton.style.backgroundColor = "red";
+            stopAudioWhenReleasedButton.textContent = "false"
+        } else {
+            stopAudioWhenReleased = true;
+            stopAudioWhenReleasedButton.style.backgroundColor = "green";
+            stopAudioWhenReleasedButton.textContent = "true"
+        }
+    })
 
     effectLevelControl.addEventListener("input", (e) => {effectSelection.dispatchEvent(new Event('input'))});
 
@@ -654,11 +679,15 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleKeyDown(e) {
         const keyPressTime = performance.now(); // for latency
         const key = e.key.toLowerCase();
+
+        // allow 'r' and 'Shift' to bypass preventDefault
         if (key != 'r' && key != 'Shift') {
             e.preventDefault(); 
             // to stop other action e.g. shortcuts & spacebar scrolling from happening
             // r is let through to reload
-        }
+        } 
+
+        // note / transpose logic (works for all keys)
         if (key in letterMap && !pressedKeys.has(key)) { 
             // key in noteplaying map: play MIDI note
             pressedKeys.add(key);
@@ -683,7 +712,17 @@ document.addEventListener("DOMContentLoaded", () => {
             scaleValueBox2.innerHTML = transposeMap[pitchMap[key]]; // returns the same scale for better visualisation
             updateVisualGuide(key);
             updateStatusMsg(`transpose value updated to: ${pitchMap[key]}`);
-        }    
+        } else if (e.keyCode == 9) {
+            if (stopAudioWhenReleased === true) {
+                stopAudioWhenReleased = false;
+                stopAudioWhenReleasedButton.style.backgroundColor = "red";
+                stopAudioWhenReleasedButton.textContent = "false"
+            } else {
+                stopAudioWhenReleased = true;
+                stopAudioWhenReleasedButton.style.backgroundColor = "green";
+                stopAudioWhenReleasedButton.textContent = "true"
+            }
+        }   
         // detect arrow key: octave change
         switch(e.key) {
             case 'ArrowLeft':
@@ -707,7 +746,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById(key).style.backgroundColor = ""; 
             pressedKeys.delete(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
-            if (currentInstrument.name == "Sampler" && instrumentSelection.value != 1 && instrumentSelection.value != 12) return; // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH
+            if (stopAudioWhenReleased == false) return; // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH
             else;
             currentInstrument.triggerRelease(Tone.Frequency(midiNote, "midi"));
             currentInstrument.triggerRelease(Tone.Frequency(midiNote + 1, "midi")); 
@@ -717,7 +756,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // 3. shift is released
         }
     }
-
+    
     // ===========================================
     // 
     
