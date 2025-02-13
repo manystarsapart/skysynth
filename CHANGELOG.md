@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.10.0 - 2025-02-14](#0100---2025-02-14)
 - [0.9.1 - 2025-02-11](#091---2025-02-11)
 - [0.9.0 - 2025-02-10](#090---2025-02-10)
 - [0.8.0 - 2025-01-29](#080---2025-01-29)
@@ -42,6 +43,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - water collection feature. playing notes increases water count. yet to implement feature to use water count
 - max water count: 500 (for now)
 - SAO lake background (for now)
+- readme acknowledgements
 
 ### Changed
 - **UI REVAMP**
@@ -50,7 +52,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - keyboard selection: buttons --> select
 - more accurate description: volume --> final gain
 
-### Fixed
 
 ## [0.9.1] - 2025-02-11
 ### Added

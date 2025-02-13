@@ -49,3 +49,17 @@ tap away!
 11. meow
 12. otto - doo
 13. otto - synth
+
+
+# Acknowledgements
+
+### this project has been made possible by these wonderful folks:
+- [fwyr](https://github.com/fwyr)
+- neut
+- melon
+- maple
+- kkura
+
+and the incredibly supportive musicians over at [Sky Musician Network](https://discord.gg/DsprQTfBVp).
+
+## thank you!
