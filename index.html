@@ -11,146 +11,297 @@
     <title>SkySynth</title>
     <link rel="icon" type="image/png" href="./assets/thumbnail.jpeg"/>
     <link rel="stylesheet" href="./output.css">
+    <link rel="stylesheet" href="./main.css">
     <script src="main.js"></script>
     <script src="./Tone.min.js"></script>
+    <script src="https://kit.fontawesome.com/8e2e927b48.js" crossorigin="anonymous"></script>
     <!-- <script src="https://unpkg.com/@tonejs/midi"></script> -->
 </head>
-<body class="bg-black text-white p-5">
+<body class="overflow-hidden h-screen bg-gradient-to-t p-10 from-[#A8B5E0] via-[#B4CBF0] to-[#DAF0F7]">
+<!-- <body class="h-screen bg-[url(./assets/SAOlake.jpg)]"> -->
+<img src="./assets/SAOlake.jpg" id="static-background" class="fixed top-0 left-0 w-full h-full object-cover -z-10 brightness-110" alt="lake background">
+<img src="./assets/water-mask.jpg" id="water-mask" class="absolute left-0 w-full object-cover -z-10 opacity-20 blur-sm" alt="water line">
 
 <header>
-    <h1 class="text-5xl font-pressstart2p p-5">play notes</h1>
+    <h1 class="text-5xl font-pressstart2p p-5">SkySynth</h1>
+    <nav class="bg-[#80b3ff] z-1000 rounded-l-2xl text-black fixed top-0 bottom-0 right-0 h-full w-[55px] overflow-hidden transition-[width] duration-200 ease-linear transform-gpu scale-100 shadow-[1px_0_15px_rgba(0,0,0,0.07)] opacity-100 hover:w-[400px] group">
+        <ul class="text-sm p-1 m-1">
+
+            <!-- INSTRUMENT SELECTION -->
+            <li class="flex items-center pt-2">
+                <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i>
+                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                    instrument: <br \>
+                    <select name="instrument selection" id="instrument-selection" class="p-3 m-1 rounded-lg border-2 border-white"></select>
+                </div>
+            </li>
+
+            <!-- EFFECT SELECTION -->
+            <li class="flex items-center pt-2">
+                <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> <!-- TO CHANGE -->
+                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                    effect (experimental): <br \>
+                    <select name="effect selection" id="effect-selection" class="p-3 m-1 rounded-lg border-2 border-white"></select>
+                    <input type="range" id="effect-level-control" min="0" max="100" value="50">            
+                </div>
+            </li>
+
+            <!-- FINAL GAIN SLIDEBAR -->
+            <li class="flex items-center pt-2">
+                <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> <!-- TO CHANGE -->
+                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                    final gain: <span id="volume-value">100% (default)</span><br \>
+                    <input type="range" id="volume-control" min="0" max="100" value="100">
+                </div>
+            </li>
+
+            <!-- KEYBOARD SELECT -->
+            <li class="flex items-center pt-2">
+                <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> <!-- TO CHANGE -->
+                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                   keyboard: <br \> 
+                   <select name="keyboard selection" id="keyboard-selection" class="p-3 m-1 rounded-lg border-2 border-white"></select>
+                </div>
+            </li>
+
+            <!-- CLEAR STATUSDIV -->
+            <li class="flex items-center pt-2">
+                <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> <!-- TO CHANGE -->
+                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                    misc: <br \>
+                    <button id="clear-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">clear status messages</button>
+                </div>
+            </li>
+
+            <!-- STOP AUDIO WHEN KEY RELEASED -->
+            <li class="flex items-center pt-2">
+                <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> <!-- TO CHANGE -->
+                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                    stop audio when key released: <br \>
+                    <button id="stop-audio-when-released-button" class="p-3 m-1 rounded-lg border-2 border-white">false</button> (tab to toggle)
+                </div>
+            </li>
+
+            <!-- RECORDING FUNCTION -->
+            <li class="flex items-center pt-2">
+                <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> <!-- TO CHANGE -->
+                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                    recording: <br \>
+                    <button id="start-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">start recording<button>
+                    <button id="stop-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">stop recording<button>
+                </div>
+            </li>
+            <li class="flex items-center pt-2">
+                <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> <!-- TO CHANGE -->
+                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                    <button id="play-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">play recording<button>
+                    <button id="stop-playback-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">stop playback</button>
+                </div>
+            </li>
+            <li class="flex items-center pt-2">
+                <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> <!-- TO CHANGE -->
+                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                    <button id="save-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">save recording<button>
+                    <!-- <button id="clear-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">clear recording<button> -->
+                </div>
+            </li>
+
+            <!-- TOGGLE LIGHTS ON / OFF -->
+            <li class="flex items-center pt-2">
+                <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> <!-- TO CHANGE -->
+                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                    light switch:
+                    <button id="light-switch" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">on / off<button> (spacebar)
+                </div>
+            </li>
+                
+                
+
+
+
+
+
+
+            <div class="text-xs fixed bottom-0 right-0 p-10 text-right hidden group-hover:block ml-2 whitespace-nowrap">
+
+                made by @manystarsapart <br>
+                for any feedback, please contact through discord <br>
+                last updated: 10 feb 2025 (happy lunar new year!)<br>
+                <a href="https://github.com/manystarsapart/skysynth/blob/main/CHANGELOG.md" target="_blank" class="text-emerald-800"><u>view changelog</u></a>
+            
+                <!-- known issues:
+                1. selection dropdown can be janky and requires holding down to select
+                2. notes can continue to play after being held due to various actions    
+                3. 
+                
+                
+                -->
+            
+            </div>
+        </ul>
+    </nav>
 </header>
 
-<main>
-    <ul class="text-l lg:text-right lg:fixed lg:top-20 lg:right-10">
-        <li>To PLAY <span class="text-green-200">NOTES</span>: press Q W E R T ... & Y U I O P ...</li>
-        <li>To <span class="text-blue-200">TRANSPOSE</span>: press ` 1 2 3 4 5 6 7 8 9 0 - =</li>
-        <li>To PLAY <span class="text-red-300">ACCIDENTALS</span>: hold SHIFT while playing note (e.g. shift + D)</li>
-        <li>To change <span class="text-purple-300">OCTAVES</span>: Down/Up or Left/Right arrow keys</li>
-        <br \>
-        <li><b>laptop only</b>. sorry no phone compatibility yet </li>
-        <li>if you are lost, please try pressing your laptop keyboard for sounds</li>
-        <li>if note persists after releasing, refresh page</li>
-        <li>PLEASE SAVE YOUR RECORDING IF YOU LIKE IT</li>
-        <li>RECORDINGS ARE NOT STORED. IT IS ONE TIME ONLY</li>
-        <li>volume: <span id="volume-value">100% (default)</span></li>
-        <li><input type="range" id="volume-control" min="0" max="100" value="100"></li>
-    </ul>
-    <br \>
+<main class="-z-10">
     <ul class="text-xl">
-        <li class="text-yellow-400">current transpose value = <span id="transpose-value">0</span> | current key: <span id="scale-value">C</span></li> 
-        <li class="text-yellow-400"> current octave shift: <span id="octave-value">0 (default)</span></li> 
-        <li class="text-yellow-400"></li>
+        <li class="text-yellow-800">current transpose value = <span id="transpose-value">0</span> | current key: <span id="scale-value">C</span></li> 
+        <li class="text-yellow-800"> current octave shift: <span id="octave-value">0 (default)</span></li> 
+        <li class="text-yellow-800"></li>
         <li class="text-base">(i.e. the current "D" key on the keyboard maps to the music note: <span id="scale-value-2">C</span>)</li>
         <br \>
-        <li class="text-yellow-400">current music pad layout: <span id="layout-value">double (default)</span></li>
         <li class="text-base">here's a (dynamic) visual guide for you. try pressing number keys to change keys!</li>
         <li class="text-base">cumulative time you spent on this page: <span id="cum-time">loading...</span></li>
         <li class="text-base">cumulative number of notes played: <span id="cum-keypress">loading...</span></li>
+        <li class="text-base">current water level: <span id="water-level-display">loading</span></li>
+        <li class="text-base">total rewards triggered: <span id="water-reward-display">loading</span></li>
     </ul> 
 
     <br \>
 
     <div class="w-full gap-20 flex flex-row items-center justify-center">
-        <div id="notes-div-left" class="grid grid-cols-5 gap-1 p-1 text-2xl">
-            <div id="q" class="flex items-center justify-center p-2">C2</div>
-            <div id="w" class="flex items-center justify-center p-2">D2</div>
-            <div id="e" class="flex items-center justify-center p-2">E2</div>
-            <div id="r" class="flex items-center justify-center p-2">F2</div>
-            <div id="t" class="flex items-center justify-center p-2">G2</div>
-            <div id="a" class="flex items-center justify-center p-2">A2</div>
-            <div id="s" class="flex items-center justify-center p-2">B2</div>
-            <div id="d" class="flex items-center justify-center p-2">C3</div>
-            <div id="f" class="flex items-center justify-center p-2">D3</div>
-            <div id="g" class="flex items-center justify-center p-2">E3</div>
-            <div id="z" class="flex items-center justify-center p-2">F3</div>
-            <div id="x" class="flex items-center justify-center p-2">G3</div>
-            <div id="c" class="flex items-center justify-center p-2">A3</div>
-            <div id="v" class="flex items-center justify-center p-2">B3</div>
-            <div id="b" class="flex items-center justify-center p-2">C4</div>
+        <div id="notes-div-left" class="grid grid-cols-5 gap-1 p-1 text-6xl">
+            <div id="q" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                Q
+                <span class="text-2xl">C2</span>
+            </div>
+            <div id="w" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                W
+                <span class="text-2xl">D2</span>
+            </div>
+            <div id="e" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                E
+                <span class="text-2xl">E2</span>
+            </div>
+            <div id="r" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                R
+                <span class="text-2xl">F2</span>
+            </div>
+            <div id="t" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                T
+                <span class="text-2xl">G2</span>
+            </div>
+            <div id="a" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                A
+                <span class="text-2xl">A2</span>
+            </div>
+            <div id="s" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                S
+                <span class="text-2xl">B2</span>
+            </div>
+            <div id="d" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                D
+                <span class="text-2xl">C3</span>
+            </div>
+            <div id="f" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                F
+                <span class="text-2xl">D3</span>
+            </div>
+            <div id="g" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                G
+                <span class="text-2xl">E3</span>
+            </div>
+            <div id="z" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                Z
+                <span class="text-2xl">F3</span>
+            </div>
+            <div id="x" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                X
+                <span class="text-2xl">G3</span>
+            </div>
+            <div id="c" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                C
+                <span class="text-2xl">A3</span>
+            </div>
+            <div id="v" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                V
+                <span class="text-2xl">B3</span>
+            </div>
+            <div id="b" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                B
+                <span class="text-2xl">C4</span>
+            </div>
+
         </div>
             <!-- 
             C D E F G 
             A B C D E
             F G A B C  
             -->
-        <div id="notes-div-right" class="grid grid-cols-5 gap-1 p-1 text-2xl">
-            <div id="y" class="flex items-center justify-center p-2">C3</div>
-            <div id="u" class="flex items-center justify-center p-2">D3</div>
-            <div id="i" class="flex items-center justify-center p-2">E3</div>
-            <div id="o" class="flex items-center justify-center p-2">F3</div>
-            <div id="p" class="flex items-center justify-center p-2">G3</div>
-            <div id="h" class="flex items-center justify-center p-2">A3</div>
-            <div id="j" class="flex items-center justify-center p-2">B3</div>
-            <div id="k" class="flex items-center justify-center p-2">C4</div>
-            <div id="l" class="flex items-center justify-center p-2">D4</div>
-            <div id=";" class="flex items-center justify-center p-2">E4</div>
-            <div id="n" class="flex items-center justify-center p-2">F4</div>
-            <div id="m" class="flex items-center justify-center p-2">G4</div>
-            <div id="," class="flex items-center justify-center p-2">A4</div>
-            <div id="." class="flex items-center justify-center p-2">B4</div>
-            <div id="/" class="flex items-center justify-center p-2">C5</div>
+        <div id="notes-div-right" class="grid grid-cols-5 gap-1 p-1 text-6xl">
+            <div id="y" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                Y
+                <span class="text-2xl">C3</span>
+            </div>
+            <div id="u" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                U
+                <span class="text-2xl">D3</span>
+            </div>
+            <div id="i" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                I
+                <span class="text-2xl">E3</span>
+            </div>
+            <div id="o" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                O
+                <span class="text-2xl">F3</span>
+            </div>
+            <div id="p" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                P
+                <span class="text-2xl">G3</span>
+            </div>
+            <div id="h" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                H
+                <span class="text-2xl">A3</span>
+            </div>
+            <div id="j" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                J
+                <span class="text-2xl">B3</span>
+            </div>
+            <div id="k" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                K
+                <span class="text-2xl">C4</span>
+            </div>
+            <div id="l" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                L
+                <span class="text-2xl">D4</span>
+            </div>
+            <div id=";" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                ;
+                <span class="text-2xl">E4</span>
+            </div>
+            <div id="n" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                N
+                <span class="text-2xl">F4</span>
+            </div>
+            <div id="m" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                M
+                <span class="text-2xl">G4</span>
+            </div>
+            <div id="," class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                ,
+                <span class="text-2xl">A4</span>
+            </div>
+            <div id="." class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                .
+                <span class="text-2xl">B4</span>
+            </div>
+            <div id="/" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
+                /
+                <span class="text-2xl">C5</span>
+            </div>
         </div>
     </div>
 
-    <br \>
-    <div class="w-full gap-40 m-4 flex flex-row items-center justify-center text-3xl">
-        <div class="">
-            q w e r t <br \>
-            a s d f g <br \>
-            z x c v b     
-        </div>
+<div>
+    
+</div>
 
-        <div class="">
-            y u i o p <br \>
-            h j k l ; <br \>
-            n m , . / <br \>
-        </div>
-    </div>
 
-    <div>
-        instrument: <select name="instrument selection" id="instrument-selection" class="p-3 m-1 rounded-lg border-2 border-white bg-black">
-        </select>
-        effect (experimental): <select name="effect selection" id="effect-selection" class="p-3 m-1 rounded-lg border-2 border-white bg-black">
-        </select>
-        <input type="range" id="effect-level-control" min="0" max="100" value="50">
-        <br \>
-        stop audio when key released: <button id="stop-audio-when-released-button" class="p-3 m-1 rounded-lg border-2 border-white">false</button> (tab to toggle)
-        <br \>
-        <button id="doublekeyboard" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">double keyboard (default)</button>
-        <button id="singlekeyboard1" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">single keyboard (low)</button>
-        <button id="singlekeyboard2" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">single keyboard (high)</button>
-        <button id="clear-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">clear status</button>
-        <!-- <button id="reset-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">reset responses <button> -->
-        <br \>
-        <button id="start-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">start recording<button>
-        <button id="stop-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">stop recording<button>
-        <button id="play-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">play recording<button>
-        <button id="stop-playback-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">stop playback</button>
-        <button id="save-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">save recording<button>
-        <!-- <button id="clear-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-red-600">clear recording<button> -->
-    </div>
-    <div id="status-div" class="max-h-40 text-left p-5 m-4 overflow-y-scroll">
+    <div id="status-div" class="max-h-60 min-h-40 text-left p-5 m-4 overflow-y-scroll">
         
     </div>
 
 </main>
 
-<footer class="text-xs fixed bottom-0 right-0 p-10 text-right">
-
-    made by @manystarsapart <br>
-    for any feedback, please contact through discord <br>
-    last updated: 10 feb 2025 (happy lunar new year!)<br>
-    <a href="https://github.com/manystarsapart/skysynth/blob/main/CHANGELOG.md">view changelog</a>
-
-    <!-- known issues:
-    1. space being highest note means it auto presses the buttons
-    2. notes can continue to play after being held due to various actions    
-    
-    
-    -->
-
-</footer>
     
 </body>
 </html>

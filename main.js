@@ -13,8 +13,124 @@ document.addEventListener("DOMContentLoaded", () => {
     const scaleValueBox2 = document.getElementById("scale-value-2");
     const octaveValueBox = document.getElementById("octave-value");
     const clearButton = document.getElementById("clear-button");
-    const layoutValueBox = document.getElementById("layout-value");
     const stopAudioWhenReleasedButton = document.getElementById("stop-audio-when-released-button");
+
+
+
+    // ===========================================
+    // WATER COLLECTION
+
+    let currentWaterLevel = parseInt(localStorage.getItem("savedWaterLevel")) || 0;
+    let totalWaterReward = parseInt(localStorage.getItem("totalWaterReward")) || 0;
+    const waterLevelDisplay = document.getElementById("water-level-display");
+    const waterRewardDisplay = document.getElementById("water-reward-display");
+    const waterMask = document.getElementById("water-mask");
+    const maxWaterLevel = 500;
+    
+    // Initialize display and water position
+    waterLevelDisplay.textContent = `${currentWaterLevel} / ${maxWaterLevel}`;
+    waterRewardDisplay.textContent = totalWaterReward;
+    updateWaterMaskPosition();
+    
+    function triggerWaterReward() {
+        updateStatusMsg("Triggered water reward!");
+        totalWaterReward++;
+        localStorage.setItem("totalWaterReward", totalWaterReward.toString());
+        waterRewardDisplay.textContent = totalWaterReward;
+        // alert("Water reward! wooooo");
+    }
+    
+    function incrementWater() {
+        currentWaterLevel++;
+        
+        if (currentWaterLevel >= maxWaterLevel) {
+            triggerWaterReward();
+            currentWaterLevel = 0;
+        }
+        
+        localStorage.setItem("savedWaterLevel", currentWaterLevel.toString());
+        waterLevelDisplay.textContent = `${currentWaterLevel} / ${maxWaterLevel}`;
+        updateWaterMaskPosition();
+    }
+    
+    function updateWaterMaskPosition() {
+        // Calculate percentage from top (0% = full, 100% = empty)
+        const topPercentage = (1 - currentWaterLevel / maxWaterLevel) * 100;
+        waterMask.style.top = `${topPercentage.toFixed(2)}%`;
+    }
+
+
+    // ===========================================
+    // TURNING OFF THE LIGHTS
+
+    const lightSwitch = document.getElementById("light-switch");
+    const staticBackground = document.getElementById("static-background");
+    let currentLightsOn = true; 
+    function toggleLights() {
+        if (currentLightsOn) {
+            currentLightsOn = false;
+            staticBackground.classList.replace("brightness-110", "brightness-0");
+            waterMask.style.display = "none";
+            updateStatusMsg("Lights out!");
+        }
+        else {
+            currentLightsOn = true;
+            staticBackground.classList.replace("brightness-0", "brightness-110");
+            waterMask.style.display = "block";
+            updateStatusMsg("Lights back on!");
+        }
+    }
+
+    lightSwitch.addEventListener("click", (e) => {
+        toggleLights();
+    })
+
+    // ===========================================
+    // STATUS DIV
+    
+    clearButton.addEventListener("click", (e) => {
+        // clears status div
+        messages = [];
+        statusDiv.innerHTML = "";
+    })
+
+    // ===========================================
+    // KEYBOARD SELECTION
+    
+    const keyboardSelection = document.getElementById("keyboard-selection");
+    const keyboards = [
+        "Double Keyboard (Recom.)",
+        "Single Keyboard - Low",
+        "Single Keyboard - High"
+    ]
+
+    // dynamically update select elements
+    for (var i = 0; i < keyboards.length; i++) {
+        keyboardSelection.appendChild(
+            Object.assign(
+                document.createElement("option"),
+                { value: i, innerHTML: keyboards[i] }
+            )
+        );
+    }
+
+    keyboardSelection.addEventListener("input", (e) => {
+        const selectedID = parseInt(e.target.value); 
+        switch (selectedID) {
+            case 0: // double
+                letterMap = dbLetterMap;
+                updateStatusMsg("current: doublekeyboard");
+                break;
+            case 1: // single low
+                letterMap = sgLetterMap1;
+                updateStatusMsg("current: single keyboard (low)");
+                break;
+            case 2: // single high
+                letterMap = sgLetterMap2;
+                updateStatusMsg("current: single keyboard (high)");
+                break;
+        }
+    });
 
     // ===========================================
     // RECORDING FUNCTIONALITY
@@ -270,14 +386,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const note = keyNotes[noteIndex];
             const currentOctave = octaveBase + (countC - 1);
             if (leftright == 0) {
-                return `<div id="${preserveKeyIDLeft[keyIDcount-1]}" class="flex items-center justify-center p-2">${note}${currentOctave}</div>`;
+                return `<div id="${preserveKeyIDLeft[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30 relative">${preserveKeyIDLeft[keyIDcount-1].toUpperCase()}<span class="text-2xl">${note}${currentOctave}</span></div>`;
             } else {
-                return `<div id="${preserveKeyIDRight[keyIDcount-1]}" class="flex items-center justify-center p-2">${note}${currentOctave}</div>`;
+                return `<div id="${preserveKeyIDRight[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30 relative">${preserveKeyIDRight[keyIDcount-1].toUpperCase()}<span class="text-2xl">${note}${currentOctave}</span></div>`;
             }
         });
         // console.log(elements);
         return elements.join('');
     }
+
     // ^^^ THIS FUNCTION WAS IMPROVED BY DEEPSEEK R1 TO HELP DISPLAY EACH OCTAVES NUMBER CORRECTLY
     // ALL HAIL OUR AI OVERLORDS
 
@@ -689,6 +806,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // note / transpose logic (works for all keys)
         if (key in letterMap && !pressedKeys.has(key)) { 
+
+            incrementWater();
+
             // key in noteplaying map: play MIDI note
             pressedKeys.add(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
@@ -717,12 +837,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 stopAudioWhenReleased = false;
                 stopAudioWhenReleasedButton.style.backgroundColor = "red";
                 stopAudioWhenReleasedButton.textContent = "false"
-            } else {
+            } 
+            else {
                 stopAudioWhenReleased = true;
                 stopAudioWhenReleasedButton.style.backgroundColor = "green";
                 stopAudioWhenReleasedButton.textContent = "true"
             }
-        }   
+        }   else if (e.keyCode == 32) {
+            toggleLights();}
         // detect arrow key: octave change
         switch(e.key) {
             case 'ArrowLeft':
@@ -737,7 +859,9 @@ document.addEventListener("DOMContentLoaded", () => {
             case 'ArrowUp':
                 octaveUp(pitchMap[key]);
                 break;
-        }        
+        }      
+        
+        
     }
     
     function handleKeyUp(e) {
@@ -758,41 +882,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     // ===========================================
-    // 
-    
-    const sgToggle1 = document.getElementById("singlekeyboard1");
-    const sgToggle2 = document.getElementById("singlekeyboard2");
-    const dbToggle = document.getElementById("doublekeyboard");
-    const resetButton = document.getElementById("reset-button");
-
-    sgToggle1.addEventListener("click", (e) => {
-        // update lettermap to single keyboard 1 (low)
-        letterMap = sgLetterMap1;
-        updateStatusMsg("current: single keyboard (low)");
-        layoutValueBox.innerHTML = "single (low)"
-    })
-
-    sgToggle2.addEventListener("click", (e) => {
-        // update lettermap to single keyboard 2 (high)
-        letterMap = sgLetterMap2;
-        updateStatusMsg("current: single keyboard (high)");
-        layoutValueBox.innerHTML = "single (high)" 
-    })
-
-    dbToggle.addEventListener("click", (e) => {
-        // update lettermap to double keyboard (default)
-        letterMap = dbLetterMap;
-        updateStatusMsg("current: doublekeyboard");
-        layoutValueBox.innerHTML = "double (default)";        
-    })
-
-    clearButton.addEventListener("click", (e) => {
-        // clears status div
-        messages = [];
-        statusDiv.innerHTML = "";
-    })
-
-    // ===========================================
     // LOGGING: STATUS DIV
 
     function updateStatusMsg(message) {
@@ -803,4 +892,7 @@ document.addEventListener("DOMContentLoaded", () => {
         statusDiv.innerHTML = status;
         statusDiv.scrollTop = statusDiv.scrollHeight;
     }
+
+
+
 });

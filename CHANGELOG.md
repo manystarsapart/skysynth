@@ -36,9 +36,25 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - 
  -->
 
+## [0.10.0] - 2025-02-14
+### Added
+- light switch (spacebar)
+- water collection feature. playing notes increases water count. yet to implement feature to use water count
+- max water count: 500 (for now)
+- SAO lake background (for now)
+
+### Changed
+- **UI REVAMP**
+- move various buttons into sidebar
+- merge note & keyboard key part of visual guide into one single guide
+- keyboard selection: buttons --> select
+- more accurate description: volume --> final gain
+
+### Fixed
+
 ## [0.9.1] - 2025-02-11
 ### Added
-- changelog
+- this changelog
 - toggle key release feature (tab key)
 
 ### Changed
