@@ -11,7 +11,6 @@
     <title>SkySynth</title>
     <link rel="icon" type="image/png" href="./assets/thumbnail.jpeg"/>
     <link rel="stylesheet" href="./output.css">
-    <link rel="stylesheet" href="./main.css">
     <script src="main.js"></script>
     <script src="./Tone.min.js"></script>
     <script src="https://kit.fontawesome.com/8e2e927b48.js" crossorigin="anonymous"></script>
@@ -132,7 +131,7 @@
                 <!-- known issues:
                 1. selection dropdown can be janky and requires holding down to select
                 2. notes can continue to play after being held due to various actions    
-                3. 
+                3. transposing to +12 uses the visual guide for +0
                 
                 
                 -->
@@ -143,6 +142,11 @@
 </header>
 
 <main class="-z-10">
+
+    <div id="notes-div" class="fixed max-h-60 min-h-40 right-10 top-5 text-right p-5 m-4 overflow-y-scroll">
+
+    </div>
+
     <ul class="text-xl">
         <li class="text-yellow-800">current transpose value = <span id="transpose-value">0</span> | current key: <span id="scale-value">C</span></li> 
         <li class="text-yellow-800"> current octave shift: <span id="octave-value">0 (default)</span></li> 
@@ -155,6 +159,8 @@
         <li class="text-base">current water level: <span id="water-level-display">loading</span></li>
         <li class="text-base">total rewards triggered: <span id="water-reward-display">loading</span></li>
     </ul> 
+
+
 
     <br \>
 

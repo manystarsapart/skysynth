@@ -5,9 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // getting from DOM & assigning variables
     let messages = [];
+    let noteHistory = [];
     let transposeValue = 0;
     let stopAudioWhenReleased = 0;
     const statusDiv = document.getElementById("status-div");
+    const notesDiv = document.getElementById("notes-div");
     const transposeValueBox = document.getElementById("transpose-value");
     const scaleValueBox = document.getElementById("scale-value");
     const scaleValueBox2 = document.getElementById("scale-value-2");
@@ -337,45 +339,45 @@ document.addEventListener("DOMContentLoaded", () => {
     let realOctaveLeft = octave + 3;
     let realOctaveRight = realOctaveLeft + 1;
 
-    function mapNumbersToNotes(currentKey, leftright) {
-        const notes = {
-            'C': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
-            'C#': ['C#', 'D#', 'F', 'F#', 'G#', 'Bb', 'C'],
-            'D': ['D', 'E', 'F#', 'G', 'A', 'B', 'C#'],
-            'D#': ['D#', 'F', 'G', 'G#', 'Bb', 'C', 'D'],
-            'E': ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],
-            'F': ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'],
-            'F#': ['F#', 'G#', 'Bb', 'B', 'C#', 'D#', 'F'],
-            'G': ['G', 'A', 'B', 'C', 'D', 'E', 'F#'],
-            'G#': ['G#', 'Bb', 'C', 'C#', 'D#', 'F', 'G'],
-            'A': ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'],
-            'Bb': ['Bb', 'C', 'D', 'Eb', 'F', 'G', 'A'],
-            'B': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'Bb']
-        };
-    
-        const preserveKeyIDLeft = {
-            '0':'q', '1':'w', '2':'e', '3':'r', '4':'t', 
-            '5':'a', '6':'s', '7':'d', '8':'f', '9':'g', 
-            '10':'z', '11':'x', '12':'c', '13':'v', '14':'b'
-        };
+    const mapNumbersToNotesOctaves = {
+        'C': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+        'C#': ['C#', 'D#', 'F', 'F#', 'G#', 'Bb', 'C'],
+        'D': ['D', 'E', 'F#', 'G', 'A', 'B', 'C#'],
+        'D#': ['D#', 'F', 'G', 'G#', 'Bb', 'C', 'D'],
+        'E': ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],
+        'F': ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'],
+        'F#': ['F#', 'G#', 'Bb', 'B', 'C#', 'D#', 'F'],
+        'G': ['G', 'A', 'B', 'C', 'D', 'E', 'F#'],
+        'G#': ['G#', 'Bb', 'C', 'C#', 'D#', 'F', 'G'],
+        'A': ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'],
+        'Bb': ['Bb', 'C', 'D', 'Eb', 'F', 'G', 'A'],
+        'B': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'Bb']
+    };
 
-        const preserveKeyIDRight = {
-            '0':'y', '1':'u', '2':'i', '3':'o', '4':'p',
-            '5':'h', '6':'j', '7':'k', '8':'l', '9':';',
-            '10':'n', '11':'m', '12':',', '13':'.', '14':'/'
-        };
+    const preserveKeyIDLeft = {
+        '0':'q', '1':'w', '2':'e', '3':'r', '4':'t', 
+        '5':'a', '6':'s', '7':'d', '8':'f', '9':'g', 
+        '10':'z', '11':'x', '12':'c', '13':'v', '14':'b'
+    };
 
-        const mapping = [
-            [1, 2, 3, 4, 5],
-            [6, 7, 1, 2, 3],
-            [4, 5, 6, 7, 8]
-        ];
-    
+    const preserveKeyIDRight = {
+        '0':'y', '1':'u', '2':'i', '3':'o', '4':'p',
+        '5':'h', '6':'j', '7':'k', '8':'l', '9':';',
+        '10':'n', '11':'m', '12':',', '13':'.', '14':'/'
+    };
+
+    const mapNumbersToNotesMapping = [
+        [1, 2, 3, 4, 5],
+        [6, 7, 1, 2, 3],
+        [4, 5, 6, 7, 8]
+    ];
+
+    function mapNumbersToNotes(currentKey, leftright) {    
         realOctaveLeft = octave + 2;
         realOctaveRight = realOctaveLeft + 1;
-        const keyNotes = notes[currentKey];
+        const keyNotes = mapNumbersToNotesOctaves[currentKey];
         const octaveBase = leftright === 0 ? realOctaveLeft : realOctaveRight;
-        const mappingFlattened = mapping.flat();
+        const mappingFlattened = mapNumbersToNotesMapping.flat();
         let countC = 0;
         let keyIDcount = 0;
         const elements = mappingFlattened.map(num => {
@@ -813,7 +815,7 @@ document.addEventListener("DOMContentLoaded", () => {
             pressedKeys.add(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
             if (shiftPressed) {midiNote += 1;}
-            
+            updateNoteHistory(midiNote);
             // calculating latency 
             const audioStartTime = performance.now();
             const latency = audioStartTime - keyPressTime;
@@ -893,6 +895,21 @@ document.addEventListener("DOMContentLoaded", () => {
         statusDiv.scrollTop = statusDiv.scrollHeight;
     }
 
+        // ===========================================
+    // LOGGING: NOTE PLAYING HISTORY
 
+    function updateNoteHistory(note) {
+        noteHistory.push(`${midiToSPN(note)} | ${cumulativeKeypress}`);
+        const noteHistoryContent = noteHistory.join('<br>');
+        notesDiv.innerHTML = noteHistoryContent;
+        notesDiv.scrollTop = notesDiv.scrollHeight;
+    }
+
+    function midiToSPN(midiNumber) {
+        const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        const noteIndex = midiNumber % 12;
+        const octave = Math.floor((midiNumber - 12) / 12) - 1;
+        return noteNames[noteIndex] + octave;
+    }
 
 });

@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.10.1 - 2025-02-14](#0101---2025-02-14)
 - [0.10.0 - 2025-02-14](#0100---2025-02-14)
 - [0.9.1 - 2025-02-11](#091---2025-02-11)
 - [0.9.0 - 2025-02-10](#090---2025-02-10)
@@ -36,6 +37,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 - 
  -->
+
+## [0.10.1] - 2025-02-14
+### Added
+- note history feature (top right)
+
 
 ## [0.10.0] - 2025-02-14
 ### Added
@@ -133,9 +139,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 - decrease text font, give a max height to statusdiv so it fits within one page rather than continuously increasing page length
 - thinner visual guide
-
-### Fixed
-- XXX
 
 
 ## [0.4.0] - 2025-01-24
