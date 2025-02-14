@@ -386,9 +386,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const note = keyNotes[noteIndex];
             const currentOctave = octaveBase + (countC - 1);
             if (leftright == 0) {
-                return `<div id="${preserveKeyIDLeft[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30 relative">${preserveKeyIDLeft[keyIDcount-1].toUpperCase()}<span class="text-2xl">${note}${currentOctave}</span></div>`;
+                return `<div id="${preserveKeyIDLeft[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30 relative">${note}${currentOctave}<span class="text-2xl">${preserveKeyIDLeft[keyIDcount-1].toUpperCase()}</span></div>`;
             } else {
-                return `<div id="${preserveKeyIDRight[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30 relative">${preserveKeyIDRight[keyIDcount-1].toUpperCase()}<span class="text-2xl">${note}${currentOctave}</span></div>`;
+                return `<div id="${preserveKeyIDRight[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30 relative">${note}${currentOctave}<span class="text-2xl">${preserveKeyIDRight[keyIDcount-1].toUpperCase()}</span></div>`;
             }
         });
         // console.log(elements);
