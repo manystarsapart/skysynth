@@ -16,6 +16,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const octaveValueBox = document.getElementById("octave-value");
     const clearButton = document.getElementById("clear-button");
     const stopAudioWhenReleasedButton = document.getElementById("stop-audio-when-released-button");
+    const shiftIndicator = document.getElementById("shift-indicator");
+
+
+    // ===========================================
+    // MENU TOGGLE
+
+    const navbar = document.getElementById("navbar");
+    const menuTitle = document.getElementById("menu-title");
+    const navContent = navbar.querySelectorAll("li > div");
+    const acknowledgements = document.getElementById("acknowledgements");
+
+    function toggleMenu() {
+        navbar.classList.toggle("w-[400px]");
+        navbar.classList.toggle("hover:w-[400px]");
+        menuTitle.classList.toggle("hidden");
+        menuTitle.classList.toggle("group-hover:block");
+        navContent.forEach(div => {
+            div.classList.toggle("hidden");
+            div.classList.toggle("group-hover:block");
+        });
+        acknowledgements.classList.toggle("hidden");
+        acknowledgements.classList.toggle("group-hover:block");
+    }
+
+
 
 
 
@@ -72,12 +97,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (currentLightsOn) {
             currentLightsOn = false;
             staticBackground.classList.replace("brightness-110", "brightness-0");
+            lightSwitch.style.backgroundColor = "red";
             waterMask.style.display = "none";
             updateStatusMsg("Lights out!");
         }
         else {
             currentLightsOn = true;
             staticBackground.classList.replace("brightness-0", "brightness-110");
+            lightSwitch.style.backgroundColor = "green";
             waterMask.style.display = "block";
             updateStatusMsg("Lights back on!");
         }
@@ -780,17 +807,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
+    
 
     // detects for SHIFT pressed & released
     let shiftPressed = false;
     document.addEventListener('keydown', function(e) {
         if (e.shiftKey) {
             shiftPressed = true;
+            shiftIndicator.style.backgroundColor = "green";
         }
     });
     document.addEventListener('keyup', function(e) {
         if (e.key === 'Shift') {
             shiftPressed = false;
+            shiftIndicator.style.backgroundColor = "";
         }
     });
     
@@ -834,7 +864,7 @@ document.addEventListener("DOMContentLoaded", () => {
             scaleValueBox2.innerHTML = transposeMap[pitchMap[key]]; // returns the same scale for better visualisation
             updateVisualGuide(key);
             updateStatusMsg(`transpose value updated to: ${pitchMap[key]}`);
-        } else if (e.keyCode == 9) {
+        } else if (key == 'tab') { // not 'Tab' because i lowercased it LOLL
             if (stopAudioWhenReleased === true) {
                 stopAudioWhenReleased = false;
                 stopAudioWhenReleasedButton.style.backgroundColor = "red";
@@ -845,8 +875,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 stopAudioWhenReleasedButton.style.backgroundColor = "green";
                 stopAudioWhenReleasedButton.textContent = "true"
             }
-        }   else if (e.keyCode == 32) {
-            toggleLights();}
+        }   else if (key == ' ' || key == 'spacebar') {
+            toggleLights();
+        } 
+            else if (key == 'escape') {
+                toggleMenu();
+            }
         // detect arrow key: octave change
         switch(e.key) {
             case 'ArrowLeft':

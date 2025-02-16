@@ -38,6 +38,19 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - 
  -->
 
+## [0.11.0] - 2025-02-16
+### Added
+- shift held indicator feature
+- toggle menu hotkey (esc)
+- menu title in menu
+
+### Changed
+- light switch background colour now changes instead of staying colourless
+
+### Fixed
+- deprecated keyCode --> key value 
+
+
 ## [0.10.1] - 2025-02-14
 ### Added
 - note history feature (top right)
