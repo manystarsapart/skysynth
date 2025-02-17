@@ -924,6 +924,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const now = new Date(Date.now());
         const formattedTime = now.toLocaleString();
         messages.push(`${message} | Time: ${formattedTime}`);
+        if (messages.length > 50) {
+            messages.shift();
+        } 
         const status = messages.join('<br>');
         statusDiv.innerHTML = status;
         statusDiv.scrollTop = statusDiv.scrollHeight;
@@ -933,7 +936,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // LOGGING: NOTE PLAYING HISTORY
 
     function updateNoteHistory(note) {
-        noteHistory.push(`${midiToSPN(note)} | ${cumulativeKeypress}`);
+        noteHistory.push(`${midiToSPN(note)} | ${cumulativeKeypress+1}`);
+        if (noteHistory.length > 20) {
+            noteHistory.shift();
+        } 
         const noteHistoryContent = noteHistory.join('<br>');
         notesDiv.innerHTML = noteHistoryContent;
         notesDiv.scrollTop = notesDiv.scrollHeight;

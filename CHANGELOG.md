@@ -10,6 +10,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.11.1 - 2025-02-17](#0111---2025-02-17)
+- [0.11.0 - 2025-02-16](#0110---2025-02-16)
 - [0.10.1 - 2025-02-14](#0101---2025-02-14)
 - [0.10.0 - 2025-02-14](#0100---2025-02-14)
 - [0.9.1 - 2025-02-11](#091---2025-02-11)
@@ -37,6 +39,15 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 - 
  -->
+
+
+## [0.11.1] - 2025-02-17
+### Changed
+- readme update & known issues comment update
+
+### Fixed
+- website lags due to huge noteHistory array. now both messages and noteHistory clears at 20
+
 
 ## [0.11.0] - 2025-02-16
 ### Added
