@@ -6,7 +6,11 @@ module.exports = {
     extend: {
       fontFamily: {
         "pressstart2p": ["PressStart2P"]  
-      }
+      },
+      // color: {
+      //   "light-red": "#F08080",
+      //   "light-green": "#588157"
+      // }
     },
   },
   variants: {

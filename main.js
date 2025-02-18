@@ -97,14 +97,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (currentLightsOn) {
             currentLightsOn = false;
             staticBackground.classList.replace("brightness-110", "brightness-0");
-            lightSwitch.style.backgroundColor = "red";
+            lightSwitch.style.backgroundColor = "#F08080";
             waterMask.style.display = "none";
             updateStatusMsg("Lights out!");
         }
         else {
             currentLightsOn = true;
             staticBackground.classList.replace("brightness-0", "brightness-110");
-            lightSwitch.style.backgroundColor = "green";
+            lightSwitch.style.backgroundColor = "#588157";
             waterMask.style.display = "block";
             updateStatusMsg("Lights back on!");
         }
@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         hasRecording = false;
         isRecording = true;
-        startRecordButton.style.backgroundColor = "red";
+        startRecordButton.style.backgroundColor = "#F08080";
         audioChunks = [];
         const audioStream = Tone.context.createMediaStreamDestination();
         volumeNode.connect(audioStream);
@@ -739,12 +739,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (currentInstrument == "Sampler" && e.target.value != 1 && e.target.value != 12) {
             // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH
             stopAudioWhenReleased = false;
-            stopAudioWhenReleasedButton.style.backgroundColor = "red";
+            stopAudioWhenReleasedButton.style.backgroundColor = "#F08080";
             stopAudioWhenReleasedButton.textContent = "false"
         } 
         else {
             stopAudioWhenReleased = true;
-            stopAudioWhenReleasedButton.style.backgroundColor = "green";
+            stopAudioWhenReleasedButton.style.backgroundColor = "#588157";
             stopAudioWhenReleasedButton.textContent = "true"
         } 
     });
@@ -752,11 +752,11 @@ document.addEventListener("DOMContentLoaded", () => {
     stopAudioWhenReleasedButton.addEventListener("click", (e) => {
         if (stopAudioWhenReleased == true) {
             stopAudioWhenReleased = false;
-            stopAudioWhenReleasedButton.style.backgroundColor = "red";
+            stopAudioWhenReleasedButton.style.backgroundColor = "#F08080";
             stopAudioWhenReleasedButton.textContent = "false"
         } else {
             stopAudioWhenReleased = true;
-            stopAudioWhenReleasedButton.style.backgroundColor = "green";
+            stopAudioWhenReleasedButton.style.backgroundColor = "#588157";
             stopAudioWhenReleasedButton.textContent = "true"
         }
     })
@@ -801,20 +801,21 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===========================================
     // HANDLING KEYPRESSES
 
+    // https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
+
     // grabs set of KEYS PRESSED
     let letterMap = dbLetterMap;
     const pressedKeys = new Set();
 
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
-    
 
     // detects for SHIFT pressed & released
     let shiftPressed = false;
     document.addEventListener('keydown', function(e) {
         if (e.shiftKey) {
             shiftPressed = true;
-            shiftIndicator.style.backgroundColor = "green";
+            shiftIndicator.style.backgroundColor = "#588157";
         }
     });
     document.addEventListener('keyup', function(e) {
@@ -828,19 +829,15 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleKeyDown(e) {
         const keyPressTime = performance.now(); // for latency
         const key = e.key.toLowerCase();
-
         // allow 'r' and 'Shift' to bypass preventDefault
-        if (key != 'r' && key != 'Shift') {
+        if (key != 'r' && key != 'shift') {
             e.preventDefault(); 
             // to stop other action e.g. shortcuts & spacebar scrolling from happening
             // r is let through to reload
         } 
-
         // note / transpose logic (works for all keys)
         if (key in letterMap && !pressedKeys.has(key)) { 
-
             incrementWater();
-
             // key in noteplaying map: play MIDI note
             pressedKeys.add(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
@@ -850,11 +847,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const audioStartTime = performance.now();
             const latency = audioStartTime - keyPressTime;
             console.log(`Latency: ${latency} ms`); 
-
             currentInstrument.triggerAttack(Tone.Frequency(midiNote, "midi"));
-            document.getElementById(key).style.backgroundColor = "green"; // lights up key to green
+            document.getElementById(key).style.backgroundColor = "#588157"; // lights up key to green
             incrementCumKeypress();
-
         } else if (key in pitchMap && !pressedKeys.has(key)) {
             // detecting for transposing. number keys
             lastPressedTransposeKey = key;
@@ -864,23 +859,21 @@ document.addEventListener("DOMContentLoaded", () => {
             scaleValueBox2.innerHTML = transposeMap[pitchMap[key]]; // returns the same scale for better visualisation
             updateVisualGuide(key);
             updateStatusMsg(`transpose value updated to: ${pitchMap[key]}`);
-        } else if (key == 'tab') { // not 'Tab' because i lowercased it LOLL
+        } else if (e.key == 'CapsLock') {
             if (stopAudioWhenReleased === true) {
                 stopAudioWhenReleased = false;
-                stopAudioWhenReleasedButton.style.backgroundColor = "red";
+                stopAudioWhenReleasedButton.style.backgroundColor = "#F08080";
                 stopAudioWhenReleasedButton.textContent = "false"
-            } 
-            else {
+            } else {
                 stopAudioWhenReleased = true;
-                stopAudioWhenReleasedButton.style.backgroundColor = "green";
+                stopAudioWhenReleasedButton.style.backgroundColor = "#588157";
                 stopAudioWhenReleasedButton.textContent = "true"
             }
-        }   else if (key == ' ' || key == 'spacebar') {
+        } else if (key == ' ' || key == 'spacebar') {
             toggleLights();
-        } 
-            else if (key == 'escape') {
-                toggleMenu();
-            }
+        } else if (key == 'escape') { 
+            toggleMenu();
+        }
         // detect arrow key: octave change
         switch(e.key) {
             case 'ArrowLeft':
@@ -895,9 +888,7 @@ document.addEventListener("DOMContentLoaded", () => {
             case 'ArrowUp':
                 octaveUp(pitchMap[key]);
                 break;
-        }      
-        
-        
+        }         
     }
     
     function handleKeyUp(e) {
@@ -932,7 +923,7 @@ document.addEventListener("DOMContentLoaded", () => {
         statusDiv.scrollTop = statusDiv.scrollHeight;
     }
 
-        // ===========================================
+    // ===========================================
     // LOGGING: NOTE PLAYING HISTORY
 
     function updateNoteHistory(note) {
@@ -946,7 +937,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function midiToSPN(midiNumber) {
-        const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'Bb', 'B'];
         const noteIndex = midiNumber % 12;
         const octave = Math.floor((midiNumber - 12) / 12) - 1;
         return noteNames[noteIndex] + octave;

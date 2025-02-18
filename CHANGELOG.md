@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.11.2 - 2025-02-18](#0112---2025-02-18)
 - [0.11.1 - 2025-02-17](#0111---2025-02-17)
 - [0.11.0 - 2025-02-16](#0110---2025-02-16)
 - [0.10.1 - 2025-02-14](#0101---2025-02-14)
@@ -26,8 +27,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - [0.1.0 - 2025-01-20](#010---2025-01-20)
 - [0.0.0 - 2025-01-18](#000---2025-01-18)
 
----
-
 <!-- 
 ## [X.X.X] - 2025-MM-DD
 ### Added
@@ -39,6 +38,24 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 - 
  -->
+
+
+<!-- 
+
+FUTURE PLANS
+
+- actual real sustain pedal key. tab to sustain and release tab to release
+
+
+
+
+ -->
+
+## [0.11.2] - 2025-02-18
+### Changed
+- stop audio when key released: tab --> capslock
+- noteHistory: A# --> Bb
+- button colour: more muted
 
 
 ## [0.11.1] - 2025-02-17
