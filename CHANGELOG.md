@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.11.3 - 2025-02-19](#0113---2025-02-19)
 - [0.11.2 - 2025-02-18](#0112---2025-02-18)
 - [0.11.1 - 2025-02-17](#0111---2025-02-17)
 - [0.11.0 - 2025-02-16](#0110---2025-02-16)
@@ -50,6 +51,17 @@ FUTURE PLANS
 
 
  -->
+
+## [0.11.3] - 2025-02-19
+### Added
+- clear noteHistory feature 
+- title for noteHistory
+
+### Changed
+- visual guide background: clear --> white (80% opaque) (incl. shift indicator)
+- visual guide octave number: normal text --> subscript
+- visual guide: Eb --> D#
+
 
 ## [0.11.2] - 2025-02-18
 ### Changed

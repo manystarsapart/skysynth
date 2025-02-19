@@ -69,7 +69,9 @@
                 <i class="fa-solid fa-ban shrink-0 w-[50px]"></i>
                 <div class="hidden group-hover:block ml-2 whitespace-nowrap">
                     misc: <br \>
-                    <button id="clear-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">clear status messages</button>
+                    <button id="clear-status-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">clear status messages</button>
+                    <br \>
+                    <button id="clear-note-history-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">clear note history</button>
                 </div>
             </li>
 
@@ -136,7 +138,7 @@
                 4. water level does not cover the entire vertical screen if using low viewport width
                 5. tabbing away using ctrl + shift + tab causes shift to be always held. press again to resolve issue
                 6. low viewport width also squishes the note visual guide
-                
+                7. website may be too zoomed in while accessing. doesnt happen on mine for some reason
                 
                 -->
             
@@ -146,10 +148,10 @@
 </header>
 
 <main class="-z-10">
-
+<div class="fixed right-10 top-0 m-4"> note history:
     <div id="notes-div" class="fixed max-h-60 min-h-40 right-10 top-5 text-right p-5 m-4 overflow-y-scroll">
-
     </div>
+</div>
 
     <ul class="text-xl">
         <li class="text-yellow-800">current transpose value = <span id="transpose-value">0</span> | current key: <span id="scale-value">C</span></li> 
@@ -168,71 +170,101 @@
 
     <br \>
 
-    <div id="shift-indicator" class="fixed left-10 top-[60%] p-3 m-1 rounded-lg border-2 border-black">
+    <div id="shift-indicator" class="fixed left-10 top-[60%] p-3 m-1 rounded-lg border-2 border-black bg-white/80">
         shift held
     </div>
 
 
     <div class="w-full gap-20 flex flex-row items-center justify-center"> <!-- note visual guides-->
         <div id="notes-div-left" class="grid grid-cols-5 gap-1 p-1 text-5xl">
-            <div id="q" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                C2
+            <div id="q" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    C<sub class="text-lg">2</sub>
+                </div>
                 <span class="text-2xl">Q</span>
             </div>
-            <div id="w" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                D2
+            <div id="w" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    D<sub class="text-lg">2</sub>
+                </div>
                 <span class="text-2xl">W</span>
             </div>
-            <div id="e" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                E2
+            <div id="e" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    E<sub class="text-lg">2</sub>
+                </div>
                 <span class="text-2xl">E</span>
             </div>
-            <div id="r" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                F2
+            <div id="r" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    F<sub class="text-lg">2</sub>
+                </div>
                 <span class="text-2xl">R</span>
             </div>
-            <div id="t" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                G2
+            <div id="t" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    G<sub class="text-lg">2</sub>
+                </div>
                 <span class="text-2xl">T</span>
             </div>
-            <div id="a" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                A2
+            <div id="a" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    A<sub class="text-lg">2</sub>
+                </div>
                 <span class="text-2xl">A</span>
             </div>
-            <div id="s" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                B2
+            <div id="s" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    B<sub class="text-lg">2</sub>
+                </div>
                 <span class="text-2xl">S</span>
             </div>
-            <div id="d" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                C3
+            <div id="d" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    C<sub class="text-lg">3</sub>
+                </div>
                 <span class="text-2xl">D</span>
             </div>
-            <div id="f" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                D3
+            <div id="f" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    D<sub class="text-lg">3</sub>
+                </div>
                 <span class="text-2xl">F</span>
             </div>
-            <div id="g" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                E3
+            <div id="g" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    E<sub class="text-lg">3</sub>
+                </div>
                 <span class="text-2xl">G</span>
             </div>
-            <div id="z" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                F3
+            <div id="z" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    F<sub class="text-lg">3</sub>
+                </div>
                 <span class="text-2xl">Z</span>
             </div>
-            <div id="x" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                G3
+            <div id="x" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    G<sub class="text-lg">3</sub>
+                </div>
                 <span class="text-2xl">x</span> 
             </div>
-            <div id="c" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                A3
+            <div id="c" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    A<sub class="text-lg">3</sub>
+                </div>
                 <span class="text-2xl">C</span>
             </div>
-            <div id="v" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                B3
+            <div id="v" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    B<sub class="text-lg">3</sub>
+                </div>
                 <span class="text-2xl">V</span>
             </div>
-            <div id="b" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                C4
+            <div id="b" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    C<sub class="text-lg">4</sub>
+                </div>
                 <span class="text-2xl">B</span>
             </div>
 
@@ -243,64 +275,94 @@
             F G A B C  
             -->
         <div id="notes-div-right" class="grid grid-cols-5 gap-1 p-1 text-5xl">
-            <div id="y" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                C3
+            <div id="y" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    C<sub class="text-lg">3</sub>
+                </div>
                 <span class="text-2xl">Y</span>
             </div>
-            <div id="u" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                D3
+            <div id="u" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    D<sub class="text-lg">3</sub>
+                </div>
                 <span class="text-2xl">U</span>
             </div>
-            <div id="i" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                E3
+            <div id="i" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    E<sub class="text-lg">3</sub>
+                </div>
                 <span class="text-2xl">I</span>
             </div>
-            <div id="o" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                F3
+            <div id="o" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    F<sub class="text-lg">3</sub>
+                </div>
                 <span class="text-2xl">O</span>
             </div>
-            <div id="p" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                G3
+            <div id="p" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    G<sub class="text-lg">3</sub>
+                </div>
                 <span class="text-2xl">P</span>
             </div>
-            <div id="h" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                A3
+            <div id="h" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    A<sub class="text-lg">3</sub>
+                </div>
                 <span class="text-2xl">H</span>
             </div>
-            <div id="j" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                B3
+            <div id="j" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    B<sub class="text-lg">3</sub>
+                </div>
                 <span class="text-2xl">J</span>
             </div>
-            <div id="k" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                C4
+            <div id="k" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    C<sub class="text-lg">4</sub>
+                </div>
                 <span class="text-2xl">K</span>
             </div>
-            <div id="l" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                D4
+            <div id="l" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    D<sub class="text-lg">4</sub>
+                </div>
                 <span class="text-2xl">L</span>
             </div>
-            <div id=";" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                E4
+            <div id=";" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    E<sub class="text-lg">4</sub>
+                </div>
                 <span class="text-2xl">;</span>
             </div>
-            <div id="n" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                F4
+            <div id="n" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    F<sub class="text-lg">4</sub>
+                </div>
                 <span class="text-2xl">N</span>
             </div>
-            <div id="m" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                G4
+            <div id="m" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    G<sub class="text-lg">4</sub>
+                </div>
                 <span class="text-2xl">M</span>
             </div>
-            <div id="," class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                A4
+            <div id="," class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    A<sub class="text-lg">4</sub>
+                </div>
                 <span class="text-2xl">,</span>
             </div>
-            <div id="." class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                B4
+            <div id="." class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    B<sub class="text-lg">4</sub>
+                </div>
                 <span class="text-2xl">.</span>
             </div>
-            <div id="/" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30">
-                C5
+            <div id="/" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
+                <div>
+                    C<sub class="text-lg">5</sub>
+                </div>
                 <span class="text-2xl">/</span>
             </div>
         </div>

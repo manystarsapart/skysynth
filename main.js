@@ -14,7 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const scaleValueBox = document.getElementById("scale-value");
     const scaleValueBox2 = document.getElementById("scale-value-2");
     const octaveValueBox = document.getElementById("octave-value");
-    const clearButton = document.getElementById("clear-button");
+    const clearStatusButton = document.getElementById("clear-status-button");
+    const clearNoteHistoryButton = document.getElementById("clear-note-history-button")
     const stopAudioWhenReleasedButton = document.getElementById("stop-audio-when-released-button");
     const shiftIndicator = document.getElementById("shift-indicator");
 
@@ -100,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
             lightSwitch.style.backgroundColor = "#F08080";
             waterMask.style.display = "none";
             updateStatusMsg("Lights out!");
+            toggleVGWhiteBg();
         }
         else {
             currentLightsOn = true;
@@ -107,6 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
             lightSwitch.style.backgroundColor = "#588157";
             waterMask.style.display = "block";
             updateStatusMsg("Lights back on!");
+            toggleVGWhiteBg();
         }
     }
 
@@ -115,13 +118,19 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     // ===========================================
-    // STATUS DIV
-    
-    clearButton.addEventListener("click", (e) => {
-        // clears status div
-        messages = [];
-        statusDiv.innerHTML = "";
-    })
+    // TOGGLE WHITE BACKGROUND ON VISUAL GUIDE
+
+    function toggleVGWhiteBg() {
+        let visualGuideChildrenL = document.getElementById("notes-div-left").children;
+        let visualGuideChildrenR = document.getElementById("notes-div-right").children;
+        shiftIndicator.classList.toggle("bg-white/80");
+        for (let i=0; i<visualGuideChildrenL.length; i++) {
+            visualGuideChildrenL[i].classList.toggle("bg-white/80");
+        }
+        for (let i=0; i<visualGuideChildrenR.length; i++) {
+            visualGuideChildrenR[i].classList.toggle("bg-white/80");
+        }
+    }
 
     // ===========================================
     // KEYBOARD SELECTION
@@ -377,7 +386,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'G': ['G', 'A', 'B', 'C', 'D', 'E', 'F#'],
         'G#': ['G#', 'Bb', 'C', 'C#', 'D#', 'F', 'G'],
         'A': ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'],
-        'Bb': ['Bb', 'C', 'D', 'Eb', 'F', 'G', 'A'],
+        'Bb': ['Bb', 'C', 'D', 'D#', 'F', 'G', 'A'],
         'B': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'Bb']
     };
 
@@ -415,9 +424,19 @@ document.addEventListener("DOMContentLoaded", () => {
             const note = keyNotes[noteIndex];
             const currentOctave = octaveBase + (countC - 1);
             if (leftright == 0) {
-                return `<div id="${preserveKeyIDLeft[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30 relative">${note}${currentOctave}<span class="text-2xl">${preserveKeyIDLeft[keyIDcount-1].toUpperCase()}</span></div>`;
+                return `<div id="${preserveKeyIDLeft[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 relative bg-white/80">
+                    <div>
+                    ${note}<sub class="text-lg">${currentOctave}</sub>
+                    </div>
+                    <span class="text-2xl">${preserveKeyIDLeft[keyIDcount-1].toUpperCase()}</span>
+                </div>`;
             } else {
-                return `<div id="${preserveKeyIDRight[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-2 text-center h-30 w-30 relative">${note}${currentOctave}<span class="text-2xl">${preserveKeyIDRight[keyIDcount-1].toUpperCase()}</span></div>`;
+                return `<div id="${preserveKeyIDRight[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 relative bg-white/80">
+                <div>
+                    ${note}<sub class="text-lg">${currentOctave}</sub>
+                </div>
+                <span class="text-2xl">${preserveKeyIDRight[keyIDcount-1].toUpperCase()}</span>
+                </div>`;
             }
         });
         // console.log(elements);
@@ -430,6 +449,12 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateVisualGuide(key) {
         notesDivL.innerHTML = mapNumbersToNotes(transposeMap[pitchMap[key]], 0);
         notesDivR.innerHTML = mapNumbersToNotes(transposeMap[pitchMap[key]], 1);
+        if (!currentLightsOn) {
+            toggleVGWhiteBg();
+            if (shiftIndicator.classList.contains("bg-white/80")) {
+                shiftIndicator.classList.toggle("bg-white/80");
+            }
+        }
     }
 
     // ===========================================
@@ -924,6 +949,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ===========================================
+    // CLEARING STATUS DIV
+    
+    clearStatusButton.addEventListener("click", (e) => {
+        // clears status div
+        messages = [];
+        statusDiv.innerHTML = "";
+    })
+
+    // ===========================================
     // LOGGING: NOTE PLAYING HISTORY
 
     function updateNoteHistory(note) {
@@ -942,5 +976,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const octave = Math.floor((midiNumber - 12) / 12) - 1;
         return noteNames[noteIndex] + octave;
     }
+
+        // ===========================================
+    // CLEARING NOTE HISTORY
+    
+    clearNoteHistoryButton.addEventListener("click", (e) => {
+        // clears note history
+        noteHistory = [];
+        notesDiv.innerHTML = "";
+    })
 
 });
