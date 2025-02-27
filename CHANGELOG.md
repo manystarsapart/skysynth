@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.11.4 - 2025-02-28](#0114---2025-02-28)
 - [0.11.3 - 2025-02-19](#0113---2025-02-19)
 - [0.11.2 - 2025-02-18](#0112---2025-02-18)
 - [0.11.1 - 2025-02-17](#0111---2025-02-17)
@@ -51,6 +52,12 @@ FUTURE PLANS
 
 
  -->
+
+## [0.11.4] - 2025-02-28
+
+### Changed
+- add access to old version (0.9.1) at [old.skysynth.space](https://www.old.skysynth.space)
+
 
 ## [0.11.3] - 2025-02-19
 ### Added
