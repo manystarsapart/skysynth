@@ -91,13 +91,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
                 // get localstorage
-                const localtotalWaterReward = parseInt(localStorage.getItem('totalWaterReward')) || 0;
+                const localTotalWaterReward = parseInt(localStorage.getItem('totalWaterReward')) || 0;
                 const localSavedWaterLevel = parseInt(localStorage.getItem('savedWaterLevel')) || 0;
                 const localCumulativeKeypress = parseInt(localStorage.getItem('cumulativeKeypress')) || 0;
                 const localCumulativeTime = parseInt(localStorage.getItem('cumulativeTime')) || 0;
 
                 // compare for max
-                const newtotalWaterReward = Math.max(dbData.totalWaterReward, localtotalWaterReward);
+                const newtotalWaterReward = Math.max(dbData.totalWaterReward, localTotalWaterReward);
                 const newSavedWaterLevel = Math.max(dbData.savedWaterLevel, localSavedWaterLevel);
                 const newCumulativeKeypress = Math.max(dbData.cumulativeKeypress, localCumulativeKeypress);
                 const newCumulativeTime = Math.max(dbData.cumulativeTime, localCumulativeTime);
@@ -144,13 +144,13 @@ document.addEventListener("DOMContentLoaded", () => {
     //         const dbData = docSnap.data();
             
     //         // get localstorage
-    //         const localtotalWaterReward = parseInt(localStorage.getItem('totalWaterReward')) || 0;
+    //         const localTotalWaterReward = parseInt(localStorage.getItem('totalWaterReward')) || 0;
     //         const localSavedWaterLevel = parseInt(localStorage.getItem('savedWaterLevel')) || 0;
     //         const localCumulativeKeypress = parseInt(localStorage.getItem('cumulativeKeypress')) || 0;
     //         const localCumulativeTime = parseInt(localStorage.getItem('cumulativeTime')) || 0;
 
     //         // compare for max
-    //         const newtotalWaterReward = Math.max(dbData.totalWaterReward, localtotalWaterReward);
+    //         const newtotalWaterReward = Math.max(dbData.totalWaterReward, localTotalWaterReward);
     //         const newSavedWaterLevel = Math.max(dbData.savedWaterLevel, localSavedWaterLevel);
     //         const newCumulativeKeypress = Math.max(dbData.cumulativeKeypress, localCumulativeKeypress);
     //         const newCumulativeTime = Math.max(dbData.cumulativeTime, localCumulativeTime);
@@ -292,13 +292,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const dbData = docSnap.data();
             
             // get localstorage
-            const localtotalWaterReward = parseInt(localStorage.getItem('totalWaterReward')) || 0;
+            const localTotalWaterReward = parseInt(localStorage.getItem('totalWaterReward')) || 0;
             const localSavedWaterLevel = parseInt(localStorage.getItem('savedWaterLevel')) || 0;
             const localCumulativeKeypress = parseInt(localStorage.getItem('cumulativeKeypress')) || 0;
             const localCumulativeTime = parseInt(localStorage.getItem('cumulativeTime')) || 0;
 
             // compare for max
-            const newtotalWaterReward = Math.max(dbData.totalWaterReward, localtotalWaterReward);
+            const newtotalWaterReward = Math.max(dbData.totalWaterReward, localTotalWaterReward);
             const newSavedWaterLevel = Math.max(dbData.savedWaterLevel, localSavedWaterLevel);
             const newCumulativeKeypress = Math.max(dbData.cumulativeKeypress, localCumulativeKeypress);
             const newCumulativeTime = Math.max(dbData.cumulativeTime, localCumulativeTime);
