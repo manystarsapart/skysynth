@@ -23,12 +23,12 @@
 
 <header>
     <h1 class="text-5xl font-pressstart2p p-5">SkySynth</h1>
-    <nav id="navbar" class="bg-[#80b3ff] z-1000 rounded-l-2xl text-black fixed top-0 bottom-0 right-0 h-full w-[55px] overflow-hidden transition-[width] duration-200 ease-linear transform-gpu scale-100 shadow-[1px_0_15px_rgba(0,0,0,0.07)] opacity-100 hover:w-[400px] group">
+    <nav id="navbar" class="bg-[#80b3ff] z-1000 rounded-l-2xl text-black fixed top-0 bottom-0 right-0 h-full w-[55px] overflow-hidden transition-[width] duration-200 ease-linear transform-gpu scale-100 shadow-[1px_0_15px_rgba(0,0,0,0.07)] opacity-100 hover:w-[400px] group min-h-[60px]">
         <h1 id="menu-title" class="text-xl p-3 m-1 text-center hidden group-hover:block">menu (esc)</h1>
         <ul class="text-sm p-1 m-1">
 
             <!-- INSTRUMENT SELECTION -->
-            <li class="flex items-center pt-2">
+            <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-gear shrink-0 w-[50px]"></i>
                 <div class="hidden group-hover:block ml-2 whitespace-nowrap">
                     instrument: <br \>
@@ -37,7 +37,7 @@
             </li>
 
             <!-- EFFECT SELECTION -->
-            <li class="flex items-center pt-2">
+            <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-wand-magic-sparkles shrink-0 w-[50px]"></i>
                 <div class="hidden group-hover:block ml-2 whitespace-nowrap">
                     effect (experimental): <br \>
@@ -47,7 +47,7 @@
             </li>
 
             <!-- FINAL GAIN SLIDEBAR -->
-            <li class="flex items-center pt-2">
+            <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-volume-high shrink-0 w-[50px]"></i>
                 <div class="hidden group-hover:block ml-2 whitespace-nowrap">
                     final gain: <span id="volume-value">100% (default)</span><br \>
@@ -56,7 +56,7 @@
             </li>
 
             <!-- KEYBOARD SELECT -->
-            <li class="flex items-center pt-2">
+            <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-keyboard shrink-0 w-[50px]"></i>
                 <div class="hidden group-hover:block ml-2 whitespace-nowrap">
                    keyboard: <br \> 
@@ -65,7 +65,7 @@
             </li>
 
             <!-- CLEAR STATUSDIV -->
-            <li class="flex items-center pt-2">
+            <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-ban shrink-0 w-[50px]"></i>
                 <div class="hidden group-hover:block ml-2 whitespace-nowrap">
                     misc: <br \>
@@ -76,7 +76,7 @@
             </li>
 
             <!-- STOP AUDIO WHEN KEY RELEASED -->
-            <li class="flex items-center pt-2">
+            <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-file-audio shrink-0 w-[50px]"></i>
                 <div class="hidden group-hover:block ml-2 whitespace-nowrap">
                     stop audio when key released: <br \>
@@ -85,7 +85,7 @@
             </li>
 
             <!-- RECORDING FUNCTION -->
-            <li class="flex items-center pt-2">
+            <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-record-vinyl w-[50px]"></i>
                 <div class="hidden group-hover:block ml-2 whitespace-nowrap">
                     recording: <br \>
@@ -93,14 +93,14 @@
                     <button id="stop-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">stop recording<button>
                 </div>
             </li>
-            <li class="flex items-center pt-2">
+            <li class="flex items-center pt-2 min-h-[72px]">
                 <!-- <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> -->
                 <div class="hidden group-hover:block ml-2 whitespace-nowrap">
                     <button id="play-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">play recording<button>
                     <button id="stop-playback-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">stop playback</button>
                 </div>
             </li>
-            <li class="flex items-center pt-2">
+            <li class="flex items-center pt-2 min-h-[72px]">
                 <!-- <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> -->
                 <div class="hidden group-hover:block ml-2 whitespace-nowrap">
                     <button id="save-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">save recording<button>
@@ -109,7 +109,7 @@
             </li>
 
             <!-- TOGGLE LIGHTS ON / OFF -->
-            <li class="flex items-center pt-2">
+            <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-lightbulb shrink-0 w-[50px]"></i>
                 <div class="hidden group-hover:block ml-2 whitespace-nowrap">
                     light switch:

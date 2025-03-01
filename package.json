@@ -11,7 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tailwindcss/cli": "^4.0.0",
-    "tailwindcss": "^4.0.0"
-  }
+    "@tailwindcss/cli": "^4.0.9",
+    "tailwindcss": "^4.0.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manystarsapart/skysynth.git"
+  },
+  "bugs": {
+    "url": "https://github.com/manystarsapart/skysynth/issues"
+  },
+  "homepage": "https://github.com/manystarsapart/skysynth#readme"
 }
