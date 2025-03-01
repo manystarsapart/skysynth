@@ -5,9 +5,11 @@ deployed on [this website](https://www.skysynth.space/) as of 2025.
 
 "absolute orchestra" ~ fwyr
 
-## Changelog
+## Changelog & Known issues
 
 For a detailed list of changes, see the [CHANGELOG.md](CHANGELOG.md) file.
+
+To see the list of known issues (in the process of fixing as of now), see the [ISSUES.md](ISSUES.md) file.
 
 ## How to run
 everything is written in vanilla html and js. tailwindcss is used for styling purposes.

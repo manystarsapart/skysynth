@@ -61,6 +61,7 @@ FUTURE PLANS
 ### Added
 - EXPERIMENTAL: authentication & user login using firebase
 - hello, display name
+- known issues markdown file
 
 ### Changed
 - MAJOR: reorganise dir structure
