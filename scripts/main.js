@@ -90,6 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const userDoc = doc(db, 'users', user.uid);
 
             try {
+                const docSnap = getDoc(userDoc);
+                const dbData = docSnap.data();
                 // get localstorage
                 const localTotalWaterReward = parseInt(localStorage.getItem('totalWaterReward')) || 0;
                 const localSavedWaterLevel = parseInt(localStorage.getItem('savedWaterLevel')) || 0;
