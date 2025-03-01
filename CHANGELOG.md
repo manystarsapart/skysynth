@@ -54,6 +54,15 @@ FUTURE PLANS
 
  -->
 
+## [0.12.0] - 2025-03-01
+
+### Added
+- EXPERIMENTAL: authentication & user login using firebase
+
+### Changed
+- MAJOR: reorganise dir structure
+
+
 ## [0.11.5] - 2025-03-01
 
 ### Fixed

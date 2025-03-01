@@ -1,5 +1,43 @@
-// const { freemem } = require("os");
+// ===============================================
+// import { updateOnUnload } from "./auth.js";
+// // const { freemem } = require("os");
 
+// import { initializeApp } from "firebase/app";
+// // import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+// import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword } from "firebase/auth";
+// import { getFirestore, doc, setDoc } from "firebase/firestore/lite";
+
+// i am using CDN links here because i have yet to use a bundler
+// how do you use a bundler
+
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js'
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js'
+import { getFirestore, doc, setDoc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js'
+
+
+const firebaseConfig = {
+    // no need for secrets
+    apiKey: "AIzaSyCgiE5ApD5dSnUI2gZKGWjPR4yQc_-BXP4",
+    authDomain: "skysynth-c537d.firebaseapp.com",
+    projectId: "skysynth-c537d",
+    storageBucket: "skysynth-c537d.firebasestorage.app",
+    messagingSenderId: "294068589398",
+    appId: "1:294068589398:web:6d45ea54f5bf937b35fcf7"
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+// // TODO: APPCHECK
+// const appCheck = initializeAppCheck(app, {
+//     provider: new ReCaptchaV3Provider('6LdjZOYqAAAAALIvUr25lZxVSgJ-wPJSYSUAQGWI'),
+//     isTokenAutoRefreshEnabled: true
+//   });
+
+
+
+// ===============================================
+// responsive js for website
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -18,6 +56,200 @@ document.addEventListener("DOMContentLoaded", () => {
     const clearNoteHistoryButton = document.getElementById("clear-note-history-button")
     const stopAudioWhenReleasedButton = document.getElementById("stop-audio-when-released-button");
     const shiftIndicator = document.getElementById("shift-indicator");
+
+    // ===========================================
+    // LOGIN
+
+    const auth = getAuth();
+    const db = getFirestore();
+
+    let user = null;
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        try {
+            // sign in
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            user = userCredential.user;
+
+        } catch (error) {
+            console.error("error in login:", error);
+            // TODO: need to display error handling for specific errors?
+        }
+      });
+
+    async function updateOnUnload() {
+        const user = auth.currentUser; 
+
+        if (user) {
+            console.log('updating db on unload...');
+            const userDoc = doc(db, 'users', user.uid);
+
+            try {
+                const localData = {
+                    totalWaterReward: parseInt(localStorage.getItem('totalWaterReward')) || 0,
+                    savedWaterLevel: parseInt(localStorage.getItem('savedWaterLevel')) || 0,
+                    cumulativeKeypress: parseInt(localStorage.getItem('cumulativeKeypress')) || 0,
+                    cumulativeTime: parseInt(localStorage.getItem('cumulativeTime')) || 0
+                };
+                
+                await updateDoc(userDoc, {
+                    totalWaterReward: localData.totalWaterReward,
+                    savedWaterLevel: localData.savedWaterLevel,
+                    cumulativeKeypress: localData.cumulativeKeypress,
+                    cumulativeTime: localData.cumulativeTime
+                });
+
+                console.log('firestore updated');
+            } 
+            catch (error) {
+                console.error('error updating firestore', error);
+            }
+        }
+    }
+
+    // ===========================================
+    // LOG OUT
+
+    const logoutButton = document.getElementById("logout-button");
+    logoutButton.addEventListener('click', () => auth.signOut())
+        
+
+    // ===========================================
+    // SIGN UP
+
+    document.getElementById("signup-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const signUpEmail = document.getElementById("signup-email").value;
+        const signUpPassword = document.getElementById("signup-password").value; 
+        const displayName = document.getElementById("signup-display-name").value;
+
+        try {
+            // create user account
+            const userCredential = await createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword);
+            const user = userCredential.user;
+
+            // update localstorage into db
+            const userData = {
+                displayName: displayName,
+                totalWaterReward: parseInt(localStorage.getItem('totalWaterReward')) || 0,
+                savedWaterLevel: parseInt(localStorage.getItem('savedWaterLevel')) || 0,
+                cumulativeKeypress: parseInt(localStorage.getItem('cumulativeKeypress')) || 0,
+                cumulativeTime: parseInt(localStorage.getItem('cumulativeTime')) || 0,
+
+            };
+
+            // create user document
+            await setDoc(doc(db, "users", user.uid), {
+                ...userData,
+                email: user.email,
+                createdAt: new Date()
+            });
+
+            console.log("created user");
+
+        } catch (error) {
+            console.error("error in signup:", error);
+            // TODO: need to display error handling for specific errors?
+        }
+    })
+
+    // ===========================================
+    // MODAL OVERLAY
+
+    const accountButton = document.getElementById("account-button");
+    const modalOverlay = document.getElementById("modal-overlay");
+    const closeModalButton = document.getElementById("close-modal");
+    const mainContent = document.getElementById("main-content");
+
+    accountButton.addEventListener('click', () => toggleModal(true));
+    closeModalButton.addEventListener('click', () => toggleModal(false));
+
+    function toggleModal(show) {
+        if (show) {
+            mainContent.classList.add("pointer-events-none", "opacity-50");
+
+            modalOverlay.classList.remove("hidden");
+            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('keyup', handleKeyUp);
+        } else {
+            mainContent.classList.remove("pointer-events-none", "opacity-50");
+
+            modalOverlay.classList.add("hidden");
+            document.addEventListener('keydown', handleKeyDown);
+            document.addEventListener('keyup', handleKeyUp);
+        }
+    }
+
+    // ===========================================
+    // DETECT FOR LOGIN
+
+    onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        console.log('user is logged in:', user);
+        
+        try {
+        const userDoc = doc(db, "users", user.uid);
+        const docSnap = await getDoc(userDoc);
+
+        document.getElementById('logout-button').style.display = 'block';
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('signup-form').style.display = 'none';
+
+        if (docSnap.exists()) {
+            const dbData = docSnap.data();
+            
+            // get localstorage
+            const localtotalWaterReward = parseInt(localStorage.getItem('totalWaterReward')) || 0;
+            const localSavedWaterLevel = parseInt(localStorage.getItem('savedWaterLevel')) || 0;
+            const localCumulativeKeypress = parseInt(localStorage.getItem('cumulativeKeypress')) || 0;
+            const localCumulativeTime = parseInt(localStorage.getItem('cumulativeTime')) || 0;
+
+            // compare for max
+            const newtotalWaterReward = Math.max(dbData.totalWaterReward, localtotalWaterReward);
+            const newSavedWaterLevel = Math.max(dbData.savedWaterLevel, localSavedWaterLevel);
+            const newCumulativeKeypress = Math.max(dbData.cumulativeKeypress, localCumulativeKeypress);
+            const newCumulativeTime = Math.max(dbData.cumulativeTime, localCumulativeTime);
+
+            // update firestore
+            await updateDoc(userDoc, {
+            totalWaterReward: newtotalWaterReward,
+            savedWaterLevel: newSavedWaterLevel,
+            cumulativeKeypress: newCumulativeKeypress,
+            cumulativeTime: newCumulativeTime
+            });
+
+            // update localStorage
+            localStorage.setItem('totalWaterReward', newtotalWaterReward);
+            localStorage.setItem('savedWaterLevel', newSavedWaterLevel);
+            localStorage.setItem('cumulativeKeypress', newCumulativeKeypress);
+            localStorage.setItem('cumulativeTime', newCumulativeTime);
+
+        } else {
+
+            // create document if document does not exist
+            await setDoc(userDoc, {
+            totalWaterReward: parseInt(localStorage.getItem('totalWaterReward')) || 0,
+            savedWaterLevel: parseInt(localStorage.getItem('savedWaterLevel')) || 0,
+            cumulativeKeypress: parseInt(localStorage.getItem('cumulativeKeypress')) || 0,
+            cumulativeTime: parseInt(localStorage.getItem('cumulativeTime')) || 0,
+            email: user.email,
+            createdAt: new Date()
+            });
+        }
+        } catch (error) {
+        console.error('error syncing data:', error);
+        }
+    } else {
+        console.log('user is logged out');
+        document.getElementById('logout-button').style.display = 'none';
+        document.getElementById('login-form').style.display = 'block';
+        document.getElementById('signup-form').style.display = 'block';
+    }
+    });
+
 
 
     // ===========================================
@@ -550,7 +782,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "D#6": "ds6.mp3",
                 "D#7": "ds7.mp3"
             },
-            baseUrl: "./assets/audio/piano/",
+            baseUrl: "../assets/audio/piano/",
             onload: () => {
                 console.log("piano samples loaded");
             }, 
@@ -564,7 +796,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "D#4": "ds4.mp3",
                 "D#5": "ds5.mp3",
             },
-            baseUrl: "./assets/audio/eguitar/",
+            baseUrl: "../assets/audio/eguitar/",
             onload: () => {
                 console.log("e-guitar samples loaded");
             }, 
@@ -580,7 +812,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "D#6": "ds6.mp3",
                 "D#7": "ds7.mp3"
             },
-            baseUrl: "./assets/audio/musicbox/",
+            baseUrl: "../assets/audio/musicbox/",
             onload: () => {
                 console.log("musicbox samples loaded");
             }, 
@@ -594,7 +826,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "D#5": "ds5.mp3",
                 "D#6": "ds6.mp3",
             },
-            baseUrl: "./assets/audio/flute/",
+            baseUrl: "../assets/audio/flute/",
             onload: () => {
                 console.log("flute samples loaded");
             }, 
@@ -608,7 +840,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "D#4": "ds4.mp3",
                 "D#5": "ds5.mp3",
             },
-            baseUrl: "./assets/audio/horn/",
+            baseUrl: "../assets/audio/horn/",
             onload: () => {
                 console.log("horn samples loaded");
             }, 
@@ -622,7 +854,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "D#5": "ds5.mp3",
                 "D#6": "ds6.mp3",
             },
-            baseUrl: "./assets/audio/bugle/",
+            baseUrl: "../assets/audio/bugle/",
             onload: () => {
                 console.log("bugle samples loaded");
             }, 
@@ -643,7 +875,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "F4": "f4.mp3",
                 "F5": "f5.mp3"
             },
-            baseUrl: "./assets/audio/meow/",
+            baseUrl: "../assets/audio/meow/",
             onload: () => {
                 console.log("meow samples loaded");
             }, 
@@ -660,7 +892,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "C6": "c6.wav",
                 "F6": "f6.wav",
             },
-            baseUrl: "./assets/audio/otto-doo/",
+            baseUrl: "../assets/audio/otto-doo/",
             onload: () => {
                 console.log("otto doo samples loaded");
             }, 
@@ -677,7 +909,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "C6": "c6.wav",
                 "F6": "f6.wav",
             },
-            baseUrl: "./assets/audio/otto-synth/",
+            baseUrl: "../assets/audio/otto-synth/",
             onload: () => {
                 console.log("otto synth samples loaded");
             }, 
@@ -977,7 +1209,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return noteNames[noteIndex] + octave;
     }
 
-        // ===========================================
+    // ===========================================
     // CLEARING NOTE HISTORY
     
     clearNoteHistoryButton.addEventListener("click", (e) => {
@@ -986,4 +1218,11 @@ document.addEventListener("DOMContentLoaded", () => {
         notesDiv.innerHTML = "";
     })
 
+    // ===========================================
+    // UPDATING ALL VALUES FROM LOCALSTORAGE TO DB ON PAGE EXIT
+    window.addEventListener("beforeunload", () => {
+        updateOnUnload();
+    });
+
 });
+

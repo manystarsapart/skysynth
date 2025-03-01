@@ -10,11 +10,11 @@
 
     <title>SkySynth</title>
     <link rel="icon" type="image/png" href="./assets/thumbnail.jpeg"/>
-    <link rel="stylesheet" href="./output.css">
-    <script src="main.js"></script>
-    <script src="./Tone.min.js"></script>
+    <link rel="stylesheet" href="./styles/output.css">
+    <script src="./scripts/main.js" type="module"></script>
+    <script src="./scripts/Tone.min.js"></script>
+    <!-- ^is this needed after i bundle it? -->
     <script src="https://kit.fontawesome.com/8e2e927b48.js" crossorigin="anonymous"></script>
-    <!-- <script src="https://unpkg.com/@tonejs/midi"></script> -->
 </head>
 <body class="overflow-hidden h-screen bg-gradient-to-t p-10 from-[#A8B5E0] via-[#B4CBF0] to-[#DAF0F7]">
 <!-- <body class="h-screen bg-[url(./assets/SAOlake.jpg)]"> -->
@@ -23,6 +23,47 @@
 
 <header>
     <h1 class="text-5xl font-pressstart2p p-5">SkySynth</h1>
+
+    <button id="account-button" class="text-black p-4 m-2 rounded-lg border-2">account stuff</button>
+    <!-- account place -->
+    <div id="modal-overlay" class="fixed top-0 left-0 w-full h-full bg-gray-800/50 hidden justify-center items-center z-50">
+        <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-4 relative z-51">
+            
+            <button id="close-modal" class="absolute top-2 right-2">×</button>
+
+            <div id="modal-content">
+                <div> 
+                    <!-- login -->
+                    <h1 class="text-5xl">EXPERIMENTAL</h1>
+                    <form id="login-form">
+                        <input type="email" id="login-email" placeholder="Email" required>
+                        <input type="password" id="login-password" placeholder="Password" required>
+                        <button type="submit">Login</button>
+                        </form>
+                        
+                        <p id="login-error" style="color: red;"></p>
+            
+            
+                </div>
+    
+                <div>
+                    <!-- sign up -->
+                    <form id="signup-form">
+                        <input type="email" id="signup-email" placeholder="email" required>
+                        <input type="password" id="signup-password" placeholder="password" required>
+                        <input type="text" id="signup-display-name" placeholder="display name" required>
+                        <button type="submit">sign up</button>
+                    </form>
+                
+                    <p id="signup-error" class="text-red-500"></p>
+                </div>
+    
+                <button id="logout-button">log out</button>
+            </div>
+            
+        </div>
+    </div>
+
     <nav id="navbar" class="bg-[#80b3ff] z-1000 rounded-l-2xl text-black fixed top-0 bottom-0 right-0 h-full w-[55px] overflow-hidden transition-[width] duration-200 ease-linear transform-gpu scale-100 shadow-[1px_0_15px_rgba(0,0,0,0.07)] opacity-100 hover:w-[400px] group min-h-[60px]">
         <h1 id="menu-title" class="text-xl p-3 m-1 text-center hidden group-hover:block">menu (esc)</h1>
         <ul class="text-sm p-1 m-1">
@@ -150,7 +191,7 @@
     </nav>
 </header>
 
-<main class="-z-10">
+<main id="main-content" class="-z-10">
 <div class="fixed right-10 top-0 m-4"> note history:
     <div id="notes-div" class="fixed max-h-60 min-h-40 right-10 top-5 text-right p-5 m-4 overflow-y-scroll">
     </div>
@@ -371,15 +412,13 @@
         </div>
     </div>
 
-<div>
+<div class="pointer-events-none opacity-50">
     
 </div>
-
 
     <div id="status-div" class="max-h-60 min-h-40 text-left p-5 m-4 overflow-y-scroll">
         
     </div>
-
 </main>
 
     

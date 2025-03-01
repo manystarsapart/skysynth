@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./*.html"],
+  content: ["./index.html"],
   purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {

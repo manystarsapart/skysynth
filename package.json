@@ -6,14 +6,13 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx @tailwindcss/cli -i ./input.css -o ./output.css --watch"
+    "dev": "npx @tailwindcss/cli -i ./styles/input.css -o ./styles/output.css --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@tailwindcss/cli": "^4.0.9",
-    "dotenv": "^16.4.7",
     "firebase": "^11.4.0",
     "tailwindcss": "^4.0.9"
   },
@@ -24,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/manystarsapart/skysynth/issues"
   },
-  "homepage": "https://github.com/manystarsapart/skysynth#readme"
+  "homepage": "https://github.com/manystarsapart/skysynth#readme",
+  "devDependencies": {
+    "webpack-cli": "^6.0.1"
+  }
 }
