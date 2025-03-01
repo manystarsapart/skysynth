@@ -312,6 +312,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             // update localStorage
+            localStorage.setItem('displayName', dbData.displayName);
+            const displayNameBox = document.getElementById("display-name-box");
+            displayNameBox.textContent = dbData.displayName;
+
             localStorage.setItem('totalWaterReward', newtotalWaterReward);
             totalWaterReward = newtotalWaterReward;
             waterRewardDisplay.textContent = totalWaterReward;
@@ -354,6 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('signup-form').style.display = 'block';
     }
     });
+
 
     // ===========================================
     // MENU TOGGLE
