@@ -10,7 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
-- [0.12.0 - 2025-03-02](#0120---2025-03-01)
+- [0.12.0 - 2025-03-02](#0120---2025-03-02)
 - [0.11.5 - 2025-03-01](#0115---2025-03-01)
 - [0.11.4 - 2025-02-28](#0114---2025-02-28)
 - [0.11.3 - 2025-02-19](#0113---2025-02-19)
@@ -56,13 +56,14 @@ FUTURE PLANS
 
  -->
 
-## [0.12.0] - 2025-03-01
+## [0.12.0] - 2025-03-02
 
 ### Added
 - EXPERIMENTAL: authentication & user login using firebase
 
 ### Changed
 - MAJOR: reorganise dir structure
+- removed my sanity as i try to learn databases
 
 
 ## [0.11.5] - 2025-03-01

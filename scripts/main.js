@@ -90,18 +90,24 @@ document.addEventListener("DOMContentLoaded", () => {
             const userDoc = doc(db, 'users', user.uid);
 
             try {
-                const localData = {
-                    totalWaterReward: parseInt(localStorage.getItem('totalWaterReward')) || 0,
-                    savedWaterLevel: parseInt(localStorage.getItem('savedWaterLevel')) || 0,
-                    cumulativeKeypress: parseInt(localStorage.getItem('cumulativeKeypress')) || 0,
-                    cumulativeTime: parseInt(localStorage.getItem('cumulativeTime')) || 0
-                };
-                
+                // get localstorage
+                const localtotalWaterReward = parseInt(localStorage.getItem('totalWaterReward')) || 0;
+                const localSavedWaterLevel = parseInt(localStorage.getItem('savedWaterLevel')) || 0;
+                const localCumulativeKeypress = parseInt(localStorage.getItem('cumulativeKeypress')) || 0;
+                const localCumulativeTime = parseInt(localStorage.getItem('cumulativeTime')) || 0;
+
+                // compare for max
+                const newtotalWaterReward = Math.max(dbData.totalWaterReward, localtotalWaterReward);
+                const newSavedWaterLevel = Math.max(dbData.savedWaterLevel, localSavedWaterLevel);
+                const newCumulativeKeypress = Math.max(dbData.cumulativeKeypress, localCumulativeKeypress);
+                const newCumulativeTime = Math.max(dbData.cumulativeTime, localCumulativeTime);
+
+                // update firestore
                 await updateDoc(userDoc, {
-                    totalWaterReward: localData.totalWaterReward,
-                    savedWaterLevel: localData.savedWaterLevel,
-                    cumulativeKeypress: localData.cumulativeKeypress,
-                    cumulativeTime: localData.cumulativeTime,
+                totalWaterReward: newtotalWaterReward,
+                savedWaterLevel: newSavedWaterLevel,
+                cumulativeKeypress: newCumulativeKeypress,
+                cumulativeTime: newCumulativeTime
                 });
 
                 // globalStartTime = Date.now();
@@ -122,83 +128,83 @@ document.addEventListener("DOMContentLoaded", () => {
         
 
 
-    //
-    if (user) {
-        console.log('user is logged in:', user);
+    // //
+    // if (user) {
+    //     console.log('user is logged in:', user);
         
-        try {
-        const userDoc = doc(db, "users", user.uid);
-        const docSnap = getDoc(userDoc);
+    //     try {
+    //     const userDoc = doc(db, "users", user.uid);
+    //     const docSnap = getDoc(userDoc);
 
-        document.getElementById('logout-button').style.display = 'block';
-        document.getElementById('login-form').style.display = 'none';
-        document.getElementById('signup-form').style.display = 'none';
+    //     document.getElementById('logout-button').style.display = 'block';
+    //     document.getElementById('login-form').style.display = 'none';
+    //     document.getElementById('signup-form').style.display = 'none';
 
-        if (docSnap.exists()) {
-            const dbData = docSnap.data();
+    //     if (docSnap.exists()) {
+    //         const dbData = docSnap.data();
             
-            // get localstorage
-            const localtotalWaterReward = parseInt(localStorage.getItem('totalWaterReward')) || 0;
-            const localSavedWaterLevel = parseInt(localStorage.getItem('savedWaterLevel')) || 0;
-            const localCumulativeKeypress = parseInt(localStorage.getItem('cumulativeKeypress')) || 0;
-            const localCumulativeTime = parseInt(localStorage.getItem('cumulativeTime')) || 0;
+    //         // get localstorage
+    //         const localtotalWaterReward = parseInt(localStorage.getItem('totalWaterReward')) || 0;
+    //         const localSavedWaterLevel = parseInt(localStorage.getItem('savedWaterLevel')) || 0;
+    //         const localCumulativeKeypress = parseInt(localStorage.getItem('cumulativeKeypress')) || 0;
+    //         const localCumulativeTime = parseInt(localStorage.getItem('cumulativeTime')) || 0;
 
-            // compare for max
-            const newtotalWaterReward = Math.max(dbData.totalWaterReward, localtotalWaterReward);
-            const newSavedWaterLevel = Math.max(dbData.savedWaterLevel, localSavedWaterLevel);
-            const newCumulativeKeypress = Math.max(dbData.cumulativeKeypress, localCumulativeKeypress);
-            const newCumulativeTime = Math.max(dbData.cumulativeTime, localCumulativeTime);
+    //         // compare for max
+    //         const newtotalWaterReward = Math.max(dbData.totalWaterReward, localtotalWaterReward);
+    //         const newSavedWaterLevel = Math.max(dbData.savedWaterLevel, localSavedWaterLevel);
+    //         const newCumulativeKeypress = Math.max(dbData.cumulativeKeypress, localCumulativeKeypress);
+    //         const newCumulativeTime = Math.max(dbData.cumulativeTime, localCumulativeTime);
 
-            // update firestore
-            updateDoc(userDoc, {
-            totalWaterReward: newtotalWaterReward,
-            savedWaterLevel: newSavedWaterLevel,
-            cumulativeKeypress: newCumulativeKeypress,
-            cumulativeTime: newCumulativeTime
-            });
+    //         // update firestore
+    //         updateDoc(userDoc, {
+    //         totalWaterReward: newtotalWaterReward,
+    //         savedWaterLevel: newSavedWaterLevel,
+    //         cumulativeKeypress: newCumulativeKeypress,
+    //         cumulativeTime: newCumulativeTime
+    //         });
 
-            // update localStorage
-            localStorage.setItem('totalWaterReward', newtotalWaterReward);
-            totalWaterReward = newtotalWaterReward;
-            waterRewardDisplay.textContent = totalWaterReward;
-            // ===
-            localStorage.setItem('savedWaterLevel', newSavedWaterLevel);
-            currentWaterLevel = newSavedWaterLevel
-            if (currentWaterLevel >= maxWaterLevel) {
-                triggerWaterReward();
-                currentWaterLevel = 0;
-            }
-            localStorage.setItem("savedWaterLevel", currentWaterLevel.toString());
-            waterLevelDisplay.textContent = `${currentWaterLevel} / ${maxWaterLevel}`;
-            updateWaterMaskPosition();
-            // ===
-            localStorage.setItem('cumulativeKeypress', newCumulativeKeypress);
-            cumulativeKeypress = newCumulativeKeypress;
-            cumKeypressBox.textContent = newCumulativeKeypress;
-            // ===
-            localStorage.setItem('cumulativeTime', newCumulativeTime);
+    //         // update localStorage
+    //         localStorage.setItem('totalWaterReward', newtotalWaterReward);
+    //         totalWaterReward = newtotalWaterReward;
+    //         waterRewardDisplay.textContent = totalWaterReward;
+    //         // ===
+    //         localStorage.setItem('savedWaterLevel', newSavedWaterLevel);
+    //         currentWaterLevel = newSavedWaterLevel
+    //         if (currentWaterLevel >= maxWaterLevel) {
+    //             triggerWaterReward();
+    //             currentWaterLevel = 0;
+    //         }
+    //         localStorage.setItem("savedWaterLevel", currentWaterLevel.toString());
+    //         waterLevelDisplay.textContent = `${currentWaterLevel} / ${maxWaterLevel}`;
+    //         updateWaterMaskPosition();
+    //         // ===
+    //         localStorage.setItem('cumulativeKeypress', newCumulativeKeypress);
+    //         cumulativeKeypress = newCumulativeKeypress;
+    //         cumKeypressBox.textContent = newCumulativeKeypress;
+    //         // ===
+    //         localStorage.setItem('cumulativeTime', newCumulativeTime);
 
-        } else {
+    //     } else {
 
-            // create document if document does not exist
-            setDoc(userDoc, {
-            totalWaterReward: parseInt(localStorage.getItem('totalWaterReward')) || 0,
-            savedWaterLevel: parseInt(localStorage.getItem('savedWaterLevel')) || 0,
-            cumulativeKeypress: parseInt(localStorage.getItem('cumulativeKeypress')) || 0,
-            cumulativeTime: parseInt(localStorage.getItem('cumulativeTime')) || 0,
-            email: user.email,
-            createdAt: new Date()
-            });
-        }
-        } catch (error) {
-        console.error('error syncing data:', error);
-        }
-    } else {
-        console.log('user is logged out');
-        document.getElementById('logout-button').style.display = 'none';
-        document.getElementById('login-form').style.display = 'block';
-        document.getElementById('signup-form').style.display = 'block';
-    }
+    //         // create document if document does not exist
+    //         setDoc(userDoc, {
+    //         totalWaterReward: parseInt(localStorage.getItem('totalWaterReward')) || 0,
+    //         savedWaterLevel: parseInt(localStorage.getItem('savedWaterLevel')) || 0,
+    //         cumulativeKeypress: parseInt(localStorage.getItem('cumulativeKeypress')) || 0,
+    //         cumulativeTime: parseInt(localStorage.getItem('cumulativeTime')) || 0,
+    //         email: user.email,
+    //         createdAt: new Date()
+    //         });
+    //     }
+    //     } catch (error) {
+    //     console.error('error syncing data:', error);
+    //     }
+    // } else {
+    //     console.log('user is logged out');
+    //     document.getElementById('logout-button').style.display = 'none';
+    //     document.getElementById('login-form').style.display = 'block';
+    //     document.getElementById('signup-form').style.display = 'block';
+    // }
 
 
     // ===========================================
