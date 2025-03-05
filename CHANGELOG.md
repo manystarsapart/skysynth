@@ -56,6 +56,12 @@ FUTURE PLANS
 
  -->
 
+## [0.13.0] - 2025-03-05
+
+### Changed
+- WONDERFUL NEWS: shaved Tone.js's default delay off by using `Tone.context.currentTime` in triggerAttack. thank you Specy for the insight
+
+
 ## [0.12.1] - 2025-03-05
 
 ### Fixed
