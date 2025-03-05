@@ -1042,7 +1042,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "A3": "a3.mp3",
                 "A4": "a4.mp3",
                 "A5": "a5.mp3",
-                "D#3": "ds4.mp3",
+                "D#3": "ds3.mp3",
                 "D#4": "ds4.mp3",
                 "D#5": "ds5.mp3",
             },

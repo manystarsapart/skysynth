@@ -63,7 +63,7 @@ tap away!
 ### this project has been made possible by these wonderful folks:
 - [Specy](https://github.com/Specy), the pioneer in emulation of Sky CoTL music
 - [McbeEringi](https://github.com/mcbeeringi), who has compiled wonderful samples in their Sky Music repo
-- [fwyr](https://github.com/fwyr), my charming friend and code debugger
+- [fwyr](https://github.com/fwyr), my most charming friend and code debugger
 - neut, my lovely beta-tester
 - melon, music nerd & UI mastermind
 - maple, the ultimate games guy
