@@ -50,11 +50,16 @@ FUTURE PLANS
 
 - LEADERBOARD LEADERBOARD LEADERBOARD. needs auth to work
 - actual real sustain pedal key. tab to sustain and release tab to release
-
+- port over code from mobile site to enable keyboard mode change: R=L+1 rather than always +12
 
 
 
  -->
+
+## [0.12.1] - 2025-03-05
+
+### Fixed
+- freeverb room size is read-only
 
 ## [0.12.0] - 2025-03-02
 
