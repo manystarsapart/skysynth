@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.13.1 - 2025-03-06](#0131---2025-03-06)
 - [0.13.0 - 2025-03-05](#0130---2025-03-05)
 - [0.12.0 - 2025-03-02](#0120---2025-03-02)
 - [0.11.5 - 2025-03-01](#0115---2025-03-01)
@@ -56,6 +57,11 @@ FUTURE PLANS
 
 
  -->
+
+## [0.13.1] - 2025-03-06
+### Added
+- guitar sampler (mcbeeringi)
+
 
 ## [0.13.0] - 2025-03-05
 ### Changed

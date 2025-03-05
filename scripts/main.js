@@ -1037,6 +1037,21 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 
         }), // 12 otto synth
 
+        new Tone.Sampler({ 
+            urls: {
+                "A3": "a3.mp3",
+                "A4": "a4.mp3",
+                "A5": "a5.mp3",
+                "D#3": "ds4.mp3",
+                "D#4": "ds4.mp3",
+                "D#5": "ds5.mp3",
+            },
+            baseUrl: "../assets/audio/guitar/",
+            onload: () => {
+                console.log("guitar samples loaded");
+            }, 
+        }), // 13 guitar
+
         // todo: explore & add more
     ];
 
@@ -1054,6 +1069,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Meow",
         "Otto - Doo",
         "Otto - Synth",
+        "Guitar (Sampler)"
     ]
 
     // dynamically update select elements
