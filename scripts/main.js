@@ -1082,7 +1082,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentEffectNode = effectNodes[0];
   
     // changing EFFECTS
-    effectSelection.addEventListener("input", (e) => {
+    effectSelection.addEventListener('input', (e) => {
         const selectedID = parseInt(e.target.value); 
         getEffectLevelInput(effectNodes[selectedID]); 
         // ^^read from slider BEFORE setting new effect. this ensures we are setting things for the correct node
@@ -1147,7 +1147,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // read from slider
     function getEffectLevelInput(node) {
-        if (node == null) {
+        if (node == null || node.name == "Freeverb") {
             console.log("No effect.");
             effectLevelControl.style.display = "none";
             return;
@@ -1170,10 +1170,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 effectNodes[3].bits = effectLevel / 100 * 15 + 1;
                 // sounds better at higher values
                 break;
-            case "Freeverb":
-                effectNodes[4].roomSize = effectLevel / 100;
-                // sounds better for me at lower values
-                break;
+            // case "Freeverb":
+            //     effectNodes[4].roomSize = effectLevel / 100;
+            //     // sounds better for me at lower values
+            //     break;
         }
     }
 
