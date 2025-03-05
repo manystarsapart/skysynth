@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.13.0 - 2025-03-05](#0130---2025-03-05)
 - [0.12.0 - 2025-03-02](#0120---2025-03-02)
 - [0.11.5 - 2025-03-01](#0115---2025-03-01)
 - [0.11.4 - 2025-02-28](#0114---2025-02-28)
@@ -57,18 +58,15 @@ FUTURE PLANS
  -->
 
 ## [0.13.0] - 2025-03-05
-
 ### Changed
 - WONDERFUL NEWS: shaved Tone.js's default delay off by using `Tone.context.currentTime` in triggerAttack. thank you Specy for the insight
 
 
 ## [0.12.1] - 2025-03-05
-
 ### Fixed
 - freeverb room size is read-only
 
 ## [0.12.0] - 2025-03-02
-
 ### Added
 - EXPERIMENTAL: authentication & user login using firebase
 - hello, display name
@@ -80,13 +78,11 @@ FUTURE PLANS
 
 
 ## [0.11.5] - 2025-03-01
-
 ### Fixed
 - icons collapse to top when menu is not expanded 
 
 
 ## [0.11.4] - 2025-02-28
-
 ### Changed
 - add access to old version (0.9.1) at [old.skysynth.space](https://www.old.skysynth.space)
 
