@@ -60,12 +60,15 @@ tap away!
 # Acknowledgements
 
 ### this project has been made possible by these wonderful folks:
-- [fwyr](https://github.com/fwyr)
-- neut
-- melon
-- maple
-- kkura
+- [Specy](https://github.com/Specy), the pioneer in emulation of Sky CoTL music
+- [fwyr](https://github.com/fwyr), my charming friend and code debugger
+- neut, my lovely beta-tester
+- melon, music nerd & UI mastermind
+- maple, the ultimate games guy
+- kkura, dearest ever-helpful [rubber duck](https://en.wikipedia.org/wiki/Rubber_duck_debugging)
+- Mich, providing lasting peer-support and encouragement
+- Peridot, mon ami musicien talentueux
 
-and the incredibly supportive musicians over at [Sky Musician Network](https://discord.gg/DsprQTfBVp).
+and the other incredibly supportive musicians over at [Sky Musician Network](https://discord.gg/DsprQTfBVp).
 
 ## thank you!
