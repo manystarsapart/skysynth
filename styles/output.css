@@ -27,6 +27,8 @@
     --text-xl--line-height: calc(1.75 / 1.25);
     --text-2xl: 1.5rem;
     --text-2xl--line-height: calc(2 / 1.5);
+    --text-4xl: 2.25rem;
+    --text-4xl--line-height: calc(2.5 / 2.25);
     --text-5xl: 3rem;
     --text-5xl--line-height: 1;
     --radius-lg: 0.5rem;
@@ -221,11 +223,23 @@
   .top-20 {
     top: calc(var(--spacing) * 20);
   }
+  .top-\[10\%\] {
+    top: 10%;
+  }
+  .top-\[15\%\] {
+    top: 15%;
+  }
+  .top-\[20\%\] {
+    top: 20%;
+  }
   .top-\[60\%\] {
     top: 60%;
   }
   .right-0 {
     right: calc(var(--spacing) * 0);
+  }
+  .right-0\.5 {
+    right: calc(var(--spacing) * 0.5);
   }
   .right-2 {
     right: calc(var(--spacing) * 2);
@@ -235,6 +249,21 @@
   }
   .right-36 {
     right: calc(var(--spacing) * 36);
+  }
+  .right-52 {
+    right: calc(var(--spacing) * 52);
+  }
+  .right-\[20\%\] {
+    right: 20%;
+  }
+  .right-\[25\%\] {
+    right: 25%;
+  }
+  .right-\[30\%\] {
+    right: 30%;
+  }
+  .right-\[50\%\] {
+    right: 50%;
   }
   .bottom-0 {
     bottom: calc(var(--spacing) * 0);
@@ -503,6 +532,10 @@
   .text-2xl {
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
+  }
+  .text-4xl {
+    font-size: var(--text-4xl);
+    line-height: var(--tw-leading, var(--text-4xl--line-height));
   }
   .text-5xl {
     font-size: var(--text-5xl);

@@ -58,9 +58,13 @@ FUTURE PLANS
 
  -->
 
+
 ## [0.13.1] - 2025-03-06
 ### Added
 - guitar sampler (mcbeeringi)
+
+### Changed
+- styling for the yellow text column
 
 
 ## [0.13.0] - 2025-03-05
