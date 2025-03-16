@@ -1150,9 +1150,9 @@ document.addEventListener("DOMContentLoaded", () => {
         currentInstrument.disconnect();
         if (currentEffectNode) currentInstrument.connect(currentEffectNode);
         else currentInstrument.connect(volumeNode);
-        if (currentInstrument == "Sampler" && e.target.value != 1 && e.target.value != 12) {
-            // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH
-            toggleStopAudioWhenReleased(false);
+        if (currentInstrument == "Sampler" && e.target.value != 1 && e.target.value != 12 && e.target.value != 14) {
+            // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH && NOT VIOLIN
+            toggleStopAudioWhenReleased(false); 
         } 
         else {
             toggleStopAudioWhenReleased(true);
