@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let messages = [];
     let noteHistory = [];
     let transposeValue = 0;
-    let stopAudioWhenReleased = 0;
+    let stopAudioWhenReleased = false;
     const statusDiv = document.getElementById("status-div");
     const notesDiv = document.getElementById("notes-div");
     const transposeValueBox = document.getElementById("transpose-value");
@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const clearNoteHistoryButton = document.getElementById("clear-note-history-button")
     const stopAudioWhenReleasedButton = document.getElementById("stop-audio-when-released-button");
     const shiftIndicator = document.getElementById("shift-indicator");
+    const activeKeyTimeouts = new Map();
 
     let globalStartTime = Date.now();
 
@@ -1052,6 +1053,23 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 
         }), // 13 guitar
 
+        new Tone.Sampler({ 
+            urls: {
+                "A3": "a3.wav",
+                "A4": "a4.wav",
+                "A5": "a5.wav",
+                "D#4": "ds4.wav",
+                "D#5": "ds5.wav",
+                "D#6": "ds6.wav",
+                "F#6": "fs6.wav"
+            },
+            baseUrl: "../assets/audio/violin/",
+            onload: () => {
+                console.log("violin samples loaded");
+            }, 
+        }), // 14 violin 
+        // SOURCE: FREESOUND.ORG
+
         // todo: explore & add more
     ];
 
@@ -1069,8 +1087,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "Meow",
         "Otto - Doo",
         "Otto - Synth",
-        "Guitar (Sampler)"
-    ]
+        "Guitar (Sampler)",
+        "Violin (Sampler)"
+    ] 
 
     // dynamically update select elements
     for (var i = 0; i < instrumentNames.length; i++) {
@@ -1133,27 +1152,15 @@ document.addEventListener("DOMContentLoaded", () => {
         else currentInstrument.connect(volumeNode);
         if (currentInstrument == "Sampler" && e.target.value != 1 && e.target.value != 12) {
             // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH
-            stopAudioWhenReleased = false;
-            stopAudioWhenReleasedButton.style.backgroundColor = "#F08080";
-            stopAudioWhenReleasedButton.textContent = "false"
+            toggleStopAudioWhenReleased(false);
         } 
         else {
-            stopAudioWhenReleased = true;
-            stopAudioWhenReleasedButton.style.backgroundColor = "#588157";
-            stopAudioWhenReleasedButton.textContent = "true"
+            toggleStopAudioWhenReleased(true);
         } 
     });
 
     stopAudioWhenReleasedButton.addEventListener("click", (e) => {
-        if (stopAudioWhenReleased == true) {
-            stopAudioWhenReleased = false;
-            stopAudioWhenReleasedButton.style.backgroundColor = "#F08080";
-            stopAudioWhenReleasedButton.textContent = "false"
-        } else {
-            stopAudioWhenReleased = true;
-            stopAudioWhenReleasedButton.style.backgroundColor = "#588157";
-            stopAudioWhenReleasedButton.textContent = "true"
-        }
+        toggleStopAudioWhenReleased();
     })
 
     effectLevelControl.addEventListener("input", (e) => {effectSelection.dispatchEvent(new Event('input'))});
@@ -1243,7 +1250,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const latency = audioStartTime - keyPressTime;
             console.log(`Latency: ${latency} ms`); 
             currentInstrument.triggerAttack(Tone.Frequency(midiNote, "midi"),Tone.context.currentTime);
-            document.getElementById(key).style.backgroundColor = "#588157"; // lights up key to green
+            applyVisualGuideStyleChange(document.getElementById(key));
+
             incrementCumKeypress();
         } else if (key in pitchMap && !pressedKeys.has(key)) {
             // detecting for transposing. number keys
@@ -1255,15 +1263,7 @@ document.addEventListener("DOMContentLoaded", () => {
             updateVisualGuide(key);
             updateStatusMsg(`transpose value updated to: ${pitchMap[key]}`);
         } else if (e.key == 'CapsLock') {
-            if (stopAudioWhenReleased === true) {
-                stopAudioWhenReleased = false;
-                stopAudioWhenReleasedButton.style.backgroundColor = "#F08080";
-                stopAudioWhenReleasedButton.textContent = "false"
-            } else {
-                stopAudioWhenReleased = true;
-                stopAudioWhenReleasedButton.style.backgroundColor = "#588157";
-                stopAudioWhenReleasedButton.textContent = "true"
-            }
+            toggleStopAudioWhenReleased();
         } else if (key == ' ' || key == 'spacebar') {
             toggleLights();
         } else if (key == 'escape') { 
@@ -1289,7 +1289,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleKeyUp(e) {
         const key = e.key.toLowerCase();
         if (key in letterMap) {
-            document.getElementById(key).style.backgroundColor = ""; 
+           
+            removeVisualGuideStyleChange(document.getElementById(key));
             pressedKeys.delete(key);
             let midiNote = letterMap[key] + transposeValue + octaveAdjustment;
             if (stopAudioWhenReleased == false) return; // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH
@@ -1302,6 +1303,76 @@ document.addEventListener("DOMContentLoaded", () => {
             // 3. shift is released
         }
     }
+
+
+    // ===========================================
+    // APPLYING STYLE CHANGES TO DIV ON PRESS
+
+    function applyVisualGuideStyleChange(key) {
+        // cancel pending removal
+        if (activeKeyTimeouts.has(key)) {
+            clearTimeout(activeKeyTimeouts.get(key));
+            activeKeyTimeouts.delete(key);
+        }
+        
+        key.classList.add(stopAudioWhenReleased ? 'key-active-instant' : 'key-active');
+        void key.offsetWidth; // force reflow
+      }
+
+      
+    function removeVisualGuideStyleChange(key) {
+        key.classList.remove('key-active-instant');
+        
+        if (stopAudioWhenReleased) {
+            key.classList.remove('key-active');
+        } else {
+            const timeoutId = setTimeout(() => {
+                key.classList.remove('key-active');
+                activeKeyTimeouts.delete(key);
+            }, 100); // 100ms because duration-100
+            activeKeyTimeouts.set(key, timeoutId);
+        }
+        void key.offsetWidth; // force reflow
+      }
+
+
+    // ===========================================
+    // STOP AUDIO WHEN RELEASED
+
+    function toggleStopAudioWhenReleased(manualState = null) {
+        if (manualState !== null) {
+            stopAudioWhenReleased = manualState;
+            stopAudioWhenReleasedButton.style.backgroundColor = manualState ? "#588157" : "#F08080";
+            stopAudioWhenReleasedButton.textContent = manualState;
+        } else {
+            if (stopAudioWhenReleased == true) {
+                stopAudioWhenReleased = false;
+                stopAudioWhenReleasedButton.style.backgroundColor = "#F08080";
+                stopAudioWhenReleasedButton.textContent = "false"
+            } else {
+                stopAudioWhenReleased = true;
+                stopAudioWhenReleasedButton.style.backgroundColor = "#588157";
+                stopAudioWhenReleasedButton.textContent = "true"
+            }
+        }
+    }
+
+    function toggleStopAudioWhenReleased(manualState = null) {
+        if (manualState !== null) {
+            stopAudioWhenReleased = manualState;
+        } else {
+            stopAudioWhenReleased = !stopAudioWhenReleased;
+        }
+        stopAudioWhenReleasedButton.style.backgroundColor = stopAudioWhenReleased ? "#588157" : "#F08080";
+        stopAudioWhenReleasedButton.textContent = stopAudioWhenReleased ? "Instant Release" : "Smooth Release";
+      
+        // clear pending animations when changing modes
+        activeKeyTimeouts.forEach((timeout, key) => {
+            clearTimeout(timeout);
+            key.classList.remove('key-active');
+            activeKeyTimeouts.delete(key);
+        });
+      }
     
     // ===========================================
     // LOGGING: STATUS DIV
