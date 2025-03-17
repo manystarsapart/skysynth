@@ -59,6 +59,18 @@ FUTURE PLANS
 
  -->
 
+## [0.14.0] - 2025-03-17
+### Changed
+- BREAKING: migrate to typescript & vite bundler
+- integrate an improved keyboard changer from mobile skysynth into the web version
+- reorganise code for better readability & debugging
+- temporarily remove firebase interactions
+
+### Fixed
+- volume value display starts at 0% on first website load
+- transposing to +12 uses the visual guide for +0
+
+
 ## [0.13.2] - 2025-03-17
 ### Added
 - experimental violin sampler (freesound.org)

@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="SkySynth">
-    <meta property="og:description" content="play notes and stuff. now with transpose, octave and record!">
-    <meta property="og:image" content="http://www.skysynth.space/assets/thumbnail.jpeg">
-    <meta property="og:url" content="https://www.skysynth.space">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="SkySynth">
+  <meta property="og:description" content="play notes and stuff. now with transpose, octave and record!">
+  <meta property="og:image" content="http://www.skysynth.space/assets/thumbnail.jpeg">
+  <meta property="og:urinputl" content="https://www.skysynth.space">
 
-    <title>SkySynth</title>
-    <link rel="icon" type="image/png" href="./assets/thumbnail.jpeg"/>
-    <link rel="stylesheet" href="./styles/output.css">
-    <script src="./scripts/main.js" type="module"></script>
-    <script src="./scripts/Tone.min.js"></script>
-    <!-- ^is this needed after i bundle it? -->
-    <script src="https://kit.fontawesome.com/8e2e927b48.js" crossorigin="anonymous"></script>
+  <title>SkySynth</title>
+  <link rel="icon" type="image/png" href="./assets/thumbnail.jpeg"/>
+  <link rel="stylesheet" href="./src/styles.css">
+  <script src="./src/main.ts" type="module"></script>
+  <!-- <script src="./Tone.min.js"></script> -->
+  <script src="https://kit.fontawesome.com/8e2e927b48.js" crossorigin="anonymous"></script>
 </head>
 <body class="overflow-hidden h-screen bg-gradient-to-t p-10 from-[#A8B5E0] via-[#B4CBF0] to-[#DAF0F7]">
 <!-- <body class="h-screen bg-[url(./assets/SAOlake.jpg)]"> -->
@@ -23,49 +22,7 @@
 
 <header>
     <h1 class="text-5xl font-pressstart2p p-5">SkySynth | hello, user <span id="display-name-box" class="bg-amber-300/50">anonymous</span></h1>
-    <button id="account-button" class="text-black p-4 m-2 rounded-lg border-2 bg-white/80 hover:bg-[#F08080]">account stuff</button>
-    <button id="sync-button" class="text-black p-4 m-2 rounded-lg border-2 bg-white/80 hover:bg-[#F08080]">sync</button>
-    <!-- account place -->
-    <div id="modal-overlay" class="fixed top-0 left-0 w-full h-full bg-gray-800/50 hidden justify-center items-center z-50">
-        <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-4 relative z-51">
-            
-            <button id="close-modal" class="absolute top-2 right-2 text-5xl">×</button>
-
-            <div id="modal-content">
-                <div> 
-                    <!-- login -->
-                    <h1 class="text-5xl">EXPERIMENTAL</h1>
-                    <form id="login-form">
-                        <input type="email" id="login-email" placeholder="Email" required>
-                        <input type="password" id="login-password" placeholder="Password" required>
-                        <button type="submit">Login</button>
-                        </form>
-                        
-                        <p id="login-error" style="color: red;"></p>
-            
-            
-                </div>
     
-                <div>
-                    <!-- sign up -->
-                    <form id="signup-form">
-                        <input type="email" id="signup-email" placeholder="email" required>
-                        <input type="password" id="signup-password" placeholder="password" required>
-                        <input type="text" id="signup-display-name" placeholder="display name" required>
-                        <button type="submit">sign up</button>
-                    </form>
-                
-                    <p id="signup-error" class="text-red-500"></p>
-                </div>
-    
-                <button id="logout-button">log out</button>
-            </div>
-            
-        </div>
-    </div>
-
-    <button id="call-menu-button" class="">menu</button>
-
     <nav id="navbar" class="bg-[#80b3ff] z-1000 rounded-l-2xl text-black fixed top-0 bottom-0 right-0 h-full w-[55px] overflow-hidden transition-[width] duration-200 ease-linear transform-gpu scale-100 shadow-[1px_0_15px_rgba(0,0,0,0.07)] opacity-100 hover:w-[400px] group min-h-[60px]">
         <h1 id="menu-title" class="text-xl p-3 m-1 text-center hidden group-hover:block">menu (esc)</h1>
         <ul class="text-sm p-1 m-1">
@@ -103,7 +60,7 @@
                 <i class="fa-solid fa-keyboard shrink-0 w-[50px]"></i>
                 <div class="hidden group-hover:block ml-2 whitespace-nowrap">
                    keyboard: <br \> 
-                   <select name="keyboard selection" id="keyboard-selection" class="p-3 m-1 rounded-lg border-2 border-white"></select>
+                   <button id="switch-keyboard-button" class="p-3 m-1 rounded-lg border-2 border-white">+12</button>
                 </div>
             </li>
 
@@ -175,6 +132,7 @@
                 current version: 0.13.2<br>
                 <a href="https://github.com/manystarsapart/skysynth/blob/main/CHANGELOG.md" target="_blank" class="text-emerald-800"><u>view changelog</u></a> 
                 | <a href="https://www.old.skysynth.space" target="_blank" class="text-emerald-800"><u>old version (0.9.1)</u></a>
+                | <a href="https://www.mobile.skysynth.space" target="_blank" class="text-emerald-800"><u>mobile version (M-0.1.0)</u></a>
     
             </div>
         </ul>
@@ -187,7 +145,7 @@
     </div>
 </div>
 
-<div class="absolute top-[15%] m-auto right-[20%] text-4xl">
+<div class="absolute top-[8%] m-auto right-[20%] text-4xl">
     <ul>
         <li class="text-yellow-800">current transpose value = <span id="transpose-value">0</span> | current key: <span id="scale-value">C</span></li> 
         <li class="text-yellow-800">current octave shift: <span id="octave-value">0 (default)</span></li> 

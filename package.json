@@ -1,30 +1,20 @@
 {
-  "name": "skysynth",
-  "version": "1.0.0",
-  "description": "(eg. firefox, macbook safari etc)",
-  "main": "main.js",
+  "name": "skysynth-ts",
+  "private": true,
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx @tailwindcss/cli -i ./styles/input.css -o ./styles/output.css --watch"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@tailwindcss/cli": "^4.0.9",
-    "firebase": "^11.4.0",
-    "tailwindcss": "^4.0.9"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/manystarsapart/skysynth.git"
-  },
-  "bugs": {
-    "url": "https://github.com/manystarsapart/skysynth/issues"
-  },
-  "homepage": "https://github.com/manystarsapart/skysynth#readme",
   "devDependencies": {
-    "webpack-cli": "^6.0.1"
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.0.14",
+    "tailwindcss": "^4.0.14",
+    "tone": "^15.0.4"
   }
 }
