@@ -488,7 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function midiToSPN(midiNumber:number) {
         const noteNames: string[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'Bb', 'B'];
         const noteIndex: number = midiNumber % 12;
-        const octave: number = Math.floor((midiNumber - 12) / 12) - 1;
+        const octave: number = Math.floor((midiNumber) / 12) - 1;
         return noteNames[noteIndex] + octave;
     }
 
@@ -574,7 +574,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentInstrument.disconnect();
         if (currentEffectNode) currentInstrument.connect(currentEffectNode);
         else currentInstrument.connect(volumeNode);
-        if (currentInstrument == "Sampler" && e.target.value != 1 && e.target.value != 12 && e.target.value != 14) {
+        if (currentInstrument instanceof Tone.Sampler && e.target.value != 1 && e.target.value != 12 && e.target.value != 14) {
             // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH && NOT VIOLIN
             toggleStopAudioWhenReleased(false); 
         } 
@@ -688,7 +688,7 @@ document.addEventListener("DOMContentLoaded", () => {
             updateStatusMsg(`transpose value updated to: ${pitchMap[key]}`);
         } else if (e.key == 'CapsLock') {
             toggleStopAudioWhenReleased();
-        } else if (key == ' ' || key == 'spacebar') {
+        } else if (key == ' ') {
             toggleLights();
         } else if (key == 'escape') { 
             toggleMenu(); 
@@ -711,6 +711,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     function handleKeyUp(e:any) {
+        shiftPressed = e.shiftKey;
         const key: string = e.key.toLowerCase();
         if (key in letterMap) {
             removeVisualGuideStyleChange(document.getElementById(key) as HTMLElement);
@@ -719,11 +720,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (stopAudioWhenReleased == false) return; // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH
             else;
             currentInstrument.triggerRelease(Tone.Frequency(midiNote, "midi"));
-            currentInstrument.triggerRelease(Tone.Frequency(midiNote + 1, "midi")); 
-            // failsafe for tone not stopping when:
-            // 1. shift is held down
-            // 2. note is pressed
-            // 3. shift is released
+            currentInstrument.triggerRelease(Tone.Frequency(midiNote-1, "midi"));
         }
     }
 
@@ -887,9 +884,8 @@ document.addEventListener("DOMContentLoaded", () => {
     stopPlaybackButton.addEventListener('pointerdown', stopPlayback);
 
     function startRecording() {
-        if (isRecording) {
-            updateStatusMsg("Recording already in progress!");
-            return;
+        if (mediaRecorder?.state === 'recording') {
+            mediaRecorder.stop();
         }
         hasRecording = false;
         isRecording = true;
@@ -945,7 +941,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateStatusMsg("Saving recording...");
         const link = document.createElement('a');
         link.href = audioUrl;
-        link.download = 'recording.wav';
+        link.download = `recording-${Date.now()}.wav`;
         link.click();
     }
 
@@ -982,9 +978,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ===========================================
     // VISUAL GUIDE
+
+
+    function createNoteDiv(id: string, note: string, octave: number) {
+        return `<div id="${id}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 relative bg-white/80">
+                    <div>
+                        ${note}<sub class="text-lg">${octave}</sub>
+                    </div>
+                    <span class="text-2xl">${id.toUpperCase()}</span>
+                </div>`;
+    }
+
+
     function mapNumbersToNotes(currentKey:KeyType, leftright:number) {    
       if (currentKeyboardMode === 0) {
-        realOctaveLeft = octave + 2;
+        realOctaveLeft = octave + 3;
         if (lastPressedTransposeKey == '=') {
             realOctaveLeft++; // compensate for +12 transpose
         }
@@ -1002,26 +1010,16 @@ document.addEventListener("DOMContentLoaded", () => {
             const note: any = keyNotes[noteIndex];
             const currentOctave: number = octaveBase + (countC - 1);
             if (leftright == 0) {
-                return `<div id="${preserveKeyIDLeft[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 relative bg-white/80">
-                    <div>
-                    ${note}<sub class="text-lg">${currentOctave}</sub>
-                    </div>
-                    <span class="text-2xl">${preserveKeyIDLeft[keyIDcount-1].toUpperCase()}</span>
-                </div>`;
+                return createNoteDiv(preserveKeyIDLeft[keyIDcount-1],note,currentOctave);
             } else {
-                return `<div id="${preserveKeyIDRight[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 relative bg-white/80">
-                <div>
-                    ${note}<sub class="text-lg">${currentOctave}</sub>
-                </div>
-                <span class="text-2xl">${preserveKeyIDRight[keyIDcount-1].toUpperCase()}</span>
-                </div>`;
+                return createNoteDiv(preserveKeyIDLeft[keyIDcount-1],note,currentOctave);
             }
         });
         // console.log(elements);
         return elements.join('');
       } else if (currentKeyboardMode === 1) {
           // +1
-          realOctaveLeft = octave + 2;
+          realOctaveLeft = octave + 3;
           if (lastPressedTransposeKey == '=') {
             realOctaveLeft++; // compensate for +12 transpose
         }
@@ -1060,7 +1058,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return elements.join('');
       } else {
         // -1
-        realOctaveRight = octave + 2;
+        realOctaveRight = octave + 3;
         if (lastPressedTransposeKey == '=') {
             realOctaveRight++; // compensate for +12 transpose
         }

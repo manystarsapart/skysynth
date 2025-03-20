@@ -60,6 +60,17 @@ FUTURE PLANS
 
  -->
 
+
+## [0.14.1] - 2025-03-20
+### Changed
+- helper function to declutter div generation in visual guide
+
+### Fixed
+- incorrect labelling of SPN notes
+- volume too low for otto-doo & otto-synth
+- both notes stop playing when one note is stopped, when a note and another note one semitone higher is played together 
+
+
 ## [0.14.0] - 2025-03-17
 ### Changed
 - BREAKING: migrate to typescript & vite bundler

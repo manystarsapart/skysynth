@@ -12,9 +12,15 @@ For a detailed list of changes, see the [CHANGELOG.md](CHANGELOG.md) file.
 To see the list of known issues (in the process of fixing as of now), see the [ISSUES.md](ISSUES.md) file.
 
 ## How to run
-everything is written in vanilla html and js. tailwindcss is used for styling purposes.
+vanilla html is used, with tailwindcss used for styling purposes. vite with typescript is used for scripting.
 
-open `index.html` to test. to compile tailwindcss, run `npm run dev`.
+- to show live changes, run `npm run dev`.
+
+- to commit & push changes, build using `npm run build` first.
+
+- preview the built dist by running `npm run preview`.
+
+
 
 # Functionality & Features
 ### inspired by the sky: CoTL musical keyboard

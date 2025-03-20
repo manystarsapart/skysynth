@@ -10,11 +10,24 @@
   },
   "devDependencies": {
     "typescript": "~5.7.2",
-    "vite": "^6.2.0"
+    "vite": "^6.2.2"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.14",
     "tailwindcss": "^4.0.14",
     "tone": "^15.0.4"
-  }
+  },
+  "description": "greetings ! this is a beginner's first attempt at making something in javascript. hope it is not too buggy",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manystarsapart/skysynth.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manystarsapart/skysynth/issues"
+  },
+  "homepage": "https://github.com/manystarsapart/skysynth#readme"
 }

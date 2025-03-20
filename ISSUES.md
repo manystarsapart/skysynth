@@ -14,6 +14,10 @@
 
 9. keypress and waterlevel displays return NAN if keypress is updated while not signed in
 
+10. instrument violin after transpose does not stop audio when released
+
+
+
 
 # FIXED ISSUES
 
