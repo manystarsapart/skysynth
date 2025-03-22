@@ -4,9 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // NOT IN THIS CODE: FIREBASE & ALL SERVER INTERACTION
 
-
-
-
     // ======================
     // DATA & DISPLAYS
 
@@ -81,6 +78,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // note animations
     const activeKeyTimeouts = new Map();
+
+    // menu
+    let navbarExtended: boolean = false;
 
     // water
     const maxWaterLevel: number = 500;
@@ -631,7 +631,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
 
     // grabs set of KEYS PRESSED
-    const pressedKeys = new Set();
+    const pressedKeys: Set<string> = new Set();
 
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
@@ -654,7 +654,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // when any key is pressed
     function handleKeyDown(e:any) {
         const keyPressTime: number = performance.now(); // for latency
-        const key: string = e.key.toLowerCase();
+        const key: string = getBaseKey(e.key).toLowerCase(); // catches shifted notes but not symbols
+
+
+
         // allow 'r' and 'Shift' to bypass preventDefault
         if (key != 'r' && key != 'shift') {
             e.preventDefault(); 
@@ -673,7 +676,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const audioStartTime: number = performance.now();
             const latency: number = audioStartTime - keyPressTime;
             console.log(`Latency: ${latency} ms`); 
-            currentInstrument.triggerAttack(Tone.Frequency(midiNote, "midi"),Tone.context.currentTime);
+            currentInstrument.triggerAttack(Tone.Frequency(midiNote, "midi"),Tone.getContext().currentTime);
             applyVisualGuideStyleChange(document.getElementById(key) as HTMLElement);
 
             incrementCumKeypress();
@@ -685,6 +688,7 @@ document.addEventListener("DOMContentLoaded", () => {
             scaleValueDisplay1.innerHTML = transposeMap[pitchMap[key]]; // returns scale ("C", "D", etc)
             scaleValueDisplay2.innerHTML = transposeMap[pitchMap[key]]; // returns the same scale for better visualisation
             updateVisualGuide(key);
+            console.log(`tranpose pressed: ${key}`);
             updateStatusMsg(`transpose value updated to: ${pitchMap[key]}`);
         } else if (e.key == 'CapsLock') {
             toggleStopAudioWhenReleased();
@@ -712,7 +716,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     function handleKeyUp(e:any) {
         shiftPressed = e.shiftKey;
-        const key: string = e.key.toLowerCase();
+        const key: string = getBaseKey(e.key).toLowerCase();
         if (key in letterMap) {
             removeVisualGuideStyleChange(document.getElementById(key) as HTMLElement);
             pressedKeys.delete(key);
@@ -720,9 +724,40 @@ document.addEventListener("DOMContentLoaded", () => {
             if (stopAudioWhenReleased == false) return; // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH
             else;
             currentInstrument.triggerRelease(Tone.Frequency(midiNote, "midi"));
-            currentInstrument.triggerRelease(Tone.Frequency(midiNote-1, "midi"));
+            currentInstrument.triggerRelease(Tone.Frequency(midiNote+1, "midi"));
         }
     }
+
+    function getBaseKey(key: string): string { // unshifts shifted symbol key
+        const shiftMap: Record<string, string> = {
+            ':': ';',
+            '<': ',',
+            '>': '.',
+            '?': '/',
+        };
+        return shiftMap[key] || key;
+    }
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") {
+            if (shiftPressed) { // catch shift being held when tabbing away 
+                shiftPressed = false;
+                shiftIndicator.style.backgroundColor = "";
+            }
+            if (pressedKeys.size != 0) { // catch notes being held when tabbing away
+                pressedKeys.forEach(element => {
+                    let releaseNote: number = letterMap[element] + transposeValue + octaveAdjustment;
+                    pressedKeys.delete(element);
+                    removeVisualGuideStyleChange(document.getElementById(element) as HTMLElement);
+                    currentInstrument.triggerRelease(Tone.Frequency(releaseNote, "midi"));
+                    currentInstrument.triggerRelease(Tone.Frequency(releaseNote, "midi"));
+                    currentInstrument.triggerRelease(Tone.Frequency(releaseNote+1, "midi"));
+                });
+            }
+
+
+        }
+      });
 
     // ===========================================
     // APPLYING STYLE CHANGES TO DIV ON PRESS
@@ -757,17 +792,31 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===========================================
     // MENU TOGGLE
 
+    const handleClickOutside = (e: PointerEvent) => {
+        // check for click outside menu
+        if (!navbar.contains(e.target as Node)) {
+            toggleMenu();
+        }
+    };
+
+    navbar.addEventListener('pointerdown', toggleMenu);
+
     function toggleMenu() {
         navbar.classList.toggle("w-[400px]");
-        navbar.classList.toggle("hover:w-[400px]");
         menuTitle.classList.toggle("hidden");
-        menuTitle.classList.toggle("group-hover:block");
         navContent.forEach(div => {
             div.classList.toggle("hidden");
-            div.classList.toggle("group-hover:block");
         });
         acknowledgements.classList.toggle("hidden");
-        acknowledgements.classList.toggle("group-hover:block");
+        navbarExtended = !navbarExtended;
+    
+        if (navbarExtended) {
+            navbar.removeEventListener('pointerdown', toggleMenu);
+            document.addEventListener('pointerdown', handleClickOutside);
+        } else {
+            navbar.addEventListener('pointerdown', toggleMenu);
+            document.removeEventListener('pointerdown', handleClickOutside);
+        }
     }
 
     // ===========================================
@@ -891,7 +940,7 @@ document.addEventListener("DOMContentLoaded", () => {
         isRecording = true;
         startRecordButton.style.backgroundColor = "#F08080";
         audioChunks = [];
-        const audioStream = Tone.context.createMediaStreamDestination();
+        const audioStream = Tone.getContext().createMediaStreamDestination();
         volumeNode.connect(audioStream);
         
         mediaRecorder = new MediaRecorder(audioStream.stream);
@@ -1012,7 +1061,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (leftright == 0) {
                 return createNoteDiv(preserveKeyIDLeft[keyIDcount-1],note,currentOctave);
             } else {
-                return createNoteDiv(preserveKeyIDLeft[keyIDcount-1],note,currentOctave);
+                return createNoteDiv(preserveKeyIDRight[keyIDcount-1],note,currentOctave);
             }
         });
         // console.log(elements);
@@ -1025,7 +1074,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
           realOctaveRight = realOctaveLeft;
           const keyNotesL = mapNumbersToNotesOctaves[currentKey];
-          const keyNotesR = mapNumbersToNotesOctaves[transposeList[transposeValue+1] as KeyType];
+        //   const keyNotesR = mapNumbersToNotesOctaves[transposeList[transposeValue+1] as KeyType];
+          const keyNotesR = mapNumbersToNotesOctaves[transposeList[(transposeValue + 1) % 12] as KeyType];
           // ^somewhat patchwork solution to get for one semitone up but it works
           const octaveBase = leftright === 0 ? realOctaveLeft : realOctaveRight;
           const mappingFlattened = mapNumbersToNotesMapping.flat();
@@ -1039,19 +1089,9 @@ document.addEventListener("DOMContentLoaded", () => {
               const note = leftright === 0 ? keyNotesL[noteIndex] : keyNotesR[noteIndex];
               const currentOctave = octaveBase + (countC - 1);
               if (leftright == 0) {
-                return `<div id="${preserveKeyIDLeft[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 relative bg-white/80">
-                    <div>
-                    ${note}<sub class="text-lg">${currentOctave}</sub>
-                    </div>
-                    <span class="text-2xl">${preserveKeyIDLeft[keyIDcount-1].toUpperCase()}</span>
-                </div>`;
+                return createNoteDiv(preserveKeyIDLeft[keyIDcount-1],note,currentOctave);
             } else {
-                return `<div id="${preserveKeyIDRight[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 relative bg-white/80">
-                <div>
-                    ${note}<sub class="text-lg">${currentOctave}</sub>
-                </div>
-                <span class="text-2xl">${preserveKeyIDRight[keyIDcount-1].toUpperCase()}</span>
-                </div>`;
+                return createNoteDiv(preserveKeyIDRight[keyIDcount-1],note,currentOctave);
               }
           });
           // console.log(elements);
@@ -1064,7 +1104,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         realOctaveLeft = realOctaveRight;
         const keyNotesR = mapNumbersToNotesOctaves[currentKey];
-        const keyNotesL = mapNumbersToNotesOctaves[transposeList[transposeValue+1] as KeyType];
+        // const keyNotesL = mapNumbersToNotesOctaves[transposeList[transposeValue+1] as KeyType];
+        const keyNotesL = mapNumbersToNotesOctaves[transposeList[(transposeValue + 1) % 12] as KeyType];
         // ^somewhat patchwork solution to get for one semitone up but it works
         const octaveBase = leftright === 0 ? realOctaveLeft : realOctaveRight;
         const mappingFlattened = mapNumbersToNotesMapping.flat();
@@ -1078,19 +1119,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const note = leftright === 0 ? keyNotesL[noteIndex] : keyNotesR[noteIndex];
             const currentOctave = octaveBase + (countC - 1);
             if (leftright == 0) {
-              return `<div id="${preserveKeyIDLeft[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 relative bg-white/80">
-                  <div>
-                  ${note}<sub class="text-lg">${currentOctave}</sub>
-                  </div>
-                  <span class="text-2xl">${preserveKeyIDLeft[keyIDcount-1].toUpperCase()}</span>
-              </div>`;
+                return createNoteDiv(preserveKeyIDLeft[keyIDcount-1],note,currentOctave);
           } else {
-              return `<div id="${preserveKeyIDRight[keyIDcount-1]}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 relative bg-white/80">
-              <div>
-                  ${note}<sub class="text-lg">${currentOctave}</sub>
-              </div>
-              <span class="text-2xl">${preserveKeyIDRight[keyIDcount-1].toUpperCase()}</span>
-              </div>`;
+                return createNoteDiv(preserveKeyIDRight[keyIDcount-1],note,currentOctave);
             }
         });
         // console.log(elements);
@@ -1120,7 +1151,7 @@ document.addEventListener("DOMContentLoaded", () => {
             stopAudioWhenReleased = !stopAudioWhenReleased;
         }
         stopAudioWhenReleasedButton.style.backgroundColor = stopAudioWhenReleased ? "#588157" : "#F08080";
-        stopAudioWhenReleasedButton.textContent = stopAudioWhenReleased ? "Instant Release" : "Smooth Release";
+        stopAudioWhenReleasedButton.textContent = stopAudioWhenReleased ? "instant release" : "smooth release";
       
         // clear pending animations when changing modes
         activeKeyTimeouts.forEach((timeout, key) => {

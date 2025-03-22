@@ -10,6 +10,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.14.2 - 2025-03-23](#0142---2025-03-23)
+- [0.14.1 - 2025-03-20](#0141---2025-03-20)
 - [0.14.0 - 2025-03-17](#0140---2025-03-17)
 - [0.13.2 - 2025-03-17](#0132---2025-03-17)
 - [0.13.1 - 2025-03-06](#0131---2025-03-06)
@@ -56,9 +58,21 @@ FUTURE PLANS
 - actual real sustain pedal key. tab to sustain and release tab to release
 - port over code from mobile site to enable keyboard mode change: R=L+1 rather than always +12
 
-
-
  -->
+
+## [0.14.2] - 2025-03-23
+### Added
+- check for tabbing back into skysynth. this stops audio & reverts shift
+
+### Changed
+- menu behaviour: appear on hover --> on pointerdown
+
+### Fixed
+- known issues (listed below)
+- selection dropdown can be janky and requires holding down to select
+- notes can continue to play after being held due to various actions   
+- tabbing away using ctrl + shift + tab causes shift to be always held. press again to resolve issue
+- instrument violin after transpose does not stop audio when released (solved with previous patch)
 
 
 ## [0.14.1] - 2025-03-20
@@ -69,6 +83,7 @@ FUTURE PLANS
 - incorrect labelling of SPN notes
 - volume too low for otto-doo & otto-synth
 - both notes stop playing when one note is stopped, when a note and another note one semitone higher is played together 
+- visual guide & alt keyboard support had broken values
 
 
 ## [0.14.0] - 2025-03-17

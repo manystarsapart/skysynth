@@ -23,14 +23,14 @@
 <header>
     <h1 class="text-5xl font-pressstart2p p-5">SkySynth | hello, user <span id="display-name-box" class="bg-amber-300/50">anonymous</span></h1>
     
-    <nav id="navbar" class="bg-[#80b3ff] z-1000 rounded-l-2xl text-black fixed top-0 bottom-0 right-0 h-full w-[55px] overflow-hidden transition-[width] duration-200 ease-linear transform-gpu scale-100 shadow-[1px_0_15px_rgba(0,0,0,0.07)] opacity-100 hover:w-[400px] group min-h-[60px]">
-        <h1 id="menu-title" class="text-xl p-3 m-1 text-center hidden group-hover:block">menu (esc)</h1>
+    <nav id="navbar" class="bg-[#80b3ff] z-1000 rounded-l-2xl text-black fixed top-0 bottom-0 right-0 h-full w-[55px] overflow-hidden transition-[width] duration-200 ease-linear transform-gpu scale-100 shadow-[1px_0_15px_rgba(0,0,0,0.07)] opacity-100 group min-h-[60px]">
+        <h1 id="menu-title" class="text-xl p-3 m-1 text-center hidden">menu (esc)</h1>
         <ul class="text-sm p-1 m-1">
 
             <!-- INSTRUMENT SELECTION -->
             <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-gear shrink-0 w-[50px]"></i>
-                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                <div class="hidden ml-2 whitespace-nowrap">
                     instrument: <br \>
                     <select name="instrument selection" id="instrument-selection" class="p-3 m-1 rounded-lg border-2 border-white"></select>
                 </div>
@@ -39,7 +39,7 @@
             <!-- EFFECT SELECTION -->
             <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-wand-magic-sparkles shrink-0 w-[50px]"></i>
-                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                <div class="hidden ml-2 whitespace-nowrap">
                     effect (experimental): <br \>
                     <select name="effect selection" id="effect-selection" class="p-3 m-1 rounded-lg border-2 border-white"></select>
                     <input type="range" id="effect-level-control" min="0" max="100" value="50">            
@@ -49,7 +49,7 @@
             <!-- FINAL GAIN SLIDEBAR -->
             <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-volume-high shrink-0 w-[50px]"></i>
-                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                <div class="hidden ml-2 whitespace-nowrap">
                     final gain: <span id="volume-value">100% (default)</span><br \>
                     <input type="range" id="volume-control" min="0" max="100" value="100">
                 </div>
@@ -58,8 +58,8 @@
             <!-- KEYBOARD SELECT -->
             <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-keyboard shrink-0 w-[50px]"></i>
-                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
-                   keyboard: <br \> 
+                <div class="hidden ml-2 whitespace-nowrap">
+                   keyboard (backspace): <br \> 
                    <button id="switch-keyboard-button" class="p-3 m-1 rounded-lg border-2 border-white">+12</button>
                 </div>
             </li>
@@ -67,7 +67,7 @@
             <!-- CLEAR STATUSDIV -->
             <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-ban shrink-0 w-[50px]"></i>
-                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                <div class="hidden ml-2 whitespace-nowrap">
                     misc: <br \>
                     <button id="clear-status-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">clear status messages</button>
                     <br \>
@@ -78,16 +78,17 @@
             <!-- STOP AUDIO WHEN KEY RELEASED -->
             <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-file-audio shrink-0 w-[50px]"></i>
-                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                <div class="hidden ml-2 whitespace-nowrap">
                     stop audio when key released: <br \>
-                    <button id="stop-audio-when-released-button" class="p-3 m-1 w-16 rounded-lg border-2 border-white">false</button> (capslock to toggle)
+                    <button id="stop-audio-when-released-button" class="p-3 m-1 w-auto rounded-lg border-2 border-white">smooth release</button> 
+                    <br>(capslock to toggle)
                 </div>
             </li>
 
             <!-- RECORDING FUNCTION -->
             <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-record-vinyl w-[50px]"></i>
-                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                <div class="hidden ml-2 whitespace-nowrap">
                     recording: <br \>
                     <button id="start-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">start recording<button>
                     <button id="stop-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">stop recording<button>
@@ -95,14 +96,14 @@
             </li>
             <li class="flex items-center pt-2 min-h-[72px]">
                 <!-- <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> -->
-                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                <div class="hidden ml-2 whitespace-nowrap">
                     <button id="play-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">play recording<button>
                     <button id="stop-playback-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">stop playback</button>
                 </div>
             </li>
             <li class="flex items-center pt-2 min-h-[72px]">
                 <!-- <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> -->
-                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                <div class="hidden ml-2 whitespace-nowrap">
                     <button id="save-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">save recording<button>
                     <!-- <button id="clear-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">clear recording<button> -->
                 </div>
@@ -111,7 +112,7 @@
             <!-- TOGGLE LIGHTS ON / OFF -->
             <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-lightbulb shrink-0 w-[50px]"></i>
-                <div class="hidden group-hover:block ml-2 whitespace-nowrap">
+                <div class="hidden ml-2 whitespace-nowrap">
                     light switch:
                     <button id="light-switch" class="p-3 m-1 rounded-lg border-2 border-white bg-[#588157]">on / off<button> (spacebar)
                 </div>
@@ -124,12 +125,12 @@
 
 
 
-            <div id="acknowledgements" class="text-xs fixed bottom-0 right-0 p-10 text-right hidden group-hover:block ml-2 whitespace-nowrap">
+            <div id="acknowledgements" class="text-xs fixed bottom-0 right-0 p-10 text-right hidden ml-2 whitespace-nowrap">
 
                 made by @manystarsapart <br>
                 for any feedback, please contact through discord <br>
-                last updated: 17 mar 2025<br>
-                current version: 0.13.2<br>
+                last updated: 23 mar 2025<br>
+                current version: 0.14.2<br>
                 <a href="https://github.com/manystarsapart/skysynth/blob/main/CHANGELOG.md" target="_blank" class="text-emerald-800"><u>view changelog</u></a> 
                 | <a href="https://www.old.skysynth.space" target="_blank" class="text-emerald-800"><u>old version (0.9.1)</u></a>
                 | <a href="https://www.mobile.skysynth.space" target="_blank" class="text-emerald-800"><u>mobile version (M-0.1.0)</u></a>
@@ -176,91 +177,91 @@
         <div id="notes-div-left" class="grid grid-cols-5 gap-1 p-1 text-5xl">
             <div id="q" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    C<sub class="text-lg">2</sub>
+                    C<sub class="text-lg">3</sub>
                 </div>
                 <span class="text-2xl">Q</span>
             </div>
             <div id="w" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    D<sub class="text-lg">2</sub>
+                    D<sub class="text-lg">3</sub>
                 </div>
                 <span class="text-2xl">W</span>
             </div>
             <div id="e" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    E<sub class="text-lg">2</sub>
+                    E<sub class="text-lg">3</sub>
                 </div>
                 <span class="text-2xl">E</span>
             </div>
             <div id="r" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    F<sub class="text-lg">2</sub>
+                    F<sub class="text-lg">3</sub>
                 </div>
                 <span class="text-2xl">R</span>
             </div>
             <div id="t" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    G<sub class="text-lg">2</sub>
+                    G<sub class="text-lg">3</sub>
                 </div>
                 <span class="text-2xl">T</span>
             </div>
             <div id="a" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    A<sub class="text-lg">2</sub>
+                    A<sub class="text-lg">3</sub>
                 </div>
                 <span class="text-2xl">A</span>
             </div>
             <div id="s" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    B<sub class="text-lg">2</sub>
+                    B<sub class="text-lg">3</sub>
                 </div>
                 <span class="text-2xl">S</span>
             </div>
             <div id="d" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    C<sub class="text-lg">3</sub>
+                    C<sub class="text-lg">4</sub>
                 </div>
                 <span class="text-2xl">D</span>
             </div>
             <div id="f" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    D<sub class="text-lg">3</sub>
+                    D<sub class="text-lg">4</sub>
                 </div>
                 <span class="text-2xl">F</span>
             </div>
             <div id="g" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    E<sub class="text-lg">3</sub>
+                    E<sub class="text-lg">4</sub>
                 </div>
                 <span class="text-2xl">G</span>
             </div>
             <div id="z" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    F<sub class="text-lg">3</sub>
+                    F<sub class="text-lg">4</sub>
                 </div>
                 <span class="text-2xl">Z</span>
             </div>
             <div id="x" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    G<sub class="text-lg">3</sub>
+                    G<sub class="text-lg">4</sub>
                 </div>
                 <span class="text-2xl">x</span> 
             </div>
             <div id="c" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    A<sub class="text-lg">3</sub>
+                    A<sub class="text-lg">4</sub>
                 </div>
                 <span class="text-2xl">C</span>
             </div>
             <div id="v" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    B<sub class="text-lg">3</sub>
+                    B<sub class="text-lg">4</sub>
                 </div>
                 <span class="text-2xl">V</span>
             </div>
             <div id="b" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    C<sub class="text-lg">4</sub>
+                    C<sub class="text-lg">5</sub>
                 </div>
                 <span class="text-2xl">B</span>
             </div>
@@ -274,91 +275,91 @@
         <div id="notes-div-right" class="grid grid-cols-5 gap-1 p-1 text-5xl">
             <div id="y" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    C<sub class="text-lg">3</sub>
+                    C<sub class="text-lg">4</sub>
                 </div>
                 <span class="text-2xl">Y</span>
             </div>
             <div id="u" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    D<sub class="text-lg">3</sub>
+                    D<sub class="text-lg">4</sub>
                 </div>
                 <span class="text-2xl">U</span>
             </div>
             <div id="i" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    E<sub class="text-lg">3</sub>
+                    E<sub class="text-lg">4</sub>
                 </div>
                 <span class="text-2xl">I</span>
             </div>
             <div id="o" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    F<sub class="text-lg">3</sub>
+                    F<sub class="text-lg">4</sub>
                 </div>
                 <span class="text-2xl">O</span>
             </div>
             <div id="p" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    G<sub class="text-lg">3</sub>
+                    G<sub class="text-lg">4</sub>
                 </div>
                 <span class="text-2xl">P</span>
             </div>
             <div id="h" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    A<sub class="text-lg">3</sub>
+                    A<sub class="text-lg">4</sub>
                 </div>
                 <span class="text-2xl">H</span>
             </div>
             <div id="j" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    B<sub class="text-lg">3</sub>
+                    B<sub class="text-lg">4</sub>
                 </div>
                 <span class="text-2xl">J</span>
             </div>
             <div id="k" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    C<sub class="text-lg">4</sub>
+                    C<sub class="text-lg">5</sub>
                 </div>
                 <span class="text-2xl">K</span>
             </div>
             <div id="l" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    D<sub class="text-lg">4</sub>
+                    D<sub class="text-lg">5</sub>
                 </div>
                 <span class="text-2xl">L</span>
             </div>
             <div id=";" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    E<sub class="text-lg">4</sub>
+                    E<sub class="text-lg">5</sub>
                 </div>
                 <span class="text-2xl">;</span>
             </div>
             <div id="n" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    F<sub class="text-lg">4</sub>
+                    F<sub class="text-lg">5</sub>
                 </div>
                 <span class="text-2xl">N</span>
             </div>
             <div id="m" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    G<sub class="text-lg">4</sub>
+                    G<sub class="text-lg">5</sub>
                 </div>
                 <span class="text-2xl">M</span>
             </div>
             <div id="," class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    A<sub class="text-lg">4</sub>
+                    A<sub class="text-lg">5</sub>
                 </div>
                 <span class="text-2xl">,</span>
             </div>
             <div id="." class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    B<sub class="text-lg">4</sub>
+                    B<sub class="text-lg">5</sub>
                 </div>
                 <span class="text-2xl">.</span>
             </div>
             <div id="/" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80">
                 <div>
-                    C<sub class="text-lg">5</sub>
+                    C<sub class="text-lg">6</sub>
                 </div>
                 <span class="text-2xl">/</span>
             </div>
