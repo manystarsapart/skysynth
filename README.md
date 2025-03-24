@@ -26,18 +26,19 @@ vanilla html is used, with tailwindcss used for styling purposes. vite with type
 ### inspired by the sky: CoTL musical keyboard
 #### play music. yes. you can legitimately play music on this
 
-1. play with both halves of your keyboard (or only opt for one half)
-2. transpose to a different key 
-3. shift up and down octaves 
-4. play accidentals
-5. control the "sustain pedal" (wwwwww)
-6. view statistics on amount of time spent & no. of notes played
-7. control the volume
-8. change instruments to different ones (from Sky: CoTL) or synths
-9. add effects to instrument (e.g. distortion) which you can adjust
-10. record and save your melodies
-11. you can turn the lights off (?)
-12. water collection feature (reward TBC)
+1. play with both halves of your keyboard
+2. switch to different keyboard modes: toggle with `Backspace`
+3. transpose to a different key: top row number keys (``` `1234567890-= ```)
+4. shift up and down octaves: arrow keys (`ArrowUp`, `ArrowDown`, `ArrowLeft`, `ArrowRight`)
+5. play accidentals: `Shift` for both sides, left or right `Alt` for either side
+6. control the "sustain pedal": `Caps Lock`
+7. view statistics on amount of time spent & no. of notes played
+8. control the volume: menu
+9. change instruments to different ones (from Sky: CoTL) or synths: menu
+10. add effects to instrument (e.g. distortion) which you can adjust: menu
+11. record and save your melodies: menu
+12. you can turn the lights off (?): `Spacebar`
+13. water collection feature (reward TBC)
 
 ALSO: visual guide showing corresponding notes to keyboard keys is included
 

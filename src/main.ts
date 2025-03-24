@@ -667,14 +667,14 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             leftAltPressed = true;
             leftAltIndicator.style.backgroundColor = "#588157";
-            updateStatusMsg("l alt held");
+            // updateStatusMsg("l alt held");
         } 
         else if (e.altKey && e.location === 2) {
             // right alt key
             e.preventDefault();
             rightAltPressed = true;
             rightAltIndicator.style.backgroundColor = "#588157";
-            updateStatusMsg("r alt held");
+            // updateStatusMsg("r alt held");
         }
     });
     document.addEventListener('keyup', function(e) {
@@ -686,13 +686,13 @@ document.addEventListener("DOMContentLoaded", () => {
             // left alt key
             leftAltPressed = false;
             leftAltIndicator.style.backgroundColor = "";
-            updateStatusMsg("l alt released");
+            // updateStatusMsg("l alt released");
         } 
         else if (e.key === 'Alt' && rightAltPressed) {
             // right alt key
             rightAltPressed = false;
             rightAltIndicator.style.backgroundColor = "";
-            updateStatusMsg("r alt released");
+            // updateStatusMsg("r alt released");
         }
     });
     
