@@ -40,8 +40,6 @@ vanilla html is used, with tailwindcss used for styling purposes. vite with type
 12. you can turn the lights off (?): `Spacebar`
 13. water collection feature (reward TBC)
 
-ALSO: visual guide showing corresponding notes to keyboard keys is included
-
 just press random keys to get started. it can be a lot of fun !
 (especially if you're familiar with the Sky: CoTL music keyboard like i am)
 
@@ -69,15 +67,15 @@ tap away!
 # Acknowledgements
 
 ### this project has been made possible by these wonderful folks:
-- [Specy](https://github.com/Specy), the pioneer in emulation of Sky CoTL music
+- [Specy](https://github.com/Specy), pioneer in emulation of Sky CoTL music
 - [McbeEringi](https://github.com/mcbeeringi), who has compiled wonderful samples in their Sky Music repo
-- [fwyr](https://github.com/fwyr), my most charming friend and code debugger
-- neut, my lovely beta-tester
-- melon, music nerd & UI mastermind
-- maple, the ultimate games guy
-- kkura, dearest ever-helpful [rubber duck](https://en.wikipedia.org/wiki/Rubber_duck_debugging)
-- Mich, providing lasting peer-support and encouragement
-- Peridot, mon ami musicien talentueux
+- [fwyr](https://github.com/fwyr), most wonderful friend and code debugger
+- neut, alpha tester, 4am dev calls 
+- melon, alpha tester, music nerd & UI mastermind
+- maple, alpha tester & game designer
+- kkura, alpha tester & ever-helpful [rubber duck](https://en.wikipedia.org/wiki/Rubber_duck_debugging)
+- Mich, alpha tester & providing lasting peer-support and encouragement
+- Peridot, alpha tester & mon ami musicien talentueux
 
 and the other incredibly supportive musicians over at [Sky Musician Network](https://discord.gg/DsprQTfBVp).
 
