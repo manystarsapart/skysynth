@@ -31,6 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const clearNoteHistoryButton = document.getElementById("clear-note-history-button")!;
     const stopAudioWhenReleasedButton = document.getElementById("stop-audio-when-released-button")!;
     const shiftIndicator = document.getElementById("shift-indicator")!;
+    const leftAltIndicator = document.getElementById("l-alt-indicator")!;
+    const rightAltIndicator = document.getElementById("r-alt-indicator")!;
     const switchKeyboardButton = document.getElementById("switch-keyboard-button")!;
 
     // menu
@@ -183,6 +185,20 @@ document.addEventListener("DOMContentLoaded", () => {
         '11': "B", 
         '12': "C"
     };
+
+    const leftKeyboardKeys: Set<string> = new Set([
+        'q','w','e','r','t',
+        'a','s','d','f','g',
+        'z','x','c','v','b'
+    ])
+
+    const rightKeyboardKeys: Set<string> = new Set([
+        'y','u','i','o','p',
+        'h','j','k','l',';',
+        'n','m',',','.','/'
+    ])
+
+
 
     // ===========================================
     // VISUAL GUIDE
@@ -636,12 +652,29 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
 
-    // detects for SHIFT pressed & released
-    let shiftPressed = false;
+    // detects for SHIFT pressed & released AND alt pressed & released
+    let shiftPressed: boolean = false;
+    let leftAltPressed: boolean = false;
+    let rightAltPressed: boolean = false;
+
     document.addEventListener('keydown', function(e) {
         if (e.shiftKey) {
             shiftPressed = true;
             shiftIndicator.style.backgroundColor = "#588157";
+        } 
+        else if (e.altKey && e.location === 1) {
+            // left alt key
+            e.preventDefault();
+            leftAltPressed = true;
+            leftAltIndicator.style.backgroundColor = "#588157";
+            updateStatusMsg("l alt held");
+        } 
+        else if (e.altKey && e.location === 2) {
+            // right alt key
+            e.preventDefault();
+            rightAltPressed = true;
+            rightAltIndicator.style.backgroundColor = "#588157";
+            updateStatusMsg("r alt held");
         }
     });
     document.addEventListener('keyup', function(e) {
@@ -649,14 +682,24 @@ document.addEventListener("DOMContentLoaded", () => {
             shiftPressed = false;
             shiftIndicator.style.backgroundColor = "";
         }
+        else if (e.key === 'Alt' && leftAltPressed) {
+            // left alt key
+            leftAltPressed = false;
+            leftAltIndicator.style.backgroundColor = "";
+            updateStatusMsg("l alt released");
+        } 
+        else if (e.key === 'Alt' && rightAltPressed) {
+            // right alt key
+            rightAltPressed = false;
+            rightAltIndicator.style.backgroundColor = "";
+            updateStatusMsg("r alt released");
+        }
     });
     
     // when any key is pressed
     function handleKeyDown(e:any) {
         const keyPressTime: number = performance.now(); // for latency
         const key: string = getBaseKey(e.key).toLowerCase(); // catches shifted notes but not symbols
-
-
 
         // allow 'r' and 'Shift' to bypass preventDefault
         if (key != 'r' && key != 'shift') {
@@ -670,7 +713,15 @@ document.addEventListener("DOMContentLoaded", () => {
             // key in noteplaying map: play MIDI note
             pressedKeys.add(key);
             let midiNote: number = letterMap[key] + transposeValue + octaveAdjustment;
-            if (shiftPressed) {midiNote += 1;}
+
+            if (shiftPressed) {midiNote++;} 
+            else if (leftKeyboardKeys.has(key)) {
+                if (leftAltPressed) {midiNote++;}
+            }
+            else if (rightKeyboardKeys.has(key)) {
+                if (rightAltPressed) {midiNote++;}
+            }            
+
             updateNoteHistory(midiNote);
             // calculating latency 
             const audioStartTime: number = performance.now();
@@ -740,24 +791,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.addEventListener("visibilitychange", () => {
         if (document.visibilityState === "visible") {
-            if (shiftPressed) { // catch shift being held when tabbing away 
-                shiftPressed = false;
-                shiftIndicator.style.backgroundColor = "";
-            }
-            if (pressedKeys.size != 0) { // catch notes being held when tabbing away
-                pressedKeys.forEach(element => {
-                    let releaseNote: number = letterMap[element] + transposeValue + octaveAdjustment;
-                    pressedKeys.delete(element);
-                    removeVisualGuideStyleChange(document.getElementById(element) as HTMLElement);
-                    currentInstrument.triggerRelease(Tone.Frequency(releaseNote, "midi"));
-                    currentInstrument.triggerRelease(Tone.Frequency(releaseNote, "midi"));
-                    currentInstrument.triggerRelease(Tone.Frequency(releaseNote+1, "midi"));
-                });
-            }
-
-
+            disableSemitoneUp();
         }
       });
+
+    window.addEventListener('focus',disableSemitoneUp);
+
+
+    function disableSemitoneUp() {
+        if (shiftPressed) { // catch shift being held when tabbing away 
+            shiftPressed = false;
+            shiftIndicator.style.backgroundColor = "";
+        }
+        if (leftAltPressed) {
+            leftAltPressed = false;
+            leftAltIndicator.style.backgroundColor = "";
+        }
+        if (rightAltPressed) {
+            rightAltPressed = false;
+            rightAltIndicator.style.backgroundColor = "";
+        }
+        if (pressedKeys.size != 0) { // catch notes being held when tabbing away
+            pressedKeys.forEach(element => {
+                let releaseNote: number = letterMap[element] + transposeValue + octaveAdjustment;
+                pressedKeys.delete(element);
+                removeVisualGuideStyleChange(document.getElementById(element) as HTMLElement);
+                currentInstrument.triggerRelease(Tone.Frequency(releaseNote, "midi"));
+                currentInstrument.triggerRelease(Tone.Frequency(releaseNote, "midi"));
+                currentInstrument.triggerRelease(Tone.Frequency(releaseNote+1, "midi"));
+            });
+        }
+    }
 
     // ===========================================
     // APPLYING STYLE CHANGES TO DIV ON PRESS

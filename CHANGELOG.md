@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.15.0 - 2025-03-25](#0150---2025-03-25)
 - [0.14.2 - 2025-03-23](#0142---2025-03-23)
 - [0.14.1 - 2025-03-20](#0141---2025-03-20)
 - [0.14.0 - 2025-03-17](#0140---2025-03-17)
@@ -59,6 +60,11 @@ FUTURE PLANS
 - port over code from mobile site to enable keyboard mode change: R=L+1 rather than always +12
 
  -->
+
+## [0.15.0] - 2025-03-25
+### Added
+- left and right alt can now individually increase one semitone on either side of the keyboard. acts as `shift` but only for one side
+
 
 ## [0.14.2] - 2025-03-23
 ### Added

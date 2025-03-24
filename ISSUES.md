@@ -10,7 +10,7 @@
 
 ~~9. keypress and waterlevel displays return NAN if keypress is updated while not signed in~~ <--- currently disabled firebase feature. temporarily solved
 
-
+11. when pressing alt on firefox (not tested on other browsers), the alt menu is brought up and affects playing. solve this by changing client side settings: navigate to about:config --> `ui.key.menuAccessKeyFocuses` --> false
 
 
 # FIXED ISSUES
