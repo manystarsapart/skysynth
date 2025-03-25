@@ -1204,6 +1204,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (shiftIndicator.classList.contains("bg-white/80")) {
                 shiftIndicator.classList.toggle("bg-white/80");
             }
+            if (leftAltIndicator.classList.contains("bg-white/80")) {
+                leftAltIndicator.classList.toggle("bg-white/80");
+            }
+            if (rightAltIndicator.classList.contains("bg-white/80")) {
+                rightAltIndicator.classList.toggle("bg-white/80");
+            }
         }
     }
 
