@@ -944,9 +944,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function toggleVGWhiteBg() {
+        shiftIndicator.classList.toggle("bg-white/80");
+        leftAltIndicator.classList.toggle("bg-white/80");
+        rightAltIndicator.classList.toggle("bg-white/80");
         let visualGuideChildrenL = document.getElementById("notes-div-left")!.children;
         let visualGuideChildrenR = document.getElementById("notes-div-right")!.children;
-        shiftIndicator.classList.toggle("bg-white/80");
         for (let i=0; i<visualGuideChildrenL.length; i++) {
             visualGuideChildrenL[i].classList.toggle("bg-white/80");
         }

@@ -61,6 +61,8 @@ FUTURE PLANS
 
  -->
 
+
+
 ## [0.15.0] - 2025-03-25
 ### Added
 - left and right alt can now individually increase one semitone on either side of the keyboard. acts as `shift` but only for one side
