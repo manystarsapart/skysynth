@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.16.0 - 2025-03-28](#0160---2025-03-28)
 - [0.15.0 - 2025-03-25](#0150---2025-03-25)
 - [0.14.2 - 2025-03-23](#0142---2025-03-23)
 - [0.14.1 - 2025-03-20](#0141---2025-03-20)
@@ -61,7 +62,9 @@ FUTURE PLANS
 
  -->
 
-
+## [0.16.0] - 2025-03-28
+### Changed
+- (BREAKING) spilt main.ts up into many files containing each component of the main code
 
 ## [0.15.0] - 2025-03-25
 ### Added

@@ -1,6 +1,6 @@
 import * as Tone from 'tone';
-import { updateStatusMsg } from "./logging";
-import { volumeNode } from './main';
+import { updateStatusMsg } from "../logging";
+import { volumeNode } from '../components/instruSelect';
 
 // recording
 const startRecordButton = document.getElementById('start-record-button')!;

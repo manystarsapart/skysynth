@@ -1,5 +1,5 @@
 import { keyboardMode0 } from "./maps";
-import { instruments, effectNodes } from "./instrueffect";
+import { instruments, effectNodes } from "./audio/instruEffect";
 
 export let states: any = {
     shiftPressed: false,
@@ -7,6 +7,7 @@ export let states: any = {
     rightAltPressed: false,
     currentLightsOn: true,
     stopAudioWhenReleased: false,
+    navbarExtended: false,
 
 
     currentInstrument: instruments[0],
@@ -20,10 +21,14 @@ export let states: any = {
     letterMap: keyboardMode0,
     lastPressedTransposeKey: '`',
 
+    maxWaterLevel: 500,
+    currentWaterLevel: parseInt(localStorage.getItem("savedWaterLevel") ?? '0') || 0,
+    totalWaterReward: parseInt(localStorage.getItem("totalWaterReward") ?? '0') || 0,
+    volume: parseInt(localStorage.getItem("savedVolume") ?? '100') || 100,
+
+    
 
 }
-
-// export const
 
 export const pressedKeys: Set<string> = new Set();
 
