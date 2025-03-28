@@ -113,7 +113,7 @@ export function octaveUp(diff:number | null = null) {
         }
     }
     octaveValueDisplay.innerHTML = states.octave.toString();
-    updateStatusMsg(`states.octave shift updated to: ${states.octave}`);
+    updateStatusMsg(`octave shift updated to: ${states.octave}`);
     updateVisualGuide(states.lastPressedTransposeKey);
 }
 
@@ -136,6 +136,6 @@ export function octaveDown(diff:number | null = null) {
         }
     }
     octaveValueDisplay.innerHTML = states.octave.toString();
-    updateStatusMsg(`states.octave shift updated to: ${states.octave}`);
+    updateStatusMsg(`octave shift updated to: ${states.octave}`);
     updateVisualGuide(states.lastPressedTransposeKey);
 }
