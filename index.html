@@ -137,6 +137,32 @@
             </div>
         </ul>
     </nav>
+
+
+<!-- controls guide -->
+    <div id="modal-overlay" class="fixed top-0 left-0 w-full h-full bg-gray-800/50 hidden flex justify-center items-center z-50">
+        <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-4">
+            <button id="close-modal" class="absolute top-2 right-2 text-5xl">×</button>
+            <div id="modal-content">
+                <h2 class="text-3xl pb-5">Controls</h2>
+                <ul>
+                    <li><span id="modal-backspace" class="keys-MCG key-button-MCG">Backspace</span>Switch Keyboard Modes (+12, +1, -1)</li>
+                    <li><span id="modal-transpose" class="keys-MCG key-button-MCG">Number Row Keys (` to =)</span>Transpose</li>
+                    <li><span id="modal-transpose-down" class="keys-MCG key-button-MCG">[</span><span id="modal-transpose-up" class="keys-MCG key-button-MCG">]</span>Transpose by 1 Semitone</li>
+                    <li><span id="modal-arrow-left" class="keys-MCG key-button-MCG">←</span><span id="modal-arrow-down" class="keys-MCG key-button-MCG">↓</span>Octave Down</li>
+                    <li><span id="modal-arrow-right" class="keys-MCG key-button-MCG">→</span><span id="modal-arrow-up" class="keys-MCG key-button-MCG">↑</span>Octave Up</li>
+                    <li><span id="modal-shift" class="keys-MCG key-button-MCG">Shift</span>+1 Semitone (Temp, Global)</li>
+                    <li><span id="modal-alt-l" class="keys-MCG key-button-MCG">Left Alt</span>+1 Semitone (Temp, Left)</li>
+                    <li><span id="modal-alt-r" class="keys-MCG key-button-MCG">Right Alt</span>+1 Semitone (Temp, Right)</li>
+                    <li><span id="modal-capslock" class="keys-MCG key-button-MCG">Caps Lock</span>Toggle: Smooth | Instant Release</li>
+                    <li><span id="modal-\" class="keys-MCG key-button-MCG">\</span>Light Switch</li>
+                    <li><span id="modal-tab" class="keys-MCG key-button-MCG">Tab</span>Controls Guide (This Page)</li>
+                    <li><span id="modal-esc" class="keys-MCG key-button-MCG">Esc</span>Menu</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
 </header>
 
 <main id="main-content" class="-z-10">
@@ -369,7 +395,7 @@
         </div>
     </div>
 
-<div class="pointer-events-none opacity-50 transform scale-[85%]">
+<div class="pointer-events-none opacity-50 transform scale-[85%] hidden bg-[#588157]">
     
 </div>
 

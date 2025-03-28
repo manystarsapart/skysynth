@@ -1,5 +1,6 @@
 import { states } from "../core/states";
 import { activeKeyTimeouts } from "../core/states";
+import { updateStatusMsg } from "../core/logging";
 
 // ===========================================
 // STOP AUDIO WHEN RELEASED
@@ -18,6 +19,7 @@ export function toggleStopAudioWhenReleased(manualState: boolean | null = null) 
     }
     stopAudioWhenReleasedButton.style.backgroundColor = states.stopAudioWhenReleased ? "#588157" : "#F08080";
     stopAudioWhenReleasedButton.textContent = states.stopAudioWhenReleased ? "instant release" : "smooth release";
+    updateStatusMsg(`Set release mode to ${states.stopAudioWhenReleased ? "instant release" : "smooth release"}.`)
     
     // clear pending animations when changing modes
     activeKeyTimeouts.forEach((timeout, key) => {

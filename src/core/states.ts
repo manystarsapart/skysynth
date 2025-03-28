@@ -8,6 +8,7 @@ export let states: any = {
     currentLightsOn: true,
     stopAudioWhenReleased: false,
     navbarExtended: false,
+    modalShown: false,
 
 
     currentInstrument: instruments[0],

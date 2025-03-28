@@ -66,9 +66,11 @@ FUTURE PLANS
 ### Added
 - dynamic visual guide changes when shift / alt pressed
 - `[` and `]` now allow for adjustment of one semitone
+- controls guide: `Tab` to view
 
 ### Changed
 - (BREAKING) spilt main.ts up into many files containing each component of the main code
+- light switch: `Spacebar` --> `\`
 
 
 ## [0.15.0] - 2025-03-25

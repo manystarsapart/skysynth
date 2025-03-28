@@ -10,6 +10,7 @@ import { incrementWater, waterLevelDisplay, waterRewardDisplay, updateWaterMaskP
 import { toggleLights } from './visual/lights.ts';
 import { volumeValueDisplay } from './components/instruSelect.ts';
 import { octaveUp, octaveDown, transposeToKey, transposeUpOne, transposeDownOne } from './audio/transposeOctave.ts';
+import { toggleModal } from './components/modal.ts';
 import './audio/recording.ts';
 
 
@@ -45,6 +46,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     volumeValueDisplay.textContent = `${states.volume}%`;
 
+
+    document.getElementById("modal-backspace")!.addEventListener("pointerdown", toggleKeyboardMode);
+    document.getElementById("modal-transpose-down")!.addEventListener("pointerdown", transposeDownOne);
+    document.getElementById("modal-transpose-up")!.addEventListener("pointerdown", transposeUpOne);
+    document.getElementById("modal-arrow-left")!.addEventListener("pointerdown", () => octaveDown());
+    document.getElementById("modal-arrow-down")!.addEventListener("pointerdown", () => octaveDown());
+    document.getElementById("modal-arrow-right")!.addEventListener("pointerdown", () => octaveUp());
+    document.getElementById("modal-arrow-up")!.addEventListener("pointerdown", () => octaveUp());
+    document.getElementById("modal-shift")!.addEventListener("pointerdown", () => document.getElementById("shift-indicator")!.style.backgroundColor = "#588157");
+    document.getElementById("modal-shift")!.addEventListener("pointerup", () => document.getElementById("shift-indicator")!.style.backgroundColor = "");
+    document.getElementById("modal-alt-l")!.addEventListener("pointerdown", () => document.getElementById("l-alt-indicator")!.style.backgroundColor = "#588157");
+    document.getElementById("modal-alt-l")!.addEventListener("pointerup", () => document.getElementById("l-alt-indicator")!.style.backgroundColor = "");
+    document.getElementById("modal-alt-r")!.addEventListener("pointerdown", () => document.getElementById("r-alt-indicator")!.style.backgroundColor = "#588157");
+    document.getElementById("modal-alt-r")!.addEventListener("pointerup", () => document.getElementById("r-alt-indicator")!.style.backgroundColor = "");
+    document.getElementById("modal-capslock")!.addEventListener("pointerdown", () => toggleStopAudioWhenReleased());
+    document.getElementById("modal-\\")!.addEventListener("pointerdown", toggleLights);
+    document.getElementById("modal-tab")!.addEventListener("pointerdown", () => toggleModal(false));
+    document.getElementById("modal-esc")!.addEventListener("pointerdown", () => toggleModal(false));
     // ===========================================
     // HANDLING KEYPRESSES
     // https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
@@ -92,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (key in pitchMap && !pressedKeys.has(key)) {transposeToKey(key)} // transpose
         else if (key == '[') {transposeDownOne()} // transpose 1 semitone down
         else if (key == ']') {transposeUpOne()} // transpose 1 semitone up
+        else if (key == 'tab') {toggleModal(!states.modalShown ? true : false)}
         else if (e.key == 'CapsLock') {toggleStopAudioWhenReleased()} // stopaudiowhenreleased
         else if (key == '\\') {toggleLights()} // lights
         else if (key == 'escape') {toggleMenu()} // menu
