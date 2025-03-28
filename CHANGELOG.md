@@ -65,8 +65,11 @@ FUTURE PLANS
 ## [0.16.0] - 2025-03-28
 ### Added
 - dynamic visual guide changes when shift / alt pressed
+- `[` and `]` now allow for adjustment of one semitone
+
 ### Changed
 - (BREAKING) spilt main.ts up into many files containing each component of the main code
+
 
 ## [0.15.0] - 2025-03-25
 ### Added

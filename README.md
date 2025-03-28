@@ -39,6 +39,7 @@ vanilla html is used, with tailwindcss used for styling purposes. vite with type
 11. record and save your melodies: menu
 12. you can turn the lights off (?): `Spacebar`
 13. water collection feature (reward TBC)
+14. transposing by one semitone: `[` for down, `]` for up
 
 just press random keys to get started. it can be a lot of fun !
 (especially if you're familiar with the Sky: CoTL music keyboard like i am)
