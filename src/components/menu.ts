@@ -1,4 +1,4 @@
-import { states } from "../states";
+import { states } from "../core/states";
 
 // menu
 const navbar = document.getElementById("navbar")!;

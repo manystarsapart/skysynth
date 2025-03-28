@@ -1,7 +1,7 @@
-import { states } from "../states";
-import { pitchMap, transposeMap, pitchMapReversed } from "../maps";
+import { states } from "../core/states";
+import { pitchMap, transposeMap, pitchMapReversed } from "../core/maps";
 import { updateVisualGuide } from "../visual/visualguide";
-import { updateStatusMsg } from "../logging";
+import { updateStatusMsg } from "../core/logging";
 
 const transposeValueDisplay = document.getElementById("transpose-value")!; // past: transposeValueBox
 const scaleValueDisplay1 = document.getElementById("scale-value")!; // past: scaleValueBox

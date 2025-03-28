@@ -1,7 +1,7 @@
-import { states } from "../states";
-import { keyboardMode0, keyboardMode1, keyboardMode2 } from "../maps";
+import { states } from "../core/states";
+import { keyboardMode0, keyboardMode1, keyboardMode2 } from "../core/maps";
 import { updateVisualGuide } from "../visual/visualguide";
-import { updateStatusMsg } from "../logging";
+import { updateStatusMsg } from "../core/logging";
 
 const switchKeyboardButton = document.getElementById("switch-keyboard-button")!;
 

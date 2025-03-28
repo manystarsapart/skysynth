@@ -1,7 +1,7 @@
 import * as Tone from 'tone';
-import { updateStatusMsg, updateNoteHistory } from './logging.ts';
-import { pitchMap, leftKeyboardKeys, rightKeyboardKeys } from './maps.ts';
-import { states, pressedKeys } from './states.ts';
+import { updateStatusMsg, updateNoteHistory } from './core/logging.ts';
+import { pitchMap, leftKeyboardKeys, rightKeyboardKeys } from './core/maps.ts';
+import { states, pressedKeys } from './core/states.ts';
 import { applyVisualGuideStyleChange, removeVisualGuideStyleChange } from './visual/visualguide.ts';
 import { toggleStopAudioWhenReleased } from './audio/stopAudioWhenReleased.ts';
 import { toggleMenu } from './components/menu.ts';

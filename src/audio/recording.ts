@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { updateStatusMsg } from "../logging";
+import { updateStatusMsg } from "../core/logging";
 import { volumeNode } from '../components/instruSelect';
 
 // recording

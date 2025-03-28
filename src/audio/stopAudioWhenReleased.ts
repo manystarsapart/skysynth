@@ -1,5 +1,5 @@
-import { states } from "../states";
-import { activeKeyTimeouts } from "../states";
+import { states } from "../core/states";
+import { activeKeyTimeouts } from "../core/states";
 
 // ===========================================
 // STOP AUDIO WHEN RELEASED

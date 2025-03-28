@@ -1,6 +1,6 @@
 import * as Tone from 'tone';
 import { effectNodes, instruments, instrumentNames } from '../audio/instruEffect.ts';
-import { states } from '../states';
+import { states } from '../core/states.ts';
 import { toggleStopAudioWhenReleased } from '../audio/stopAudioWhenReleased';
 
 // volume

@@ -1,5 +1,5 @@
-import { updateStatusMsg } from "../logging";
-import { states } from "../states";
+import { updateStatusMsg } from "../core/logging";
+import { states } from "../core/states";
 
 // water
 export const waterLevelDisplay = document.getElementById("water-level-display")!; // past: waterLevelBox

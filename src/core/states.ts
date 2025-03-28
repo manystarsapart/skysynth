@@ -1,5 +1,5 @@
 import { keyboardMode0 } from "./maps";
-import { instruments, effectNodes } from "./audio/instruEffect";
+import { instruments, effectNodes } from "../audio/instruEffect";
 
 export let states: any = {
     shiftPressed: false,
@@ -25,9 +25,6 @@ export let states: any = {
     currentWaterLevel: parseInt(localStorage.getItem("savedWaterLevel") ?? '0') || 0,
     totalWaterReward: parseInt(localStorage.getItem("totalWaterReward") ?? '0') || 0,
     volume: parseInt(localStorage.getItem("savedVolume") ?? '100') || 100,
-
-    
-
 }
 
 export const pressedKeys: Set<string> = new Set();

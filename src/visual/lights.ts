@@ -1,6 +1,6 @@
-import { states } from "../states";
+import { states } from "../core/states";
 import { waterMask } from "./water";
-import { updateStatusMsg } from "../logging";
+import { updateStatusMsg } from "../core/logging";
 import { toggleVGWhiteBg } from "./visualguide";
 
 // lights

@@ -1,6 +1,6 @@
-import { states } from '../states.ts';
-import { pitchMap, transposeMap, mapNumbersToNotesOctaves, preserveKeyIDLeft, preserveKeyIDRight, mapNumbersToNotesMapping, transposeList } from '../maps.ts';
-import { pressedKeys, activeKeyTimeouts } from '../states.ts';
+import { states } from '../core/states.ts';
+import { pitchMap, transposeMap, mapNumbersToNotesOctaves, preserveKeyIDLeft, preserveKeyIDRight, mapNumbersToNotesMapping, transposeList } from '../core/maps.ts';
+import { pressedKeys, activeKeyTimeouts } from '../core/states.ts';
 import * as Tone from 'tone';
 
 // visual guide
