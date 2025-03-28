@@ -1,15 +1,15 @@
 import * as Tone from 'tone';
 import { updateStatusMsg, updateNoteHistory } from './logging.ts';
-import { pitchMap, transposeMap, leftKeyboardKeys, rightKeyboardKeys } from './maps.ts';
+import { pitchMap, leftKeyboardKeys, rightKeyboardKeys } from './maps.ts';
 import { states, pressedKeys } from './states.ts';
-import { updateVisualGuide, applyVisualGuideStyleChange, removeVisualGuideStyleChange } from './visual/visualguide.ts';
-import { octaveUp, octaveDown } from './audio/octave.ts';
+import { applyVisualGuideStyleChange, removeVisualGuideStyleChange } from './visual/visualguide.ts';
 import { toggleStopAudioWhenReleased } from './audio/stopAudioWhenReleased.ts';
 import { toggleMenu } from './components/menu.ts';
 import { toggleKeyboardMode } from './audio/switchKeyboard.ts';
 import { incrementWater, waterLevelDisplay, waterRewardDisplay, updateWaterMaskPosition } from './visual/water.ts';
 import { toggleLights } from './visual/lights.ts';
 import { volumeValueDisplay } from './components/instruSelect.ts';
+import { octaveUp, octaveDown, transposeToKey, transposeUpOne, transposeDownOne } from './audio/transposeOctave.ts';
 import './audio/recording.ts';
 
 
@@ -21,10 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // DATA & DISPLAYS
 
     // span displays
-    const transposeValueDisplay = document.getElementById("transpose-value")!; // past: transposeValueBox
-    const scaleValueDisplay1 = document.getElementById("scale-value")!; // past: scaleValueBox
-    const scaleValueDisplay2 = document.getElementById("scale-value-2")!; // past: scaleValueBox2
-
     const cumKeypressDisplay = document.getElementById("cum-keypress")!; // past: cumKeypressBox
     const cumTimeDisplay = document.getElementById("cum-time")!; // past: cumTimeBox
 
@@ -91,25 +87,16 @@ document.addEventListener("DOMContentLoaded", () => {
             applyVisualGuideStyleChange(document.getElementById(key) as HTMLElement);
 
             incrementCumKeypress();
-        } else if (key in pitchMap && !pressedKeys.has(key)) {
-            // detecting for transposing. number keys
-            states.lastPressedTransposeKey = key;
-            states.transposeValue = pitchMap[key]; // in semitones
-            transposeValueDisplay.innerHTML = pitchMap[key].toString(); // returns semitone count
-            scaleValueDisplay1.innerHTML = transposeMap[pitchMap[key]].toString(); // returns scale ("C", "D", etc)
-            scaleValueDisplay2.innerHTML = transposeMap[pitchMap[key]].toString(); // returns the same scale for better visualisation
-            updateVisualGuide(key);
-            console.log(`transpose pressed: ${key}`);
-            updateStatusMsg(`transpose value updated to: ${pitchMap[key]}`);
-        } else if (e.key == 'CapsLock') {
-            toggleStopAudioWhenReleased();
-        } else if (key == ' ') {
-            toggleLights();
-        } else if (key == 'escape') { 
-            toggleMenu(); 
-        } else if (key == 'backspace') {toggleKeyboardMode()}
-        // detect arrow key: octave change
-        switch(e.key) {
+        } 
+        
+        else if (key in pitchMap && !pressedKeys.has(key)) {transposeToKey(key)} // transpose
+        else if (key == '[') {transposeDownOne()} // transpose 1 semitone down
+        else if (key == ']') {transposeUpOne()} // transpose 1 semitone up
+        else if (e.key == 'CapsLock') {toggleStopAudioWhenReleased()} // stopaudiowhenreleased
+        else if (key == '\\') {toggleLights()} // lights
+        else if (key == 'escape') {toggleMenu()} // menu
+        else if (key == 'backspace') {toggleKeyboardMode()} // keyboardmode
+        switch(e.key) { // detect arrow key: octave change
             case 'ArrowLeft':
                 octaveDown();
                 break;
@@ -191,6 +178,10 @@ document.addEventListener("DOMContentLoaded", () => {
         cumulativeTime += elapsedTime;
         localStorage.setItem("cumulativeTime", cumulativeTime.toString());
     });
+
+
+
+    updateStatusMsg("Initialised!");
 
 })
 
