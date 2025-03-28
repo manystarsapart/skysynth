@@ -1,4 +1,10 @@
 import * as Tone from 'tone';
+import { updateStatusMsg, updateNoteHistory } from './logging.ts';
+import { effectNodes, instruments, instrumentNames } from './instrueffect.ts';
+import { keyboardMode0, keyboardMode1, keyboardMode2, pitchMap, transposeMap, leftKeyboardKeys, rightKeyboardKeys, mapNumbersToNotesOctaves, preserveKeyIDLeft, preserveKeyIDRight, mapNumbersToNotesMapping, transposeList } from './maps.ts';
+import { } from './water.ts';
+
+let volumeNode: Tone.Volume;
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -7,13 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ======================
     // DATA & DISPLAYS
 
-    let messageLog: string[] = []; // past: messages
-    let noteHistory: string[] = [];
-    let transposeValue: number = 0;
 
-    const messageLogDiv = document.getElementById("status-div")!; // past: statusDiv
-    const visualGuideDiv = document.getElementById("notes-div")!; // past: notesDiv
-    
     // span displays
     const transposeValueDisplay = document.getElementById("transpose-value")!; // past: transposeValueBox
     const scaleValueDisplay1 = document.getElementById("scale-value")!; // past: scaleValueBox
@@ -27,8 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // BUTTONS
 
     // misc
-    const clearStatusButton = document.getElementById("clear-status-button")!; 
-    const clearNoteHistoryButton = document.getElementById("clear-note-history-button")!;
     const stopAudioWhenReleasedButton = document.getElementById("stop-audio-when-released-button")!;
     const shiftIndicator = document.getElementById("shift-indicator")!;
     const leftAltIndicator = document.getElementById("l-alt-indicator")!;
@@ -49,13 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // lights
     const lightSwitch = document.getElementById("light-switch")!;
     const staticBackground = document.getElementById("static-background")!;
-
-    // recording
-    const startRecordButton = document.getElementById('start-record-button')!;
-    const stopRecordButton = document.getElementById('stop-record-button')!;
-    const playRecordButton = document.getElementById('play-record-button')!;
-    const saveRecordButton = document.getElementById('save-record-button')!;
-    const stopPlaybackButton = document.getElementById("stop-playback-button")!;
 
     // visual guide
     const notesDivL = document.getElementById("notes-div-left")!;
@@ -78,6 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let cumulativeTime: number = parseInt(localStorage.getItem("cumulativeTime") ?? '100') || 100;
     let volume: number = parseInt(localStorage.getItem("savedVolume") ?? '100') || 100; 
 
+    let letterMap = keyboardMode0;
+
     // note animations
     const activeKeyTimeouts = new Map();
 
@@ -93,14 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // stopAudioWhenReleased
     let stopAudioWhenReleased: boolean = false;
 
-    // recording
-    let mediaRecorder: any;
-    let audioChunks: any[] = [];
-    let hasRecording: boolean = false;
-    let isRecording: boolean = false;
-    let audio: any;
-    let audioUrl: any;
-
     // octave
     let lastPressedTransposeKey: string = "`"; // ` 1 2 3 4 5 6 7 8 9 0 - =
     let octave: number = 0;
@@ -114,408 +99,15 @@ document.addEventListener("DOMContentLoaded", () => {
     let globalStartTime: number = Date.now();
 
     // volume
-    const volumeNode = new Tone.Volume().toDestination();
+    volumeNode = new Tone.Volume().toDestination();
+
+
 
     // instruments & effects
     let effectLevel: number = 50;
- 
-    // ===========================================
-    // MAPS 
 
-    type KeyboardModeType = Record<string,number>;
-    
-    // for +12
-    const keyboardMode0: KeyboardModeType = {
-        'q': 48, 'w': 50, 'e': 52, 'r': 53, 't': 55,
-        'a': 57, 's': 59, 'd': 60, 'f': 62, 'g': 64,
-        'z': 65, 'x': 67, 'c': 69, 'v': 71, 'b': 72,
+    let transposeValue: number = 0;
 
-        'y': 60, 'u': 62, 'i': 64, 'o': 65, 'p': 67,
-        'h': 69, 'j': 71, 'k': 72, 'l': 74, ';': 76,
-        'n': 77, 'm': 79, ',': 81, '.': 83, '/': 84,
-    };
-
-    // for +1
-    const keyboardMode1: KeyboardModeType = {
-        'q': 48, 'w': 50, 'e': 52, 'r': 53, 't': 55,
-        'a': 57, 's': 59, 'd': 60, 'f': 62, 'g': 64,
-        'z': 65, 'x': 67, 'c': 69, 'v': 71, 'b': 72,
-
-        'y': 49, 'u': 51, 'i': 53, 'o': 54, 'p': 56,
-        'h': 58, 'j': 60, 'k': 61, 'l': 63, ';': 65,
-        'n': 66, 'm': 68, ',': 70, '.': 72, '/': 73,
-    };
-
-    // for -1
-    const keyboardMode2: KeyboardModeType = {
-        'q': 49, 'w': 51, 'e': 53, 'r': 54, 't': 56,
-        'a': 58, 's': 60, 'd': 61, 'f': 63, 'g': 65,
-        'z': 66, 'x': 68, 'c': 70, 'v': 72, 'b': 73,
-
-        'y': 48, 'u': 50, 'i': 52, 'o': 53, 'p': 55,
-        'h': 57, 'j': 59, 'k': 60, 'l': 62, ';': 64,
-        'n': 65, 'm': 67, ',': 69, '.': 71, '/': 72,
-    };
-
-    let letterMap = keyboardMode0;
-    // ^i will let it infer the type here. much to type
-
-
-    // for keys pressed to initiate transposing
-    type PitchMap = Record<string,number>
-    const pitchMap: PitchMap = {
-        '`': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, 
-        '6': 6, '7': 7, '8': 8, '9': 9, '0':10, '-': 11, 
-        '=': 12
-    };
-
-    type TransposeMap = Record<string, KeyType>
-    const transposeMap: TransposeMap = {
-        '0': "C", 
-        '1': "C#",
-        '2': "D", 
-        '3': "D#",
-        '4': "E", 
-        '5': "F", 
-        '6': "F#",
-        '7': "G", 
-        '8': "G#",
-        '9': "A", 
-        '10': "Bb",
-        '11': "B", 
-        '12': "C"
-    };
-
-    const leftKeyboardKeys: Set<string> = new Set([
-        'q','w','e','r','t',
-        'a','s','d','f','g',
-        'z','x','c','v','b'
-    ])
-
-    const rightKeyboardKeys: Set<string> = new Set([
-        'y','u','i','o','p',
-        'h','j','k','l',';',
-        'n','m',',','.','/'
-    ])
-
-
-
-    // ===========================================
-    // VISUAL GUIDE
-
-    type KeyType = keyof typeof mapNumbersToNotesOctaves;
-    type PreserveKeys = Record<number,string>;
-
-    const mapNumbersToNotesOctaves = {
-        'C': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
-        'C#': ['C#', 'D#', 'F', 'F#', 'G#', 'Bb', 'C'],
-        'D': ['D', 'E', 'F#', 'G', 'A', 'B', 'C#'],
-        'D#': ['D#', 'F', 'G', 'G#', 'Bb', 'C', 'D'],
-        'E': ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],
-        'F': ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'],
-        'F#': ['F#', 'G#', 'Bb', 'B', 'C#', 'D#', 'F'],
-        'G': ['G', 'A', 'B', 'C', 'D', 'E', 'F#'],
-        'G#': ['G#', 'Bb', 'C', 'C#', 'D#', 'F', 'G'],
-        'A': ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'],
-        'Bb': ['Bb', 'C', 'D', 'D#', 'F', 'G', 'A'],
-        'B': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'Bb']
-    } as const;
-
-    const preserveKeyIDLeft: PreserveKeys = {
-        '0':'q', '1':'w', '2':'e', '3':'r', '4':'t', 
-        '5':'a', '6':'s', '7':'d', '8':'f', '9':'g', 
-        '10':'z', '11':'x', '12':'c', '13':'v', '14':'b'
-    };
-
-    const preserveKeyIDRight: PreserveKeys = {
-        '0':'y', '1':'u', '2':'i', '3':'o', '4':'p',
-        '5':'h', '6':'j', '7':'k', '8':'l', '9':';',
-        '10':'n', '11':'m', '12':',', '13':'.', '14':'/'
-    };
-
-    const mapNumbersToNotesMapping = [
-        [1, 2, 3, 4, 5],
-        [6, 7, 1, 2, 3],
-        [4, 5, 6, 7, 8]
-    ];
-
-    const transposeList: string[] = [
-      "C", 
-      "C#",
-      "D", 
-      "D#",
-      "E", 
-      "F", 
-      "F#",
-      "G", 
-      "G#",
-      "A", 
-      "Bb",
-      "B"
-  ];
-
-    // ===========================================
-    // LIST: INSTRUMENTS & EFFECTS
-
-    let effectNodes: any[] = [
-        null, // 0 no effect
-        new Tone.Distortion(), // 1
-        new Tone.AutoWah(),    // 2
-        new Tone.BitCrusher(),  // 3
-        new Tone.Freeverb(), // 4
-
-    ];
-
-    const instruments: any[] = [
-        new Tone.Sampler({ 
-            urls: {
-                "A4": "a4.mp3",
-                "A5": "a5.mp3",
-                "A6": "a6.mp3",
-                "A7": "a7.mp3",
-                "D#4": "ds4.mp3",
-                "D#5": "ds5.mp3",
-                "D#6": "ds6.mp3",
-                "D#7": "ds7.mp3"
-            },
-            baseUrl: "./assets/audio/piano/",
-            onload: () => {
-                console.log("piano samples loaded");
-            }, 
-        }), // 0 piano sampler
-        new Tone.Sampler({ 
-            urls: {
-                "A3": "a3.mp3",
-                "A4": "a4.mp3",
-                "A5": "a5.mp3",
-                "D#3": "ds3.mp3",
-                "D#4": "ds4.mp3",
-                "D#5": "ds5.mp3",
-            },
-            baseUrl: "./assets/audio/eguitar/",
-            onload: () => {
-                console.log("e-guitar samples loaded");
-            }, 
-        }), // 1 eguitar sampler
-        new Tone.Sampler({ 
-            urls: {
-                "A3": "a3.mp3",
-                "A4": "a4.mp3",
-                "A5": "a5.mp3",
-                "A6": "a6.mp3",
-                "D#4": "ds4.mp3",
-                "D#5": "ds5.mp3",
-                "D#6": "ds6.mp3",
-                "D#7": "ds7.mp3"
-            },
-            baseUrl: "./assets/audio/musicbox/",
-            onload: () => {
-                console.log("musicbox samples loaded");
-            }, 
-        }), // 2 musicbox sampler
-        new Tone.Sampler({ 
-            urls: {
-                "A4": "a4.mp3",
-                "A5": "a5.mp3",
-                "A6": "a6.mp3",
-                "D#4": "ds4.mp3",
-                "D#5": "ds5.mp3",
-                "D#6": "ds6.mp3",
-            },
-            baseUrl: "./assets/audio/flute/",
-            onload: () => {
-                console.log("flute samples loaded");
-            }, 
-        }), // 3 flute sampler
-        new Tone.Sampler({ 
-            urls: {
-                "A3": "a3.mp3",
-                "A4": "a4.mp3",
-                "A5": "a5.mp3",
-                "D#3": "ds3.mp3",
-                "D#4": "ds4.mp3",
-                "D#5": "ds5.mp3",
-            },
-            baseUrl: "./assets/audio/horn/",
-            onload: () => {
-                console.log("horn samples loaded");
-            }, 
-        }), // 4 horn sampler
-        new Tone.Sampler({ 
-            urls: {
-                "A4": "a4.mp3",
-                "A5": "a5.mp3",
-                "A6": "a6.mp3",
-                "D#4": "ds4.mp3",
-                "D#5": "ds5.mp3",
-                "D#6": "ds6.mp3",
-            },
-            baseUrl: "./assets/audio/bugle/",
-            onload: () => {
-                console.log("bugle samples loaded");
-            }, 
-        }), // 5 bugle sampler
-        new Tone.PolySynth(Tone.Synth), // 6
-        new Tone.PolySynth(Tone.DuoSynth), // 7
-        new Tone.PolySynth(Tone.FMSynth), // 8
-        new Tone.PolySynth(Tone.AMSynth), // 9
-        new Tone.Sampler({ 
-            urls: {
-                "A3": "a3.mp3",
-                "B2": "b2.mp3",
-                "B4": "b4.mp3",
-                "B5": "b5.mp3",
-                "C4": "c4.mp3",
-                "D#4": "ds4.mp3",
-                "F3": "f3.mp3",
-                "F4": "f4.mp3",
-                "F5": "f5.mp3"
-            },
-            baseUrl: "./assets/audio/meow/",
-            onload: () => {
-                console.log("meow samples loaded");
-            }, 
-        }), // 10 meow sampler
-        new Tone.Sampler({ 
-            urls: {
-                "F3": "f3.wav",
-                "A3": "a3.wav",
-                "C4": "c4.wav",
-                "F4": "f4.wav",
-                "Bb4": "bb4.wav",
-                "C5": "c5.wav",
-                "F5": "f5.wav",
-                "C6": "c6.wav",
-                "F6": "f6.wav",
-            },
-            baseUrl: "./assets/audio/otto-doo/",
-            onload: () => {
-                console.log("otto doo samples loaded");
-            }, 
-        }), // 11 otto doo
-        new Tone.Sampler({ 
-            urls: {
-                "C3": "c3.wav",
-                "F3": "f3.wav",
-                "C4": "c4.wav",
-                "F4": "f4.wav",
-                "Bb4": "bb4.wav",
-                "C5": "c5.wav",
-                "F5": "f5.wav",
-                "C6": "c6.wav",
-                "F6": "f6.wav",
-            },
-            baseUrl: "./assets/audio/otto-synth/",
-            onload: () => {
-                console.log("otto synth samples loaded");
-            }, 
-        }), // 12 otto synth
-
-        new Tone.Sampler({ 
-            urls: {
-                "A3": "a3.mp3",
-                "A4": "a4.mp3",
-                "A5": "a5.mp3",
-                "D#3": "ds3.mp3",
-                "D#4": "ds4.mp3",
-                "D#5": "ds5.mp3",
-            },
-            baseUrl: "./assets/audio/guitar/",
-            onload: () => {
-                console.log("guitar samples loaded");
-            }, 
-        }), // 13 guitar
-
-        new Tone.Sampler({ 
-            urls: {
-                "A3": "a3.wav",
-                "A4": "a4.wav",
-                "A5": "a5.wav",
-                "D#4": "ds4.wav",
-                "D#5": "ds5.wav",
-                "D#6": "ds6.wav",
-                "F#6": "fs6.wav"
-            },
-            baseUrl: "./assets/audio/violin/",
-            onload: () => {
-                console.log("violin samples loaded");
-            }, 
-        }), // 14 violin 
-        // SOURCE: FREESOUND.ORG
-
-        // todo: explore & add more
-    ];
-
-    const instrumentNames: string[] = [
-        "Piano (Sampler)",
-        "E-Guitar (Sampler)",
-        "Music Box (Sampler)",
-        "Flute (Sampler)",
-        "Horn (Sampler)",
-        "Bugle (Sampler)",
-        "Synth",
-        "Duo Synth",
-        "FM Synth",
-        "AM Synth",
-        "Meow",
-        "Otto - Doo",
-        "Otto - Synth",
-        "Guitar (Sampler)",
-        "Violin (Sampler)"
-    ] 
-
-    // ===========================================
-    // LOGGING: STATUS DIV
-
-    function updateStatusMsg(message:string) {
-        const now: Date = new Date(Date.now());
-        const formattedTime: string = now.toLocaleString();
-        messageLog.push(`${message} | Time: ${formattedTime}`);
-        if (messageLog.length > 50) {
-            messageLog.shift();
-        } 
-        const status: string = messageLog.join('<br>');
-        messageLogDiv.innerHTML = status;
-        messageLogDiv.scrollTop = messageLogDiv.scrollHeight;
-    }
-
-    // ===========================================
-    // CLEARING STATUS DIV
-    
-    clearStatusButton.addEventListener("pointerdown", () => {
-        // clears status div
-        messageLog = [];
-        messageLogDiv.innerHTML = "";
-    })
-
-    // ===========================================
-    // LOGGING: NOTE PLAYING HISTORY
-
-    function updateNoteHistory(note:number) {
-        noteHistory.push(`${midiToSPN(note)} | ${cumulativeKeypress+1}`);
-        if (noteHistory.length > 20) {
-            noteHistory.shift();
-        } 
-        const noteHistoryContent: string = noteHistory.join('<br>');
-        visualGuideDiv.innerHTML = noteHistoryContent;
-        visualGuideDiv.scrollTop = visualGuideDiv.scrollHeight;
-    }
-
-    function midiToSPN(midiNumber:number) {
-        const noteNames: string[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'Bb', 'B'];
-        const noteIndex: number = midiNumber % 12;
-        const octave: number = Math.floor((midiNumber) / 12) - 1;
-        return noteNames[noteIndex] + octave;
-    }
-
-    // ===========================================
-    // CLEARING NOTE HISTORY
-    
-    clearNoteHistoryButton.addEventListener("pointerdown", () => {
-        // clears note history
-        noteHistory = [];
-        visualGuideDiv.innerHTML = "";
-    })
 
     // ===========================================
     // VOLUME CONTROL
@@ -658,41 +250,61 @@ document.addEventListener("DOMContentLoaded", () => {
     let rightAltPressed: boolean = false;
 
     document.addEventListener('keydown', function(e) {
-        if (e.shiftKey) {
+        if (e.key === 'Shift') {
             shiftPressed = true;
             shiftIndicator.style.backgroundColor = "#588157";
+            const newTranspose = (pitchMap[lastPressedTransposeKey] + 1);
+        
+            // THE SHIFT-NON-LIGHTING-UP PROBLEM LIES IN THESE TWO LINES
+            updateVisualGuideOnOneSide(transposeMap[newTranspose.toString() as KeyType], 0);
+            updateVisualGuideOnOneSide(transposeMap[newTranspose.toString() as KeyType], 1);
+
+            // if (!currentLightsOn) {
+            //     // toggleVGWhiteBg();
+            //     if (shiftIndicator.classList.contains("bg-white/80")) {
+            //         shiftIndicator.classList.toggle("bg-white/80");
+            //     }
+            //     if (leftAltIndicator.classList.contains("bg-white/80")) {
+            //         leftAltIndicator.classList.toggle("bg-white/80");
+            //     }
+            //     if (rightAltIndicator.classList.contains("bg-white/80")) {
+            //         rightAltIndicator.classList.toggle("bg-white/80");
+            //     }
+            // }
         } 
-        else if (e.altKey && e.location === 1) {
+        else if (e.key === 'Alt' && e.location === 1) {
             // left alt key
             e.preventDefault();
             leftAltPressed = true;
             leftAltIndicator.style.backgroundColor = "#588157";
-            // updateStatusMsg("l alt held");
+            updateVisualGuideOnOneSide(transposeMap[pitchMap[lastPressedTransposeKey]+1],0);
         } 
-        else if (e.altKey && e.location === 2) {
+        else if (e.key === 'Alt' && e.location === 2) {
             // right alt key
             e.preventDefault();
             rightAltPressed = true;
             rightAltIndicator.style.backgroundColor = "#588157";
-            // updateStatusMsg("r alt held");
+            updateVisualGuideOnOneSide(transposeMap[pitchMap[lastPressedTransposeKey]+1],1);
         }
     });
     document.addEventListener('keyup', function(e) {
         if (e.key === 'Shift') {
             shiftPressed = false;
             shiftIndicator.style.backgroundColor = "";
+            updateVisualGuideOnOneSide(transposeMap[pitchMap[lastPressedTransposeKey]],0);
+            updateVisualGuideOnOneSide(transposeMap[pitchMap[lastPressedTransposeKey]],1);
         }
         else if (e.key === 'Alt' && leftAltPressed) {
             // left alt key
             leftAltPressed = false;
             leftAltIndicator.style.backgroundColor = "";
-            // updateStatusMsg("l alt released");
+            updateVisualGuideOnOneSide(transposeMap[pitchMap[lastPressedTransposeKey]],0);
         } 
         else if (e.key === 'Alt' && rightAltPressed) {
             // right alt key
             rightAltPressed = false;
             rightAltIndicator.style.backgroundColor = "";
-            // updateStatusMsg("r alt released");
+            updateVisualGuideOnOneSide(transposeMap[pitchMap[lastPressedTransposeKey]],1);
         }
     });
     
@@ -722,7 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (rightAltPressed) {midiNote++;}
             }            
 
-            updateNoteHistory(midiNote);
+            updateNoteHistory(midiNote, cumulativeKeypress);
             // calculating latency 
             const audioStartTime: number = performance.now();
             const latency: number = audioStartTime - keyPressTime;
@@ -736,10 +348,10 @@ document.addEventListener("DOMContentLoaded", () => {
             lastPressedTransposeKey = key;
             transposeValue = pitchMap[key]; // in semitones
             transposeValueDisplay.innerHTML = pitchMap[key].toString(); // returns semitone count
-            scaleValueDisplay1.innerHTML = transposeMap[pitchMap[key]]; // returns scale ("C", "D", etc)
-            scaleValueDisplay2.innerHTML = transposeMap[pitchMap[key]]; // returns the same scale for better visualisation
+            scaleValueDisplay1.innerHTML = transposeMap[pitchMap[key]].toString(); // returns scale ("C", "D", etc)
+            scaleValueDisplay2.innerHTML = transposeMap[pitchMap[key]].toString(); // returns the same scale for better visualisation
             updateVisualGuide(key);
-            console.log(`tranpose pressed: ${key}`);
+            console.log(`transpose pressed: ${key}`);
             updateStatusMsg(`transpose value updated to: ${pitchMap[key]}`);
         } else if (e.key == 'CapsLock') {
             toggleStopAudioWhenReleased();
@@ -798,18 +410,22 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener('focus',disableSemitoneUp);
 
 
-    function disableSemitoneUp() {
+    function disableSemitoneUp() { // only activated on visibility change
+        
         if (shiftPressed) { // catch shift being held when tabbing away 
             shiftPressed = false;
             shiftIndicator.style.backgroundColor = "";
+            
         }
         if (leftAltPressed) {
             leftAltPressed = false;
             leftAltIndicator.style.backgroundColor = "";
+            updateVisualGuideOnOneSide(transposeMap[pitchMap[lastPressedTransposeKey]],0);
         }
         if (rightAltPressed) {
             rightAltPressed = false;
             rightAltIndicator.style.backgroundColor = "";
+            updateVisualGuideOnOneSide(transposeMap[pitchMap[lastPressedTransposeKey]],1);
         }
         if (pressedKeys.size != 0) { // catch notes being held when tabbing away
             pressedKeys.forEach(element => {
@@ -821,6 +437,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 currentInstrument.triggerRelease(Tone.Frequency(releaseNote+1, "midi"));
             });
         }
+
+        updateVisualGuideOnOneSide(transposeMap[pitchMap[lastPressedTransposeKey]],0);
+        updateVisualGuideOnOneSide(transposeMap[pitchMap[lastPressedTransposeKey]],1);
     }
 
     // ===========================================
@@ -828,17 +447,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function applyVisualGuideStyleChange(key:HTMLElement) {
         // cancel pending removal
+
         if (activeKeyTimeouts.has(key)) {
             clearTimeout(activeKeyTimeouts.get(key));
             activeKeyTimeouts.delete(key);
         }
-        
+        // key.classList.remove('bg-white/80');
         key.classList.add(stopAudioWhenReleased ? 'key-active-instant' : 'key-active');
         void key.offsetWidth; // force reflow
       }
 
       
     function removeVisualGuideStyleChange(key:HTMLElement) {
+
         key.classList.remove('key-active-instant');
         
         if (stopAudioWhenReleased) {
@@ -849,6 +470,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 activeKeyTimeouts.delete(key);
             }, 100); // 100ms because duration-100
             activeKeyTimeouts.set(key, timeoutId);
+            key.classList.add('bg-white/80');
         }
         void key.offsetWidth; // force reflow
       }
@@ -990,75 +612,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(`keyboard mode changed. current mode: ${currentKeyboardMode}`);
     }
 
-    // ===========================================
-    // RECORDING
-    startRecordButton.addEventListener('pointerdown', startRecording);
-    stopRecordButton.addEventListener('pointerdown', stopRecording);
-    playRecordButton.addEventListener('pointerdown', playRecording);
-    saveRecordButton.addEventListener('pointerdown', saveRecording);
-    stopPlaybackButton.addEventListener('pointerdown', stopPlayback);
 
-    function startRecording() {
-        if (mediaRecorder?.state === 'recording') {
-            mediaRecorder.stop();
-        }
-        hasRecording = false;
-        isRecording = true;
-        startRecordButton.style.backgroundColor = "#F08080";
-        audioChunks = [];
-        const audioStream = Tone.getContext().createMediaStreamDestination();
-        volumeNode.connect(audioStream);
-        
-        mediaRecorder = new MediaRecorder(audioStream.stream);
-        mediaRecorder.ondataavailable = (e:any) => {
-            audioChunks.push(e.data);
-        };
-        mediaRecorder.onstop = () => {
-            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-            audioUrl = URL.createObjectURL(audioBlob);
-            audio = new Audio(audioUrl);
-            hasRecording = true;
-            isRecording = false;
-            updateStatusMsg("Recording stopped!");
-            startRecordButton.style.backgroundColor = "";
-        };
-        mediaRecorder.start();
-        updateStatusMsg("Recording started...");
-    }
-
-    function stopRecording() {
-        mediaRecorder.stop();
-    }
-    
-    function playRecording() {
-        if (hasRecording && audio) {
-            audio.onended = () => {
-                updateStatusMsg("Recording playback finished.");
-            }
-            audio.play();
-            updateStatusMsg("Playing recording...");
-        } else if (isRecording) {
-            updateStatusMsg("There is a recording in progress! Cannot play!");
-        } else {
-            updateStatusMsg("No stored recording.");
-        }
-    }
-
-    function stopPlayback() {
-        if (audio) {
-            audio.pause();
-            audio.currentTime = 0;
-            updateStatusMsg("Playback stopped.");
-        }
-    }
-
-    function saveRecording() {
-        updateStatusMsg("Saving recording...");
-        const link = document.createElement('a');
-        link.href = audioUrl;
-        link.download = `recording-${Date.now()}.wav`;
-        link.click();
-    }
 
     // ===========================================
     // OCTAVE CHANGE
@@ -1094,7 +648,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===========================================
     // VISUAL GUIDE
 
-
     function createNoteDiv(id: string, note: string, octave: number) {
         return `<div id="${id}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 relative bg-white/80">
                     <div>
@@ -1104,13 +657,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>`;
     }
 
-
     function mapNumbersToNotes(currentKey:KeyType, leftright:number) {    
-      if (currentKeyboardMode === 0) {
-        realOctaveLeft = octave + 3;
-        if (lastPressedTransposeKey == '=') {
-            realOctaveLeft++; // compensate for +12 transpose
-        }
+
+    if (currentKeyboardMode === 0) {
+        const effectiveTransposeValue: number = pitchMap[lastPressedTransposeKey] + (shiftPressed ? 1 : 0) + (!shiftPressed && (leftAltPressed || rightAltPressed) ? 1 : 0);
+        realOctaveLeft = octave + 3 + Math.floor(effectiveTransposeValue / 12);
         realOctaveRight = realOctaveLeft + 1;
         const keyNotes: any = mapNumbersToNotesOctaves[currentKey];
         const octaveBase: number = leftright === 0 ? realOctaveLeft : realOctaveRight;
@@ -1130,20 +681,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 return createNoteDiv(preserveKeyIDRight[keyIDcount-1],note,currentOctave);
             }
         });
-        // console.log(elements);
         return elements.join('');
+
+
       } else if (currentKeyboardMode === 1) {
           // +1
+          let effectiveTransposeL: number = transposeValue + (shiftPressed ? 1 : 0) + (!shiftPressed && leftAltPressed ? 1 : 0);
+        //   effectiveTransposeL %= 12;
+          const keyNotesL: KeyType = mapNumbersToNotesOctaves[transposeList[effectiveTransposeL] as KeyType];
           realOctaveLeft = octave + 3;
-          if (lastPressedTransposeKey == '=') {
-            realOctaveLeft++; // compensate for +12 transpose
-        }
+          let effectiveTransposeR: number = transposeValue + 1 + (shiftPressed ? 1 : 0) + (!shiftPressed && rightAltPressed ? 1 : 0);
+        //   effectiveTransposeR %= 12;
+          const keyNotesR: KeyType = mapNumbersToNotesOctaves[transposeList[effectiveTransposeR] as KeyType];
           realOctaveRight = realOctaveLeft;
-          const keyNotesL = mapNumbersToNotesOctaves[currentKey];
-        //   const keyNotesR = mapNumbersToNotesOctaves[transposeList[transposeValue+1] as KeyType];
-          const keyNotesR = mapNumbersToNotesOctaves[transposeList[(transposeValue + 1) % 12] as KeyType];
-          // ^somewhat patchwork solution to get for one semitone up but it works
-          const octaveBase = leftright === 0 ? realOctaveLeft : realOctaveRight;
+          const octaveBase = leftright === 0 ? realOctaveLeft + Math.floor(effectiveTransposeL / 12): realOctaveRight + Math.floor(effectiveTransposeR / 12);
           const mappingFlattened = mapNumbersToNotesMapping.flat();
           let countC = 0;
           let keyIDcount = 0;
@@ -1162,43 +713,46 @@ document.addEventListener("DOMContentLoaded", () => {
           });
           // console.log(elements);
           return elements.join('');
-      } else {
+
+
+      } else if (currentKeyboardMode === 2) {
         // -1
-        realOctaveRight = octave + 3;
-        if (lastPressedTransposeKey == '=') {
-            realOctaveRight++; // compensate for +12 transpose
-        }
-        realOctaveLeft = realOctaveRight;
-        const keyNotesR = mapNumbersToNotesOctaves[currentKey];
-        // const keyNotesL = mapNumbersToNotesOctaves[transposeList[transposeValue+1] as KeyType];
-        const keyNotesL = mapNumbersToNotesOctaves[transposeList[(transposeValue + 1) % 12] as KeyType];
-        // ^somewhat patchwork solution to get for one semitone up but it works
-        const octaveBase = leftright === 0 ? realOctaveLeft : realOctaveRight;
-        const mappingFlattened = mapNumbersToNotesMapping.flat();
-        let countC = 0;
-        let keyIDcount = 0;
-        const elements = mappingFlattened.map(num => {
-            keyIDcount++;
-            const isC = (num - 1) % 7 === 0;
-            if (isC) countC++;
-            const noteIndex = (num - 1) % 7;
-            const note = leftright === 0 ? keyNotesL[noteIndex] : keyNotesR[noteIndex];
-            const currentOctave = octaveBase + (countC - 1);
-            if (leftright == 0) {
+        let effectiveTransposeR: number = transposeValue + (shiftPressed ? 1 : 0) + (!shiftPressed && rightAltPressed ? 1 : 0);
+        //   effectiveTransposeR %= 12;
+          const keyNotesR: KeyType = mapNumbersToNotesOctaves[transposeList[effectiveTransposeR] as KeyType];
+          realOctaveRight = octave + 3;
+          
+        let effectiveTransposeL: number = transposeValue + 1 + (shiftPressed ? 1 : 0) + (!shiftPressed && leftAltPressed ? 1 : 0);
+        //   effectiveTransposeL %= 12;
+          const keyNotesL: KeyType = mapNumbersToNotesOctaves[transposeList[effectiveTransposeL] as KeyType];
+          realOctaveLeft = realOctaveRight;
+
+          const octaveBase = leftright === 0 ? realOctaveLeft + Math.floor(effectiveTransposeL / 12): realOctaveRight + Math.floor(effectiveTransposeR / 12);
+          const mappingFlattened = mapNumbersToNotesMapping.flat();
+          let countC = 0;
+          let keyIDcount = 0;
+          const elements = mappingFlattened.map(num => {
+              keyIDcount++;
+              const isC = (num - 1) % 7 === 0;
+              if (isC) countC++;
+              const noteIndex = (num - 1) % 7;
+              const note = leftright === 0 ? keyNotesL[noteIndex] : keyNotesR[noteIndex];
+              const currentOctave = octaveBase + (countC - 1);
+              if (leftright == 0) {
                 return createNoteDiv(preserveKeyIDLeft[keyIDcount-1],note,currentOctave);
-          } else {
+            } else {
                 return createNoteDiv(preserveKeyIDRight[keyIDcount-1],note,currentOctave);
-            }
-        });
-        // console.log(elements);
-        return elements.join('');
+              }
+          });
+          // console.log(elements);
+          return elements.join('');
       }
         
     }
 
     function updateVisualGuide(key: string) {
-        notesDivL.innerHTML = mapNumbersToNotes(transposeMap[pitchMap[key]], 0);
-        notesDivR.innerHTML = mapNumbersToNotes(transposeMap[pitchMap[key]], 1);
+        notesDivL.innerHTML = mapNumbersToNotes(transposeMap[pitchMap[key]] as KeyType, 0)!;
+        notesDivR.innerHTML = mapNumbersToNotes(transposeMap[pitchMap[key]] as KeyType, 1)!;
         if (!currentLightsOn) {
             toggleVGWhiteBg();
             if (shiftIndicator.classList.contains("bg-white/80")) {
@@ -1209,6 +763,20 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             if (rightAltIndicator.classList.contains("bg-white/80")) {
                 rightAltIndicator.classList.toggle("bg-white/80");
+            }
+        }
+    }
+    
+    function updateVisualGuideOnOneSide(transpose: any, leftright: number) {
+        // 0: left
+        // 1: right
+        const operationalDiv = leftright ? notesDivR : notesDivL
+        operationalDiv.innerHTML = mapNumbersToNotes(transpose, leftright)!;
+        if (!currentLightsOn) {
+            for (const child of operationalDiv.children) {
+                if (child.classList.contains("bg-white/80")) {
+                    child.classList.toggle("bg-white/80");
+                }
             }
         }
     }
@@ -1275,20 +843,6 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("cumulativeTime", cumulativeTime.toString());
     });
 
-
-
-
-
-
-
-
-
-
-
-
 })
 
-
-
-
-
+export { volumeNode };
