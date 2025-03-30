@@ -37,7 +37,7 @@ vanilla html is used, with tailwindcss used for styling purposes. vite with type
 9. change instruments to different ones (from Sky: CoTL) or synths: menu
 10. add effects to instrument (e.g. distortion) which you can adjust: menu
 11. record and save your melodies: menu
-12. you can turn the lights off (?): `Spacebar`
+12. you can turn the lights off (?): `\`
 13. water collection feature (reward TBC)
 14. transposing by one semitone: `[` for down, `]` for up
 

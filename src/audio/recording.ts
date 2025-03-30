@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import { updateStatusMsg } from "../core/logging";
+import { getFormattedDateTimeForDownload, updateStatusMsg } from "../core/logging";
 import { volumeNode } from '../components/instruSelect';
 
 // recording
@@ -63,8 +63,10 @@ function stopRecording() {
 
 function playRecording() {
     if (hasRecording && audio) {
+        playRecordButton.style.backgroundColor = "#F08080";
         audio.onended = () => {
             updateStatusMsg("Recording playback finished.");
+            playRecordButton.style.backgroundColor = "";
         }
         audio.play();
         updateStatusMsg("Playing recording...");
@@ -80,6 +82,7 @@ function stopPlayback() {
         audio.pause();
         audio.currentTime = 0;
         updateStatusMsg("Playback stopped.");
+        playRecordButton.style.backgroundColor = "";
     }
 }
 
@@ -87,6 +90,6 @@ function saveRecording() {
     updateStatusMsg("Saving recording...");
     const link = document.createElement('a');
     link.href = audioUrl;
-    link.download = `recording-${Date.now()}.wav`;
+    link.download = `recording_${getFormattedDateTimeForDownload()}.wav`;
     link.click();
 }

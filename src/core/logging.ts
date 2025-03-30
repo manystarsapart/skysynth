@@ -10,6 +10,27 @@ const clearNoteHistoryButton = document.getElementById("clear-note-history-butto
 // ===========================================
 // LOGGING: STATUS DIV
 
+export const getFormattedDateTimeForDownload = (): string => {
+    const now = new Date();
+  
+    const formattedDateTime = now.toLocaleString('default', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false // 24h format
+    })
+    // filename safe characters
+    .replace(/[/:]/g, '-')  
+    .replace(/, /g, '_')    
+    .replace(/ /g, '_');  
+  
+    return formattedDateTime;
+  };
+
+
 export function updateStatusMsg(message:string) {
     const now: Date = new Date(Date.now());
     const formattedTime: string = now.toLocaleString();

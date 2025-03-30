@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.16.1 - 2025-03-30](#0161---2025-03-30)
 - [0.16.0 - 2025-03-28](#0160---2025-03-28)
 - [0.15.0 - 2025-03-25](#0150---2025-03-25)
 - [0.14.2 - 2025-03-23](#0142---2025-03-23)
@@ -58,9 +59,23 @@ FUTURE PLANS
 
 - LEADERBOARD LEADERBOARD LEADERBOARD. needs auth to work
 - actual real sustain pedal key. tab to sustain and release tab to release
-- port over code from mobile site to enable keyboard mode change: R=L+1 rather than always +12
+
+- transcriber & export & import. may require overhaul for recorder logic
+- background customisation
+- 
 
  -->
+
+## [0.16.1] - 2025-03-30
+### Added
+- red background persists for playback
+
+### Changed
+- recording name: unix time stamp --> better formatting & local time
+
+### Fixed
+- display issue: volume display retains past value but actual volume still defaults to 100%
+
 
 ## [0.16.0] - 2025-03-28
 ### Added

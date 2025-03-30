@@ -8,7 +8,7 @@ import { toggleMenu } from './components/menu.ts';
 import { toggleKeyboardMode } from './audio/switchKeyboard.ts';
 import { incrementWater, waterLevelDisplay, waterRewardDisplay, updateWaterMaskPosition } from './visual/water.ts';
 import { toggleLights } from './visual/lights.ts';
-import { volumeValueDisplay } from './components/instruSelect.ts';
+// import { volumeValueDisplay } from './components/instruSelect.ts';
 import { octaveUp, octaveDown, transposeToKey, transposeUpOne, transposeDownOne } from './audio/transposeOctave.ts';
 import { toggleModal } from './components/modal.ts';
 import './audio/recording.ts';
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===========================================
     // VOLUME CONTROL
 
-    volumeValueDisplay.textContent = `${states.volume}%`;
+    // volumeValueDisplay.textContent = `${states.volume}%`;
 
 
     document.getElementById("modal-backspace")!.addEventListener("pointerdown", toggleKeyboardMode);
