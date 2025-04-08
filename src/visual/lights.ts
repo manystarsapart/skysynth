@@ -20,6 +20,7 @@ export function toggleLights() {
         staticBackground.classList.replace("brightness-110", "brightness-0");
         lightSwitch.style.backgroundColor = "#F08080";
         waterMask.style.display = "none";
+        states.waterMaskShown = false;
         updateStatusMsg("Lights out!");
         toggleVGWhiteBg();
     }
@@ -28,6 +29,7 @@ export function toggleLights() {
         staticBackground.classList.replace("brightness-0", "brightness-110");
         lightSwitch.style.backgroundColor = "#588157";
         waterMask.style.display = "block";
+        states.waterMaskShown = true;
         updateStatusMsg("Lights back on!");
         toggleVGWhiteBg();
     }
