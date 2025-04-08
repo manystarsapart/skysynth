@@ -5,9 +5,17 @@ import { states } from "../core/states";
 export const waterLevelDisplay = document.getElementById("water-level-display")!; // past: waterLevelBox
 export const waterRewardDisplay = document.getElementById("water-reward-display")!; // past: waterRewardBox
 export const waterMask = document.getElementById("water-mask")!;
+const waterMaskToggle = document.getElementById("water-mask-toggle-button")!;
 
 // ===========================================
 // WATER COLLECTION
+
+waterMaskToggle.addEventListener("pointerdown",toggleWaterMask);
+
+function toggleWaterMask() {
+    waterMask.style.display = states.waterMaskShown ? "none" : "block";
+    states.waterMaskShown = !states.waterMaskShown;
+}
 
 function triggerWaterReward() {
     states.totalWaterReward = parseInt(localStorage.getItem("totalWaterReward") ?? '0');

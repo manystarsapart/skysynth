@@ -9,6 +9,8 @@ export let states: any = {
     stopAudioWhenReleased: false,
     navbarExtended: false,
     modalShown: false,
+    waterMaskShown: true,
+    backgroundShown: true,
 
 
     currentInstrument: instruments[0],
@@ -28,6 +30,9 @@ export let states: any = {
     currentWaterLevel: parseInt(localStorage.getItem("savedWaterLevel") ?? '0') || 0,
     totalWaterReward: parseInt(localStorage.getItem("totalWaterReward") ?? '0') || 0,
     volume: parseInt(localStorage.getItem("savedVolume") ?? '100') || 100,
+
+    charIdle: true,
+    charCurrentSpriteID: 0,
 }
 
 export const pressedKeys: Set<string> = new Set();

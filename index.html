@@ -16,6 +16,7 @@
 </head>
 <body class="overflow-hidden h-screen bg-gradient-to-t p-10 from-[#A8B5E0] via-[#B4CBF0] to-[#DAF0F7]">
 <!-- <body class="h-screen bg-[url(./assets/SAOlake.jpg)]"> -->
+<!-- <img src="./assets/SAOlake.jpg" id="static-background" class="fixed top-0 left-0 w-full h-full object-cover -z-10 brightness-110" alt="lake background"> -->
 <img src="./assets/SAOlake.jpg" id="static-background" class="fixed top-0 left-0 w-full h-full object-cover -z-10 brightness-110" alt="lake background">
 <img src="./assets/water-mask.jpg" id="water-mask" class="absolute left-0 w-full object-cover -z-10 opacity-20 blur-sm" alt="water line">
 
@@ -63,7 +64,7 @@
                 </div>
             </li>
 
-            <!-- CLEAR STATUSDIV -->
+            <!-- MISC: CLEAR & TOGGLE -->
             <li class="flex items-center pt-2 min-h-[72px]">
                 <i class="fa-solid fa-ban shrink-0 w-[50px]"></i>
                 <div class="hidden ml-2 whitespace-nowrap">
@@ -71,6 +72,10 @@
                     <button id="clear-status-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">clear status messages</button>
                     <br \>
                     <button id="clear-note-history-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">clear note history</button>
+                    <br \>
+                    <button id="water-mask-toggle-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">toggle water</button>
+                    <br \>
+                    <button id="toggle-background-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">toggle background</button>
                 </div>
             </li>
 
@@ -128,8 +133,8 @@
 
                 made by @manystarsapart <br>
                 for any feedback, please contact <a href="mailto:support@skysynth.space" class="text-emerald-800"><u>support@skysynth.space</u></a><br>
-                last updated: 8 apr 2025<br>
-                current version: 0.17.0<br>
+                last updated: 9 apr 2025<br>
+                current version: 0.18.0<br>
                 <a href="https://github.com/manystarsapart/skysynth/blob/main/CHANGELOG.md" target="_blank" class="text-emerald-800"><u>view changelog</u></a> 
                 | <a href="https://www.old.skysynth.space" target="_blank" class="text-emerald-800"><u>old version (0.9.1)</u></a>
                 | <a href="https://www.mobile.skysynth.space" target="_blank" class="text-emerald-800"><u>mobile version (M-0.1.0)</u></a>
@@ -396,13 +401,19 @@
         </div>
     </div>
 
+    
+    <div id="character-div" >
+        <img src="./assets/char/idle/0.png" class="block ml-auto mr-auto w-[50%]" alt="skykid character">
+    </div>
+
+    
 <div class="pointer-events-none opacity-50 transform scale-[85%] hidden bg-[#588157]">
     
 </div>
 
-    <div id="status-div" class="max-h-60 min-h-40 text-left p-5 m-4 overflow-y-scroll">
-        
-    </div>
+
+
+<div id="status-div" class="max-h-60 min-h-40 text-left p-5 m-4 overflow-y-scroll"></div>
 </main>
 
     

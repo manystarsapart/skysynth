@@ -11,6 +11,7 @@ import { toggleLights } from './visual/lights.ts';
 // import { volumeValueDisplay } from './components/instruSelect.ts';
 import { octaveUp, octaveDown, transposeToKey, transposeUpOne, transposeDownOne } from './audio/transposeOctave.ts';
 import { toggleModal } from './components/modal.ts';
+import { updateCharacter } from './visual/character.ts';
 import './audio/recording.ts';
 
 
@@ -85,7 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // note / transpose logic (works for all keys)
         if (key in states.letterMap && !pressedKeys.has(key)) { 
             incrementWater();
-            // key in noteplaying map: play MIDI note
+
+            updateCharacter(false);
+
             pressedKeys.add(key);
             let midiNote: number = states.letterMap[key] + states.transposeValue + states.octaveAdjustment;
 

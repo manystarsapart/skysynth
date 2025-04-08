@@ -2,10 +2,11 @@ import { states } from "../core/states";
 import { waterMask } from "./water";
 import { updateStatusMsg } from "../core/logging";
 import { toggleVGWhiteBg } from "./visualguide";
+import { staticBackground } from "./background";
 
 // lights
 const lightSwitch = document.getElementById("light-switch")!;
-const staticBackground = document.getElementById("static-background")!;
+
 
 
 // ===========================================

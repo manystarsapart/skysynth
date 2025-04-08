@@ -40,6 +40,7 @@ vanilla html is used, with tailwindcss used for styling purposes. vite with type
 12. you can turn the lights off (?): `\`
 13. water collection feature (reward TBC)
 14. transposing by one semitone: `[` for down, `]` for up
+15. see a skykid play instruments. currently supported: `piano, guitar, flute, horn, harp`
 
 just press random keys to get started. it can be a lot of fun !
 (especially if you're familiar with the Sky: CoTL music keyboard like i am)
@@ -54,16 +55,16 @@ tap away!
 4. flute (sky*)
 5. horn (sky*)
 6. bugle (sky*)
-7. synth
-8. duo synth
-9. FM synth
-10. AM synth
-11. meow
-12. otto - doo
-13. otto - synth
-14. guitar (sky*)
-15. violin (freesound.org)
-16. harp (sky*)
+7. guitar (sky*)
+8. violin (freesound.org)
+9. harp (sky*)
+10. synth
+11. duo synth
+12. FM synth
+13. AM synth
+14. meow
+15. otto - doo
+16. otto - synth
 
     *sky instrument samples are recorded in game by mcbeeringi. all credits go to TGC & many thanks to mcbeeringi
 
@@ -75,7 +76,7 @@ tap away!
 - [fwyr](https://github.com/fwyr), most wonderful friend and code debugger
 - neut, alpha tester, 4am dev calls 
 - melon, alpha tester, music nerd & UI mastermind
-- maple, alpha tester & game designer
+- maple, alpha tester & feedback
 - kkura, alpha tester & ever-helpful [rubber duck](https://en.wikipedia.org/wiki/Rubber_duck_debugging)
 - Mich, alpha tester & providing lasting peer-support and encouragement
 - Peridot, alpha tester & mon ami musicien talentueux

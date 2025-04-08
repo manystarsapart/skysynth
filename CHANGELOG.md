@@ -10,7 +10,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
-- [0.17.0 - 2025-04-07](#0170---2025-04-07)
+- [0.18.0 - 2025-04-09](#0180---2025-04-09)
+- [0.17.0 - 2025-04-08](#0170---2025-04-08)
 - [0.16.1 - 2025-03-30](#0161---2025-03-30)
 - [0.16.0 - 2025-03-28](#0160---2025-03-28)
 - [0.15.0 - 2025-03-25](#0150---2025-03-25)
@@ -63,9 +64,17 @@ FUTURE PLANS
 
 - transcriber & export & import. may require overhaul for recorder logic
 - background customisation
-- 
+
+- PRELOAD / CACHE IMAGES FOR SKYKID
 
  -->
+
+## [0.18.0] - 2025-04-09
+### Added
+- skykid character actions (experimental)
+- water visibility toggle
+- background visibility toggle
+
 
 ## [0.17.0] - 2025-04-08
 ### Added

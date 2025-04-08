@@ -3,6 +3,7 @@ import { effectNodes, instruments, instrumentNames, RELEASE_SETTINGS } from '../
 import { states } from '../core/states.ts';
 import { toggleStopAudioWhenReleased } from '../audio/stopAudioWhenReleased';
 import { updateStatusMsg } from '../core/logging.ts';
+import { updateCharacter } from '../visual/character.ts';
 
 // volume
 export let volumeNode = new Tone.Volume().toDestination();
@@ -85,6 +86,8 @@ instrumentSelection.addEventListener("input", (e:any) => {
     states.currentInstrument = instruments[e.target.value]; 
     states.currentInstrumentIndex = e.target.value;
     states.currentInstrumentName = instrumentNames[e.target.value];
+
+    updateCharacter(true);
 
     // rewiring
     states.currentInstrument.disconnect();

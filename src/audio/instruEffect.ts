@@ -196,20 +196,20 @@ export const RELEASE_SETTINGS = {
 };
 
 export const instrumentNames: string[] = [
-    "Piano (Sampler)",
-    "E-Guitar (Sampler)",
-    "Music Box (Sampler)",
-    "Flute (Sampler)",
-    "Horn (Sampler)",
-    "Bugle (Sampler)",
-    "Guitar (Sampler)",
-    "Violin (Sampler)",
-    "Harp (Sampler)",
-    "Synth",
-    "Duo Synth",
-    "FM Synth",
-    "AM Synth",
-    "Meow",
-    "Otto - Doo",
-    "Otto - Synth",
+    "Piano (Sampler)", // 0
+    "E-Guitar (Sampler)", // 1
+    "Music Box (Sampler)", // 2
+    "Flute (Sampler)", // 3
+    "Horn (Sampler)", // 4
+    "Bugle (Sampler)", // 5
+    "Guitar (Sampler)", // 6
+    "Violin (Sampler)", // 7
+    "Harp (Sampler)", // 8
+    "Synth", // 9
+    "Duo Synth", // 10
+    "FM Synth", // 11
+    "AM Synth", // 12
+    "Meow", // 13
+    "Otto - Doo", // 14
+    "Otto - Synth", // 15
 ];
