@@ -48,12 +48,12 @@ tap away!
 
 
 ## Instrument Selection
-1. piano (sky)
-2. e-guitar (sky)
+1. piano (sky*)
+2. e-guitar (sky*)
 3. music box (mcbeeringi)
-4. flute (sky)
-5. horn (sky)
-6. bugle (sky)
+4. flute (sky*)
+5. horn (sky*)
+6. bugle (sky*)
 7. synth
 8. duo synth
 9. FM synth
@@ -61,9 +61,11 @@ tap away!
 11. meow
 12. otto - doo
 13. otto - synth
-14. guitar (sky)
+14. guitar (sky*)
 15. violin (freesound.org)
+16. harp (sky*)
 
+    *sky instrument samples are recorded in game by mcbeeringi. all credits go to TGC & many thanks to mcbeeringi
 
 # Acknowledgements
 

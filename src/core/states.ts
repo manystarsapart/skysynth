@@ -1,5 +1,5 @@
 import { keyboardMode0 } from "./maps";
-import { instruments, effectNodes } from "../audio/instruEffect";
+import { instruments, effectNodes, instrumentNames } from "../audio/instruEffect";
 
 export let states: any = {
     shiftPressed: false,
@@ -12,6 +12,8 @@ export let states: any = {
 
 
     currentInstrument: instruments[0],
+    currentInstrumentIndex: 0,
+    currentInstrumentName: instrumentNames[0],
     currentEffectNode: effectNodes[0],
 
     currentKeyboardMode: 0,

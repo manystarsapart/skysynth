@@ -1,7 +1,8 @@
 import * as Tone from 'tone';
-import { effectNodes, instruments, instrumentNames } from '../audio/instruEffect.ts';
+import { effectNodes, instruments, instrumentNames, RELEASE_SETTINGS } from '../audio/instruEffect.ts';
 import { states } from '../core/states.ts';
 import { toggleStopAudioWhenReleased } from '../audio/stopAudioWhenReleased';
+import { updateStatusMsg } from '../core/logging.ts';
 
 // volume
 export let volumeNode = new Tone.Volume().toDestination();
@@ -82,16 +83,25 @@ instrumentSelection.addEventListener("input", (e:any) => {
     // the actual changing
 
     states.currentInstrument = instruments[e.target.value]; 
+    states.currentInstrumentIndex = e.target.value;
+    states.currentInstrumentName = instrumentNames[e.target.value];
+
     // rewiring
     states.currentInstrument.disconnect();
     if (states.currentEffectNode) states.currentInstrument.connect(states.currentEffectNode);
     else states.currentInstrument.connect(volumeNode);
-    if (states.currentInstrument instanceof Tone.Sampler && e.target.value != 1 && e.target.value != 12 && e.target.value != 14) {
-        // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH && NOT VIOLIN
-        toggleStopAudioWhenReleased(false); 
+
+    updateStatusMsg(`Instrument set to: ${states.currentInstrumentName}`)
+
+    if (RELEASE_SETTINGS.INSTANT_RELEASE_INSTRUMENTS.includes(states.currentInstrumentName)) {
+        console.log(states.currentInstrumentName);
+        updateStatusMsg("Instrument default: Instant release");
+        toggleStopAudioWhenReleased(true);
     } 
     else {
-        toggleStopAudioWhenReleased(true);
+        console.log(states.currentInstrumentName);
+        updateStatusMsg("Instrument default: Smooth release");
+        toggleStopAudioWhenReleased(false); 
     } 
 });
 

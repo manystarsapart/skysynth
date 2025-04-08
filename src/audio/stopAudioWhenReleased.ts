@@ -18,8 +18,8 @@ export function toggleStopAudioWhenReleased(manualState: boolean | null = null) 
         states.stopAudioWhenReleased = !states.stopAudioWhenReleased;
     }
     stopAudioWhenReleasedButton.style.backgroundColor = states.stopAudioWhenReleased ? "#588157" : "#F08080";
-    stopAudioWhenReleasedButton.textContent = states.stopAudioWhenReleased ? "instant release" : "smooth release";
-    updateStatusMsg(`Set release mode to ${states.stopAudioWhenReleased ? "instant release" : "smooth release"}.`)
+    stopAudioWhenReleasedButton.textContent = states.stopAudioWhenReleased ? "Instant release" : "Smooth release";
+    updateStatusMsg(`Set release mode to ${states.stopAudioWhenReleased ? "Instant release" : "Smooth release"}.`)
     
     // clear pending animations when changing modes
     activeKeyTimeouts.forEach((timeout, key) => {

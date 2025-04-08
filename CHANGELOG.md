@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.17.0 - 2025-04-07](#0170---2025-04-07)
 - [0.16.1 - 2025-03-30](#0161---2025-03-30)
 - [0.16.0 - 2025-03-28](#0160---2025-03-28)
 - [0.15.0 - 2025-03-25](#0150---2025-03-25)
@@ -65,6 +66,16 @@ FUTURE PLANS
 - 
 
  -->
+
+## [0.17.0] - 2025-04-08
+### Added
+- harp instrument (samples from mcbeeringi)
+
+### Changed
+- organise instrument list
+- improve stopAudioWhenReleased logic to allow for dynamic checks when instrument is changed
+- add currentInstrumentIndex and currentInstrumentName states
+
 
 ## [0.16.1] - 2025-03-30
 ### Added
