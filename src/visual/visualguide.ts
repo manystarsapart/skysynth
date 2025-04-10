@@ -163,8 +163,8 @@ export function updateVisualGuideOnOneSide(leftright: number) {
 function mapNumbersToNotes(leftright: number) {
     const finalHTML: string[] = [];
     const keyboardKeysArray: string[] = Array.from(leftright === 0 ? leftKeyboardKeys : rightKeyboardKeys);
-    keyboardKeysArray.forEach((item, index) => {
-        console.log(`keyID: ${index}, key: ${item}`);
+    keyboardKeysArray.forEach((item) => {
+        // console.log(`keyID: ${index}, key: ${item}`);
         let finalMIDI: number = states.letterMap[item] + states.transposeValue + states.octaveAdjustment; 
         if (states.shiftPressed && !states.leftAltPressed && !states.rightAltPressed) finalMIDI++;
         else if (leftright === 0 && states.leftAltPressed) finalMIDI++;
