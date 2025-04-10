@@ -43,21 +43,33 @@ function setNewIdleTimeout() {
 
 let lastSpriteSwitchTime: number = 0;
 
+const charSizeInput = document.getElementById("char-size-input")!;
 
+charSizeInput.addEventListener("input", () => {
+    const input = charSizeInput as HTMLInputElement;
+    states.charWidthPercentage = input.value;
+    localStorage.setItem("savedCharWidth", input.value);
+    updateCharacter(true);
+    // updateStatusMsg(states.charWidthPercentage);
+})
 
-
-
+window.addEventListener("DOMContentLoaded", () => {
+    const input = charSizeInput as HTMLInputElement;
+    input.value = states.charWidthPercentage.toString();
+});
 
 export function updateCharacter(idle: boolean) {
     // idle value: the value to update to
+    const char = document.getElementById("character-div")!
     if (idle) {
+        
         states.charIdle = true;
         states.charCurrentSpriteID = 0;
         if (instrumentSpriteCounts[states.currentInstrumentIndex] === 0) {
-            document.getElementById("character-div")!.innerHTML = `<img src="./assets/char/idle/0.png" class="block ml-auto mr-auto w-[50%]" alt="skykid character">`;
+            char.innerHTML = `<img id="character-image" src="./assets/char/idle/0.png" class="fixed ml-auto mr-auto left-1/2 -translate-x-1/2 bottom-0 translate-y-1/5" alt="skykid character">`;
             return;
         };
-        document.getElementById("character-div")!.innerHTML = `<img src="./assets/char/idle/${states.currentInstrumentIndex}.png" class="block ml-auto mr-auto w-[50%]" alt="skykid character">`;
+        char.innerHTML = `<img id="character-image" src="./assets/char/idle/${states.currentInstrumentIndex}.png" class="fixed ml-auto mr-auto left-1/2 -translate-x-1/2 bottom-0 translate-y-1/5" alt="skykid character">`;
     }   
     else {
 
@@ -81,12 +93,24 @@ export function updateCharacter(idle: boolean) {
         
 
         if (instrumentSpriteCounts[states.currentInstrumentIndex] != 0) {
-            states.charCurrentSpriteID = Math.floor(Math.random() * instrumentSpriteCounts[states.currentInstrumentIndex] + 1);
-            document.getElementById("character-div")!.innerHTML = `<img src="./assets/char/playing/${states.currentInstrumentIndex}/${states.charCurrentSpriteID}.png" class="block ml-auto mr-auto w-[50%]" alt="skykid character">`;
+            let newSpriteID;
+            do {
+                newSpriteID = Math.floor(Math.random() * instrumentSpriteCounts[states.currentInstrumentIndex] + 1);
+            } while (newSpriteID === states.charCurrentSpriteID);
+        
+            states.charCurrentSpriteID = newSpriteID;
+            char.innerHTML = `<img id="character-image" src="./assets/char/playing/${states.currentInstrumentIndex}/${states.charCurrentSpriteID}.png" class="fixed ml-auto mr-auto left-1/2 -translate-x-1/2 bottom-0 translate-y-1/5" alt="skykid character">`;
         } else {
-            console.log
-            states.charCurrentSpriteID = Math.floor(Math.random() * instrumentSpriteCounts[0] + 1);
-            document.getElementById("character-div")!.innerHTML = `<img src="./assets/char/playing/0/${states.charCurrentSpriteID}.png" class="block ml-auto mr-auto w-[50%]" alt="skykid character">`;
+            let newSpriteID;
+            do {
+                newSpriteID = Math.floor(Math.random() * instrumentSpriteCounts[0] + 1);
+            } while (newSpriteID === states.charCurrentSpriteID);
+        
+            states.charCurrentSpriteID = newSpriteID;
+            char.innerHTML = `<img id="character-image" src="./assets/char/playing/0/${states.charCurrentSpriteID}.png" class="fixed ml-auto mr-auto left-1/2 -translate-x-1/2 bottom-0 translate-y-1/5" alt="skykid character">`;
         }
+        
     } 
+    document.getElementById("character-image")!.style.width = `${states.charWidthPercentage}%`;
+    // char.style.width = "10%"
 }

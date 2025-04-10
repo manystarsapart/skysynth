@@ -4,8 +4,6 @@ import { states } from "../core/states";
 const navbar = document.getElementById("navbar")!;
 const menuTitle = document.getElementById("menu-title")!;
 const navContent = navbar.querySelectorAll("li > div")!;
-const acknowledgements = document.getElementById("acknowledgements")!;
-
 // menu
 
 // ===========================================
@@ -26,7 +24,6 @@ export function toggleMenu() {
     navContent.forEach(div => {
         div.classList.toggle("hidden");
     });
-    acknowledgements.classList.toggle("hidden");
     states.navbarExtended = !states.navbarExtended;
 
     if (states.navbarExtended) {

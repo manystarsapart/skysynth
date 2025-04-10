@@ -17,7 +17,7 @@ export function transposeToKey(key:string) {
     transposeValueDisplay.innerHTML = pitchMap[key].toString(); // returns semitone count
     scaleValueDisplay1.innerHTML = transposeMap[pitchMap[key]].toString(); // returns scale ("C", "D", etc)
     scaleValueDisplay2.innerHTML = transposeMap[pitchMap[key]].toString(); // returns the same scale for better visualisation
-    updateVisualGuide(key);
+    updateVisualGuide();
     console.log(`transpose pressed: ${key}`);
     updateStatusMsg(`transpose value updated to: ${pitchMap[key]}`);
 }
@@ -39,7 +39,7 @@ export function transposeUpOne() {
     transposeValueDisplay.innerHTML = states.transposeValue.toString();
     scaleValueDisplay1.innerHTML = transposeMap[states.transposeValue].toString();
     scaleValueDisplay2.innerHTML = transposeMap[states.transposeValue].toString();
-    updateVisualGuide(states.lastPressedTransposeKey);
+    updateVisualGuide();
     updateStatusMsg(`transpose value updated to: ${states.transposeValue}`);
 }
 
@@ -58,7 +58,7 @@ export function transposeDownOne() {
     transposeValueDisplay.innerHTML = states.transposeValue.toString();
     scaleValueDisplay1.innerHTML = transposeMap[states.transposeValue].toString();
     scaleValueDisplay2.innerHTML = transposeMap[states.transposeValue].toString();
-    updateVisualGuide(states.lastPressedTransposeKey);
+    updateVisualGuide();
     updateStatusMsg(`transpose value updated to: ${states.transposeValue}`);
 }
 
@@ -114,7 +114,7 @@ export function octaveUp(diff:number | null = null) {
     }
     octaveValueDisplay.innerHTML = states.octave.toString();
     updateStatusMsg(`octave shift updated to: ${states.octave}`);
-    updateVisualGuide(states.lastPressedTransposeKey);
+    updateVisualGuide();
 }
 
 export function octaveDown(diff:number | null = null) {
@@ -137,5 +137,5 @@ export function octaveDown(diff:number | null = null) {
     }
     octaveValueDisplay.innerHTML = states.octave.toString();
     updateStatusMsg(`octave shift updated to: ${states.octave}`);
-    updateVisualGuide(states.lastPressedTransposeKey);
+    updateVisualGuide();
 }

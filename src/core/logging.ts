@@ -65,6 +65,17 @@ function midiToSPN(midiNumber:number) {
     return noteNames[noteIndex] + octave;
 }
 
+export function midiToNote(midiNumber:number) {
+    const noteNames: string[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'Bb', 'B'];
+    const noteIndex: number = midiNumber % 12;
+    return noteNames[noteIndex];
+}
+
+export function midiToOctave(midiNumber:number) {
+    const octave: number = Math.floor((midiNumber) / 12) - 1;
+    return octave;
+}
+
 clearNoteHistoryButton.addEventListener("pointerdown", () => {
     // clears note history
     noteHistory = [];

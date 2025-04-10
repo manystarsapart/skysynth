@@ -129,17 +129,6 @@
 
 
 
-            <div id="acknowledgements" class="text-xs fixed bottom-0 right-0 p-10 text-right hidden ml-2 whitespace-nowrap">
-
-                made by @manystarsapart <br>
-                for any feedback, please contact <a href="mailto:support@skysynth.space" class="text-emerald-800"><u>support@skysynth.space</u></a><br>
-                last updated: 9 apr 2025<br>
-                current version: 0.18.0<br>
-                <a href="https://github.com/manystarsapart/skysynth/blob/main/CHANGELOG.md" target="_blank" class="text-emerald-800"><u>view changelog</u></a> 
-                | <a href="https://www.old.skysynth.space" target="_blank" class="text-emerald-800"><u>old version (0.9.1)</u></a>
-                | <a href="https://www.mobile.skysynth.space" target="_blank" class="text-emerald-800"><u>mobile version (M-0.1.0)</u></a>
-    
-            </div>
         </ul>
     </nav>
 
@@ -164,11 +153,28 @@
                     <li><span id="modal-tab" class="keys-MCG key-button-MCG">Tab</span>Controls Guide (This Page)</li>
                     <li><span id="modal-esc" class="keys-MCG key-button-MCG">Esc</span>Menu</li>
                 </ul>
+                <br>
+                <hr>
+                <div id="acknowledgements" class="p-2">
+
+                    made by @manystarsapart <br>
+                    for any feedback, please contact <a href="mailto:support@skysynth.space" class="text-emerald-800"><u>support@skysynth.space</u></a><br>
+                    last updated: 10 apr 2025<br>
+                    current version: 0.18.1<br>
+                    <a href="https://github.com/manystarsapart/skysynth/blob/main/CHANGELOG.md" target="_blank" class="text-emerald-800"><u>view changelog</u></a> 
+                    | <a href="https://www.old.skysynth.space" target="_blank" class="text-emerald-800"><u>old version (0.9.1)</u></a>
+                    | <a href="https://www.mobile.skysynth.space" target="_blank" class="text-emerald-800"><u>mobile version (M-0.1.0)</u></a>
+        
+                </div>
             </div>
         </div>
     </div>
     
 </header>
+
+<div>
+    <input type="range" name="char size input" id="char-size-input" class="fixed left-[1%] bottom-[1%] z-100">
+</div>
 
 <main id="main-content" class="-z-10">
 <div class="fixed right-10 top-0 m-4"> note history:
@@ -403,7 +409,7 @@
 
     
     <div id="character-div" >
-        <img src="./assets/char/idle/0.png" class="block ml-auto mr-auto w-[50%]" alt="skykid character">
+        <img id="character-image" src="./assets/char/idle/0.png" class="absolute ml-auto mr-auto left-1/2 translate-x-1/2" alt="skykid character">
     </div>
 
     
@@ -413,7 +419,7 @@
 
 
 
-<div id="status-div" class="max-h-60 min-h-40 text-left p-5 m-4 overflow-y-scroll"></div>
+<div id="status-div" class="fixed max-h-60 min-h-40 text-left p-5 m-4 overflow-y-scroll"></div>
 </main>
 
     

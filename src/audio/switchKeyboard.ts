@@ -20,19 +20,19 @@ export function toggleKeyboardMode() {
         states.currentKeyboardMode = 1;
         states.letterMap = keyboardMode1;
         switchKeyboardButton.textContent = "+1";
-        updateVisualGuide(states.lastPressedTransposeKey);
+        updateVisualGuide();
     } else if (states.currentKeyboardMode === 1) {
         // current +1, toggle to -1
         states.currentKeyboardMode = 2;
         states.letterMap = keyboardMode2;
         switchKeyboardButton.textContent = "-1";
-        updateVisualGuide(states.lastPressedTransposeKey);
+        updateVisualGuide();
     } else {
         // current -1, toggle to +12
         states.currentKeyboardMode = 0;
         states.letterMap = keyboardMode0;
         switchKeyboardButton.textContent = "+12";
-        updateVisualGuide(states.lastPressedTransposeKey);
+        updateVisualGuide();
     }
     console.log(`keyboard mode changed. current mode: ${states.currentKeyboardMode}`);
     updateStatusMsg(`keyboard mode changed to: ${states.currentKeyboardMode}`);

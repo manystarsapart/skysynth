@@ -10,6 +10,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+
+- [0.18.1 - 2025-04-10](#0181---2025-04-10)
 - [0.18.0 - 2025-04-09](#0180---2025-04-09)
 - [0.17.0 - 2025-04-08](#0170---2025-04-08)
 - [0.16.1 - 2025-03-30](#0161---2025-03-30)
@@ -68,6 +70,18 @@ FUTURE PLANS
 - PRELOAD / CACHE IMAGES FOR SKYKID
 
  -->
+
+## [0.18.1] - 2025-04-10
+### Added
+- skykid size slider bar at bottom left (persists)
+
+### Changed
+- move acknowledgements to tab menu
+- overhaul visual guide code. should be much more reliable
+
+### Fixed
+- when holding both alt keys, right alt key release causes code to detect a left alt key release
+
 
 ## [0.18.0] - 2025-04-09
 ### Added

@@ -50,7 +50,7 @@ export const pitchMapReversed: PitchMapReversed = {
     12:'='
 }
 
-
+type KeyType = string | number | symbol
 export type TransposeMap = Record<string, KeyType>
 export const transposeMap: TransposeMap = {
     '0': "C", 
@@ -80,59 +80,3 @@ export const rightKeyboardKeys: Set<string> = new Set([
     'h','j','k','l',';',
     'n','m',',','.','/'
 ])
-
-
-export type KeyType = keyof typeof mapNumbersToNotesOctaves;
-export type PreserveKeys = Record<number,string>;
-
-export const mapNumbersToNotesOctaves:any = {
-    // the any here is a temporary fix. shouldnt be any here
-    'C': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
-    'C#': ['C#', 'D#', 'F', 'F#', 'G#', 'Bb', 'C'],
-    'D': ['D', 'E', 'F#', 'G', 'A', 'B', 'C#'],
-    'D#': ['D#', 'F', 'G', 'G#', 'Bb', 'C', 'D'],
-    'E': ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],
-    'F': ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'],
-    'F#': ['F#', 'G#', 'Bb', 'B', 'C#', 'D#', 'F'],
-    'G': ['G', 'A', 'B', 'C', 'D', 'E', 'F#'],
-    'G#': ['G#', 'Bb', 'C', 'C#', 'D#', 'F', 'G'],
-    'A': ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'],
-    'Bb': ['Bb', 'C', 'D', 'D#', 'F', 'G', 'A'],
-    'B': ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'Bb']
-} as const;
-
-export const preserveKeyIDLeft: PreserveKeys = {
-    '0':'q', '1':'w', '2':'e', '3':'r', '4':'t', 
-    '5':'a', '6':'s', '7':'d', '8':'f', '9':'g', 
-    '10':'z', '11':'x', '12':'c', '13':'v', '14':'b'
-};
-
-export const preserveKeyIDRight: PreserveKeys = {
-    '0':'y', '1':'u', '2':'i', '3':'o', '4':'p',
-    '5':'h', '6':'j', '7':'k', '8':'l', '9':';',
-    '10':'n', '11':'m', '12':',', '13':'.', '14':'/'
-};
-
-export const mapNumbersToNotesMapping = [
-    [1, 2, 3, 4, 5],
-    [6, 7, 1, 2, 3],
-    [4, 5, 6, 7, 8]
-];
-
-export const transposeList: string[] = [
-  "C", 
-  "C#",
-  "D", 
-  "D#",
-  "E", 
-  "F", 
-  "F#",
-  "G", 
-  "G#",
-  "A", 
-  "Bb",
-  "B",
-  "C",
-  "C#",
-  "D"
-];

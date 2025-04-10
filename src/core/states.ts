@@ -33,6 +33,7 @@ export let states: any = {
 
     charIdle: true,
     charCurrentSpriteID: 0,
+    charWidthPercentage: parseInt(localStorage.getItem("savedCharWidth") ?? '100') || 100,
 }
 
 export const pressedKeys: Set<string> = new Set();
