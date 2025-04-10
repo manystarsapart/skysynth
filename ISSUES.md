@@ -13,7 +13,14 @@
 11. when pressing alt on firefox (not tested on other browsers), the alt menu is brought up and affects playing. solve this by changing client side settings: navigate to about:config --> `ui.key.menuAccessKeyFocuses` --> false
 
 
-# FIXED ISSUES
+
+# FIXED ISSUES BY DATE
+
+### 10-04-2025
+
+12. when holding both alt keys, right alt key release causes code to detect a left alt key release
+
+13. visual guide incorrectly displays octave numbers as a result of poorly integrated visualguide changing
 
 ### 23-03-2025
 
@@ -26,6 +33,7 @@
 10. instrument violin after transpose does not stop audio when released
 
 ### 17-03-2025
+
 3. transposing to +12 uses the visual guide for +0
 
 8. when revisiting page, volume display sometimes becomes 0% until further change
