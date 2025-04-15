@@ -7,6 +7,12 @@ export const waterRewardDisplay = document.getElementById("water-reward-display"
 export const waterMask = document.getElementById("water-mask")!;
 const waterMaskToggle = document.getElementById("water-mask-toggle-button")!;
 
+document.addEventListener("DOMContentLoaded", () => {
+    waterLevelDisplay.textContent = `${states.currentWaterLevel} / ${states.maxWaterLevel}`;
+    waterRewardDisplay.textContent = states.totalWaterReward.toString();
+    updateWaterMaskPosition();
+})
+
 // ===========================================
 // WATER COLLECTION
 

@@ -77,14 +77,16 @@ export function updateCharacter(idle: boolean) {
         clearTimeout(idleTimeout);
 
         setNewIdleTimeout();
-        console.log("timeout refreshed by keypress");
 
         // if too many inputs at once, return. rate limited to 1 action per 100ms
         const now: number = Date.now();
         if (now - lastSpriteSwitchTime < 100) { // 100ms
             return;
         }
+        console.log("timeout refreshed by keypress. duration between keypresses: " + ((now - lastSpriteSwitchTime) / 1000) + "s");
         lastSpriteSwitchTime = now;
+
+        
         
         // gives random sprite ID in pool for that instrument. if no sprite in pool, use default sprites (instrument id 0)
         // states.charCurrentSpriteID = (instrumentSpriteCounts[states.currentInstrumentIndex] !== 0) ?  : Math.floor(Math.random() * instrumentSpriteCounts[0] + 1);

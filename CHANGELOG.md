@@ -11,6 +11,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- - [Unreleased](#unreleased) -->
 
+- [0.19.0 - 2025-04-15](#0190---2025-04-15)
 - [0.18.1 - 2025-04-10](#0181---2025-04-10)
 - [0.18.0 - 2025-04-09](#0180---2025-04-09)
 - [0.17.0 - 2025-04-08](#0170---2025-04-08)
@@ -70,6 +71,11 @@ FUTURE PLANS
 - PRELOAD / CACHE IMAGES FOR SKYKID
 
  -->
+
+## [0.19.0] - 2025-04-15
+### Added
+- pointerevent support. you can now click the visual guide on this website to play for touchscreen computers / tablets
+
 
 ## [0.18.1] - 2025-04-10
 ### Added

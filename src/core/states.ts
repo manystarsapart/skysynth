@@ -2,6 +2,8 @@ import { keyboardMode0 } from "./maps";
 import { instruments, effectNodes, instrumentNames } from "../audio/instruEffect";
 
 export let states: any = {
+    skysynthVersion: "0.18.1",
+
     shiftPressed: false,
     leftAltPressed: false,
     rightAltPressed: false,
@@ -34,6 +36,10 @@ export let states: any = {
     charIdle: true,
     charCurrentSpriteID: 0,
     charWidthPercentage: parseInt(localStorage.getItem("savedCharWidth") ?? '100') || 100,
+
+    isTranscribing: false,  
+    latestTranscribeNoteIndex: 0,
+    latestTranscribeOperationIndex: 0,
 }
 
 export const pressedKeys: Set<string> = new Set();

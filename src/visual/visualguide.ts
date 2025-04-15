@@ -3,14 +3,15 @@ import { leftKeyboardKeys, rightKeyboardKeys } from '../core/maps.ts';
 import { pressedKeys, activeKeyTimeouts } from '../core/states.ts';
 import * as Tone from 'tone';
 import { midiToNote, midiToOctave } from '../core/logging.ts';
+import { refreshKeypressHandlers } from '../core/keypress.ts';
 
 // visual guide
 const notesDivL = document.getElementById("notes-div-left")!;
 const notesDivR = document.getElementById("notes-div-right")!;
 
-const shiftIndicator = document.getElementById("shift-indicator")!;
-const leftAltIndicator = document.getElementById("l-alt-indicator")!;
-const rightAltIndicator = document.getElementById("r-alt-indicator")!;
+export const shiftIndicator = document.getElementById("shift-indicator")!;
+export const leftAltIndicator = document.getElementById("l-alt-indicator")!;
+export const rightAltIndicator = document.getElementById("r-alt-indicator")!;
 
 // detects for SHIFT pressed & released AND alt pressed & released
 
@@ -18,7 +19,6 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Shift') {
         states.shiftPressed = true;
         shiftIndicator.style.backgroundColor = "#588157";
-        // THE SHIFT-NON-LIGHTING-UP PROBLEM LIES IN THESE TWO LINES
         updateVisualGuideOnOneSide(0);
         updateVisualGuideOnOneSide(1);
 
@@ -117,6 +117,7 @@ function disableSemitoneUp() { // only activated on visibility change
 export function updateVisualGuide() {
     notesDivL.innerHTML = mapNumbersToNotes(0)!;
     notesDivR.innerHTML = mapNumbersToNotes(1)!;
+    refreshKeypressHandlers();
     if (!states.currentLightsOn) {
         toggleVGWhiteBg();
         if (shiftIndicator.classList.contains("bg-white/80")) {
@@ -148,6 +149,7 @@ export function updateVisualGuideOnOneSide(leftright: number) {
     const operationalDiv = leftright ? notesDivR : notesDivL
     // operationalDiv.innerHTML = mapNumbersToNotes(transpose, leftright)!;
     operationalDiv.innerHTML = mapNumbersToNotes(leftright);
+    refreshKeypressHandlers();
     if (!states.currentLightsOn) {
         for (const child of operationalDiv.children) {
             if (child.classList.contains("bg-white/80")) {

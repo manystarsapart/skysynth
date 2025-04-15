@@ -80,3 +80,14 @@ export const rightKeyboardKeys: Set<string> = new Set([
     'h','j','k','l',';',
     'n','m',',','.','/'
 ])
+
+
+export const relativeMapping: KeyboardModeType = {
+    'q': 0, 'w': 1, 'e': 2, 'r': 3, 't': 4,
+    'a': 5, 's': 6, 'd': 7, 'f': 8, 'g': 9,
+    'z': 10, 'x': 11, 'c': 12, 'v': 13, 'b': 14,
+
+    'y': 0, 'u': 1, 'i': 2, 'o': 3, 'p': 4,
+    'h': 5, 'j': 6, 'k': 7, 'l': 8, ';': 9,
+    'n': 10, 'm': 11, ',': 12, '.': 13, '/': 14,
+};
