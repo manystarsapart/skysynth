@@ -7,6 +7,7 @@ import { octaveUp, octaveDown, transposeUpOne, transposeDownOne } from './audio/
 import { toggleModal } from './components/modal.ts';
 import './audio/recording.ts';
 import { keyEventToBaseKey, registerKeyDown, registerKeyUp } from './core/keypress.ts';
+import { states } from './core/states.ts';
 // import './sheets/transcribe.ts';
 
 
@@ -16,6 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ===========================================
     // CONTROL GUIDE
+
+    document.getElementById("last-updated-date")!.textContent = states.skysynthLastUpdateDate;
+    document.getElementById("current-version")!.textContent = states.skysynthVersion;
+
 
     document.getElementById("modal-backspace")!.addEventListener("pointerdown", toggleKeyboardMode);
     document.getElementById("modal-transpose-down")!.addEventListener("pointerdown", transposeDownOne);

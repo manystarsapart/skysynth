@@ -10,7 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
-
+- [0.19.1 - 2025-04-16](#0191---2025-04-16)
 - [0.19.0 - 2025-04-15](#0190---2025-04-15)
 - [0.18.1 - 2025-04-10](#0181---2025-04-10)
 - [0.18.0 - 2025-04-09](#0180---2025-04-09)
@@ -71,6 +71,10 @@ FUTURE PLANS
 - PRELOAD / CACHE IMAGES FOR SKYKID
 
  -->
+
+## [0.19.1] - 2025-04-16
+### Added
+- EXPERIMENTAL: option to transcribe and download a series of keypresses. no way to display & re-view the transcription yet
 
 ## [0.19.0] - 2025-04-15
 ### Added

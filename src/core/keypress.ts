@@ -11,11 +11,11 @@ import { toggleStopAudioWhenReleased } from '../audio/stopAudioWhenReleased';
 import { toggleLights } from '../visual/lights';
 import { toggleMenu } from '../components/menu';
 import { toggleKeyboardMode } from '../audio/switchKeyboard';
+import { transcribeKeypress } from '../sheets/transcribe';
 
 let cumulativeKeypress: number = parseInt(localStorage.getItem("cumulativeKeypress") ?? '0') || 0;
 
 const cumKeypressDisplay = document.getElementById("cum-keypress")!; // past: cumKeypressBox
-
 document.addEventListener("DOMContentLoaded", () => {
     cumKeypressDisplay.textContent = cumulativeKeypress.toString();
     refreshKeypressHandlers(); // POINTER EVENT SUPPORT
@@ -71,6 +71,9 @@ function getBaseKey(key: string): string { // unshifts shifted symbol key
 export let keyEventToBaseKey = (keyEvent:KeyboardEvent) => {
     if (keyEvent.key != 'r' && keyEvent.key != 'shift') {
     keyEvent.preventDefault(); 
+
+    // TEMPORARILY DISABLED
+
     // to stop other action e.g. shortcuts & spacebar scrolling from happening
     // r is let through to reload
     }
@@ -101,17 +104,18 @@ export function refreshKeypressHandlers() {
         })
     }
 
-    console.log("refreshed keypress handlers");
+    // console.log("refreshed keypress handlers");
 }
 
 export function registerKeyDown(key:string) {
-    const keyPressTime: number = performance.now(); // for latency
+    // const keyPressTime: number = performance.now(); // for latency
+    let midiNote: number = 0;
     
     if (key in states.letterMap && !pressedKeys.has(key)) { 
         incrementWater();
         updateCharacter(false);
         pressedKeys.add(key);
-        let midiNote: number = states.letterMap[key] + states.transposeValue + states.octaveAdjustment;
+        midiNote = states.letterMap[key] + states.transposeValue + states.octaveAdjustment;
         if (states.shiftPressed) {midiNote++;} 
         else if (leftKeyboardKeys.has(key)) {
             if (states.leftAltPressed) {midiNote++;}
@@ -122,39 +126,72 @@ export function registerKeyDown(key:string) {
 
         updateNoteHistory(midiNote, cumulativeKeypress);
         // calculating latency 
-        const audioStartTime: number = performance.now();
-        const latency: number = audioStartTime - keyPressTime;
-        console.log(`keypress calc: ${latency} ms`); 
+        // const audioStartTime: number = performance.now();
+        // const latency: number = audioStartTime - keyPressTime;
+        // console.log(`keypress calc: ${latency} ms`); 
 
         states.currentInstrument.triggerAttack(Tone.Frequency(midiNote, "midi"),Tone.getContext().currentTime);
         applyVisualGuideStyleChange(document.getElementById(key) as HTMLElement);
 
         incrementCumKeypress();
+
+        if (states.isTranscribing) {
+            transcribeKeypress(true, key, midiNote, false);
+        }
+        
     } 
-    else if (key in pitchMap && !pressedKeys.has(key)) {transposeToKey(key)} // transpose
-        else if (key == '[') {transposeDownOne()} // transpose 1 semitone down
-        else if (key == ']') {transposeUpOne()} // transpose 1 semitone up
-        else if (key == 'tab') {toggleModal(!states.modalShown ? true : false)}
-        else if (key == 'capslock') {toggleStopAudioWhenReleased()} // stopaudiowhenreleased
-        else if (key == '\\') {toggleLights()} // lights
-        else if (key == 'escape') {toggleMenu()} // menu
-        else if (key == 'backspace') {toggleKeyboardMode()} // keyboardmode
-        switch(key) { // detect arrow key: octave change
-            case 'arrowleft':
-                octaveDown();
-                break
-            case 'arrowdown':
-                octaveDown();
-                break;
-            case 'arrowright':
-                octaveUp();
-                break;
-            case 'arrowup':
-                octaveUp();
-                break;
-        }         
-        // ONLY PUT TRANSCRIBE FUNCTION HERE AFTER EVERYTHING RUNS
-        // transcribe using midiNote as MIDI, input e.key
+    else if (key in pitchMap && !pressedKeys.has(key)) {
+        transposeToKey(key)
+        if (states.isTranscribing) {
+            transcribeKeypress(false, key, 0, false);
+        }
+    } // transpose
+    else if (key == '[') {
+        transposeDownOne();
+        if (states.isTranscribing) {
+            transcribeKeypress(false, key, 0, false);
+        }
+    } // transpose 1 semitone down
+    else if (key == ']') {
+        transposeUpOne()
+        if (states.isTranscribing) {
+            transcribeKeypress(false, key, 0, false);
+        }
+    } // transpose 1 semitone up
+    else if (key == 'tab') {toggleModal(!states.modalShown ? true : false)}
+    else if (key == 'capslock') {toggleStopAudioWhenReleased()} // stopaudiowhenreleased
+    else if (key == '\\') {toggleLights()} // lights
+    else if (key == 'escape') {toggleMenu()} // menu
+    else if (key == 'backspace') {toggleKeyboardMode()} // keyboardmode
+    switch(key) { // detect arrow key: octave change
+        case 'arrowleft':
+            octaveDown();
+            if (states.isTranscribing) {
+                transcribeKeypress(false, key, 0, false);
+            }
+            break
+        case 'arrowdown':
+            octaveDown();
+            if (states.isTranscribing) {
+                transcribeKeypress(false, key, 0, false);
+            }
+            break;
+        case 'arrowright':
+            octaveUp();
+            if (states.isTranscribing) {
+                transcribeKeypress(false, key, 0, false);
+            }
+            break;
+        case 'arrowup':
+            octaveUp();
+            if (states.isTranscribing) {
+                transcribeKeypress(false, key, 0, false);
+            }
+            break;
+    }         
+    // ONLY PUT TRANSCRIBE FUNCTION HERE AFTER EVERYTHING RUNS
+    // transcribe using midiNote as MIDI, input e.key
+    // if (states.isTranscribing === true) transcribeKeypress((key in states.letterMap && !pressedKeys.has(key)), key, midiNote, false);   
 } 
 
 export function registerKeyUp(key:string) {

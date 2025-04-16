@@ -37,7 +37,7 @@ let idleTimeout: ReturnType<typeof setTimeout>;
 function setNewIdleTimeout() {
     idleTimeout = setTimeout(() => {
         updateCharacter(true);
-        console.log("timeout ended. back to idle");
+        // console.log("timeout ended. back to idle");
     }, 1000); // 1s
 }
 
@@ -83,15 +83,15 @@ export function updateCharacter(idle: boolean) {
         if (now - lastSpriteSwitchTime < 100) { // 100ms
             return;
         }
-        console.log("timeout refreshed by keypress. duration between keypresses: " + ((now - lastSpriteSwitchTime) / 1000) + "s");
+        // console.log("timeout refreshed by keypress. duration between keypresses: " + ((now - lastSpriteSwitchTime) / 1000) + "s");
         lastSpriteSwitchTime = now;
 
         
         
         // gives random sprite ID in pool for that instrument. if no sprite in pool, use default sprites (instrument id 0)
         // states.charCurrentSpriteID = (instrumentSpriteCounts[states.currentInstrumentIndex] !== 0) ?  : Math.floor(Math.random() * instrumentSpriteCounts[0] + 1);
-        console.log("spriteID: " + states.charCurrentSpriteID);
-        console.log("instID: " + states.currentInstrumentIndex);
+        // console.log("spriteID: " + states.charCurrentSpriteID);
+        // console.log("instID: " + states.currentInstrumentIndex);
         
 
         if (instrumentSpriteCounts[states.currentInstrumentIndex] != 0) {

@@ -4,6 +4,7 @@ import { pressedKeys, activeKeyTimeouts } from '../core/states.ts';
 import * as Tone from 'tone';
 import { midiToNote, midiToOctave } from '../core/logging.ts';
 import { refreshKeypressHandlers } from '../core/keypress.ts';
+import { transcribeKeypress } from '../sheets/transcribe.ts';
 
 // visual guide
 const notesDivL = document.getElementById("notes-div-left")!;
@@ -21,6 +22,8 @@ document.addEventListener('keydown', function(e) {
         shiftIndicator.style.backgroundColor = "#588157";
         updateVisualGuideOnOneSide(0);
         updateVisualGuideOnOneSide(1);
+
+        if (states.isTranscribing === true) transcribeKeypress(false, e.key, null, true); // TRANSCRIBE
 
         // if (!currentLightsOn) {
         //     // toggleVGWhiteBg();
@@ -41,6 +44,8 @@ document.addEventListener('keydown', function(e) {
         states.leftAltPressed = true;
         leftAltIndicator.style.backgroundColor = "#588157";
         updateVisualGuideOnOneSide(0);
+
+        if (states.isTranscribing === true) transcribeKeypress(false, e.key, null, true); // TRANSCRIBE
     } 
     else if (e.key === 'Alt' && e.location === 2) {
         // right alt key
@@ -48,7 +53,11 @@ document.addEventListener('keydown', function(e) {
         states.rightAltPressed = true;
         rightAltIndicator.style.backgroundColor = "#588157";
         updateVisualGuideOnOneSide(1);
+
+        if (states.isTranscribing === true) transcribeKeypress(false, e.key, null, true); // TRANSCRIBE
     }
+
+   
 });
 document.addEventListener('keyup', function(e) {
     if (e.key === 'Shift') {
@@ -56,19 +65,24 @@ document.addEventListener('keyup', function(e) {
         shiftIndicator.style.backgroundColor = "";
         updateVisualGuideOnOneSide(0);
         updateVisualGuideOnOneSide(1);
+        if (states.isTranscribing === true) transcribeKeypress(false, e.key, null, false); 
     }
     else if (e.key === 'Alt' && e.location === 1 && states.leftAltPressed) {
         // left alt key
         states.leftAltPressed = false;
         leftAltIndicator.style.backgroundColor = "";
         updateVisualGuideOnOneSide(0);
+        if (states.isTranscribing === true) transcribeKeypress(false, e.key, null, false); 
     } 
     else if (e.key === 'Alt' && e.location === 2 && states.rightAltPressed) {
         // right alt key
         states.rightAltPressed = false;
         rightAltIndicator.style.backgroundColor = "";
         updateVisualGuideOnOneSide(1);
+        if (states.isTranscribing === true) transcribeKeypress(false, e.key, null, false); 
     }
+
+
 });
 
 
@@ -111,6 +125,8 @@ function disableSemitoneUp() { // only activated on visibility change
 
     updateVisualGuideOnOneSide(0);
     updateVisualGuideOnOneSide(1);
+
+    // MAY WANT TO TRANSCRIBE THIS AS WELL. WHEN VISIBILITY CHANGES FROM USER TABBING IN AND OUT DURING TRANSCRIPTION  
 }
 
 
