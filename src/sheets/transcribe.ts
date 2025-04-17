@@ -35,6 +35,7 @@ export interface Keypress {
 export interface RecordedSong {
     id: number;
     name: string;
+    user: string;
     version: number; // 1 for now
     skysynthVersion: string; // skysynth version at time of recording (eg. "0.18.1")
     keyboardMode: KeyboardMode; // keyboard mode (0: +12, 1: +1, 2: -1)
@@ -42,6 +43,7 @@ export interface RecordedSong {
     // bpm: number; // TODO: find BPM for recorded songs?
     instruments: string; // TODO
     startingTranspose: number; // initial transpose value. default to 0 by “?? 0” during creation
+    startingStopAudioWhenReleased: boolean;
     keypresses: Keypress[]; 
 }
 
@@ -66,12 +68,17 @@ function downloadTranscription() {
     URL.revokeObjectURL(url);
   }
 
-const transcribeStartTime = Date.now();
 
 function toggleTranscribingState() {
     if (states.isTranscribing) {
+        let songNameInput: string | null = prompt("Song Name:",`New Song (${states.lastTranscribedSongID})`);
+        let songName = songNameInput ? songNameInput : `New Song (${states.lastTranscribedSongID})`;
+        let userInput: string | null = prompt("Played by","Anonymous User");
+        let user = userInput ? userInput : "Anonymous User";
+        songs[states.lastTranscribedSongID].name = songName;
+        songs[states.lastTranscribedSongID].user = user;
         states.lastTranscribedSongID++;
-        updateStatusMsg("stopped transcribing. transcribed song ID: " + states.lastTranscribedSongID);
+        updateStatusMsg(`stopped transcribing song "${songName}" by ${user}. ID: ${states.lastTranscribedSongID}`);
         toggleTranscribeButton.style.backgroundColor = "";
         toggleTranscribeButton.textContent = "Start Transcribing";
     } else {
@@ -85,9 +92,11 @@ function toggleTranscribingState() {
 }
 
 function startTranscribing() {
+    states.currentSongStartTime = performance.now();
     const song: RecordedSong = {
         id: states.lastTranscribedSongID,
-        name: "New Song",
+        name: `New Song ${states.lastTranscribedSongID}`,
+        user: "Anonymous User",
         version: 1,
         skysynthVersion: states.skysynthVersion,
         keyboardMode: states.currentKeyboardMode,
@@ -95,6 +104,7 @@ function startTranscribing() {
         // bpm: 
         instruments: states.currentInstrumentName,
         startingTranspose: states.transposeValue,
+        startingStopAudioWhenReleased: states.stopAudioWhenReleased,
         keypresses: keypresses
     };
     songs.push(song);
@@ -166,7 +176,7 @@ export function transcribeKeypress(keyIsNote: boolean, key: string, finalMIDI: n
 function generateKeypressToPush(keyIsNote:boolean, note: RecordedNote | null = null, operation: RecordedOperation | null = null) {
     return {
         isNote: keyIsNote,
-        time: Date.now() - transcribeStartTime,
+        time: performance.now() - states.currentSongStartTime,
         // note
         note: keyIsNote ? note : null,
         operation: keyIsNote ? null: operation

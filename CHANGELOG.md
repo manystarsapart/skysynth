@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.19.2 - 2025-04-17](#0192---2025-04-17)
 - [0.19.1 - 2025-04-16](#0191---2025-04-16)
 - [0.19.0 - 2025-04-15](#0190---2025-04-15)
 - [0.18.1 - 2025-04-10](#0181---2025-04-10)
@@ -71,6 +72,15 @@ FUTURE PLANS
 - PRELOAD / CACHE IMAGES FOR SKYKID
 
  -->
+
+## [0.19.2] - 2025-04-17
+### Added
+- song name & player name & initial boolean for stopaudiowhenreleased in RecordedSong
+
+### Fixed
+- transcription time incorrectly used Date.now() 
+- time not displaying correctly due to missing import
+
 
 ## [0.19.1] - 2025-04-16
 ### Added
