@@ -1,16 +1,35 @@
 import { states } from "../core/states";
+import { updateTranscribeModal } from "../sheets/transcribe";
 
 const modalOverlay = document.getElementById("modal-overlay")!;
 const closeModalButton = document.getElementById("close-modal")!;
 const mainContent = document.getElementById("main-content")!;
 const modalContent = document.getElementById("modal-content")!;
 
-closeModalButton.addEventListener('click', () => toggleModal(false));
+closeModalButton.addEventListener('pointerdown', () => toggleModal(false));
+
+// ==========
+// CONTROLS BUTTON
+
+
+// TODO: FIX THIS
+// const showControlsButton = document.getElementById("show-controls-button")!;
+// showControlsButton.addEventListener('pointerdown', showControlModal)
+// function showControlModal() {
+//     // alert("test")
+//     document.getElementById("controls-modal")!.classList.remove("hidden");
+//     toggleModal(true);
+//     document.getElementById("transcribe-modal")!.classList.add("hidden");
+// }
+
+// ==========
 
 let lastFocusedElement: HTMLElement | null = null;
 
 export function toggleModal(show: boolean) {
+    updateTranscribeModal();
     if (show) {
+        document.getElementById("transcribe-modal")!.classList.remove("hidden");
         lastFocusedElement = document.activeElement as HTMLElement;
         mainContent.classList.add("pointer-events-none", "opacity-50");
         modalOverlay.classList.remove("hidden");
@@ -59,7 +78,9 @@ function trapFocus(element: HTMLElement) {
 function handleKeyDown(e: KeyboardEvent) {
     if (e.key === 'Escape' || e.key === 'Tab') {
         toggleModal(false);
+        document.getElementById("controls-modal")!.classList.add("hidden");
     }
+
 }
 
 function handleClickOutside(e: PointerEvent) {

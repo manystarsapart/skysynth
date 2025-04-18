@@ -58,15 +58,17 @@ tap away!
 7. guitar (sky*)
 8. violin (freesound.org)
 9. harp (sky*)
-10. synth
-11. duo synth
-12. FM synth
-13. AM synth
-14. meow
-15. otto - doo
-16. otto - synth
+10. aurora (sky**)
+11. synth
+12. duo synth
+13. FM synth
+14. AM synth
+15. meow
+16. otto - doo
+17. otto - synth
 
-    *sky instrument samples are recorded in game by mcbeeringi. all credits go to TGC & many thanks to mcbeeringi
+    *these are the sky instrument samples recorded in game by mcbeeringi. all credits go to TGC & many thanks to mcbeeringi
+    *these are the sky instrument samples recorded in game by Specy. all credits go to TGC & many thanks to mcbeeringi
 
 # Acknowledgements
 

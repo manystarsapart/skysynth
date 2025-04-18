@@ -53,19 +53,23 @@ toggleTranscribeButton.addEventListener("pointerdown", toggleTranscribingState);
 downloadTranscribeButton.addEventListener("pointerdown", downloadTranscription);
 
 function downloadTranscription() {
+    if (songs.length != 0) {
+        const jsonString = JSON.stringify(songs);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+      
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `songs_${getFormattedDateTimeForDownload()}.json`;
+        document.body.appendChild(a);
+        a.click();
+      
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    } else {
+        alert("No transcriptions to download!");
+    }
 
-    const jsonString = JSON.stringify(songs);
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-  
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `songs_${getFormattedDateTimeForDownload()}.json`;
-    document.body.appendChild(a);
-    a.click();
-  
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
   }
 
 
@@ -79,6 +83,7 @@ function toggleTranscribingState() {
         songs[states.lastTranscribedSongID].user = user;
         states.lastTranscribedSongID++;
         updateStatusMsg(`stopped transcribing song "${songName}" by ${user}. ID: ${states.lastTranscribedSongID}`);
+        updateTranscribeModal();
         toggleTranscribeButton.style.backgroundColor = "";
         toggleTranscribeButton.textContent = "Start Transcribing";
     } else {
@@ -181,4 +186,18 @@ function generateKeypressToPush(keyIsNote:boolean, note: RecordedNote | null = n
         note: keyIsNote ? note : null,
         operation: keyIsNote ? null: operation
     } as Keypress
+}
+
+export function updateTranscribeModal() {
+    const songlist = document.getElementById("songlist-modal")!;
+    let HTML: string = "";
+    if (songs.length != 0) {
+        for (let i = 0; i<songs.length; i++) {
+            HTML += `${songs[i].name} (ID: ${i}) <br \>`;
+        }
+    } else {
+        HTML = "No songs transcribed yet!"
+    }
+
+    songlist.innerHTML = HTML;
 }

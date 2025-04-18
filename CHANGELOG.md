@@ -70,13 +70,22 @@ FUTURE PLANS
 - transcriber & export & import. may require overhaul for recorder logic
 - background customisation
 
+- TRANSCRIBER MODAL: change songlist-modal to an interactive interface such that users can DELETE transcriptions or DOWNLOAD INDIVIDUAL ones
+
 - PRELOAD / CACHE IMAGES FOR SKYKID
 
  -->
 
 ## [0.19.3] - 2025-04-19
+### Added
+- aurora voice instrument from Specy (no sustain)
+
+### Changed 
+- shift transcription buttons into another modal
+
 ### Fixed
 - improve slightly on touchscreen compatibility support
+- sprite size rendering issues for non-supported sprites
 
 
 ## [0.19.2] - 2025-04-17

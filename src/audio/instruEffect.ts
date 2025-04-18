@@ -34,8 +34,14 @@ const piano = createSampler({
     name: "Piano",
     baseUrl: "./assets/audio/piano/",
     noteMap: {
-        "A4": "a4.mp3", "A5": "a5.mp3", "A6": "a6.mp3", "A7": "a7.mp3",
-        "D#4": "ds4.mp3", "D#5": "ds5.mp3", "D#6": "ds6.mp3", "D#7": "ds7.mp3"
+        "A4": "a4.mp3", 
+        "A5": "a5.mp3", 
+        "A6": "a6.mp3", 
+        "A7": "a7.mp3",
+        "D#4": "ds4.mp3", 
+        "D#5": "ds5.mp3", 
+        "D#6": "ds6.mp3", 
+        "D#7": "ds7.mp3"
     }
 });
 
@@ -43,8 +49,12 @@ const eGuitar = createSampler({
     name: "E-Guitar",
     baseUrl: "./assets/audio/eguitar/",
     noteMap: {
-        "A3": "a3.mp3", "A4": "a4.mp3", "A5": "a5.mp3",
-        "D#3": "ds3.mp3", "D#4": "ds4.mp3", "D#5": "ds5.mp3",
+        "A3": "a3.mp3", 
+        "A4": "a4.mp3", 
+        "A5": "a5.mp3",
+        "D#3": "ds3.mp3", 
+        "D#4": "ds4.mp3", 
+        "D#5": "ds5.mp3",
     }
 });
 
@@ -52,8 +62,14 @@ const musicBox = createSampler({
     name: "Music Box",
     baseUrl: "./assets/audio/musicbox/",
     noteMap: {
-        "A3": "a3.mp3", "A4": "a4.mp3", "A5": "a5.mp3", "A6": "a6.mp3",
-        "D#4": "ds4.mp3", "D#5": "ds5.mp3", "D#6": "ds6.mp3", "D#7": "ds7.mp3"
+        "A3": "a3.mp3", 
+        "A4": "a4.mp3", 
+        "A5": "a5.mp3", 
+        "A6": "a6.mp3",
+        "D#4": "ds4.mp3", 
+        "D#5": "ds5.mp3", 
+        "D#6": "ds6.mp3", 
+        "D#7": "ds7.mp3"
     }
 });
 
@@ -63,8 +79,12 @@ const flute = createSampler({
     name: "Flute",
     baseUrl: "./assets/audio/flute/",
     noteMap: {
-        "A4": "a4.mp3", "A5": "a5.mp3", "A6": "a6.mp3",
-        "D#4": "ds4.mp3", "D#5": "ds5.mp3", "D#6": "ds6.mp3",
+        "A4": "a4.mp3", 
+        "A5": "a5.mp3", 
+        "A6": "a6.mp3",
+        "D#4": "ds4.mp3", 
+        "D#5": "ds5.mp3", 
+        "D#6": "ds6.mp3",
     }
 });
 
@@ -72,8 +92,12 @@ const horn = createSampler({
     name: "Horn",
     baseUrl: "./assets/audio/horn/",
     noteMap: {
-        "A3": "a3.mp3", "A4": "a4.mp3", "A5": "a5.mp3",
-        "D#3": "ds3.mp3", "D#4": "ds4.mp3", "D#5": "ds5.mp3",
+        "A3": "a3.mp3", 
+        "A4": "a4.mp3", 
+        "A5": "a5.mp3",
+        "D#3": "ds3.mp3", 
+        "D#4": "ds4.mp3", 
+        "D#5": "ds5.mp3",
     }
 });
 
@@ -81,8 +105,12 @@ const bugle = createSampler({
     name: "Bugle",
     baseUrl: "./assets/audio/bugle/",
     noteMap: {
-        "A4": "a4.mp3", "A5": "a5.mp3", "A6": "a6.mp3",
-        "D#4": "ds4.mp3", "D#5": "ds5.mp3", "D#6": "ds6.mp3",
+        "A4": "a4.mp3", 
+        "A5": "a5.mp3", 
+        "A6": "a6.mp3",
+        "D#4": "ds4.mp3", 
+        "D#5": "ds5.mp3", 
+        "D#6": "ds6.mp3",
     }
 });
 
@@ -92,8 +120,12 @@ const guitar = createSampler({
     name: "Guitar",
     baseUrl: "./assets/audio/guitar/",
     noteMap: {
-        "A3": "a3.mp3", "A4": "a4.mp3", "A5": "a5.mp3",
-        "D#3": "ds3.mp3", "D#4": "ds4.mp3", "D#5": "ds5.mp3",
+        "A3": "a3.mp3", 
+        "A4": "a4.mp3", 
+        "A5": "a5.mp3",
+        "D#3": "ds3.mp3", 
+        "D#4": "ds4.mp3", 
+        "D#5": "ds5.mp3",
     }
 });
 
@@ -101,8 +133,13 @@ const violin = createSampler({
     name: "Violin",
     baseUrl: "./assets/audio/violin/",
     noteMap: {
-        "A3": "a3.wav", "A4": "a4.wav", "A5": "a5.wav",
-        "D#4": "ds4.wav", "D#5": "ds5.wav", "D#6": "ds6.wav", "F#6": "fs6.wav"
+        "A3": "a3.wav", 
+        "A4": "a4.wav", 
+        "A5": "a5.wav",
+        "D#4": "ds4.wav", 
+        "D#5": "ds5.wav", 
+        "D#6": "ds6.wav", 
+        "F#6": "fs6.wav"
     }
 });
 
@@ -110,8 +147,36 @@ const harp = createSampler({
     name: "Harp",
     baseUrl: "./assets/audio/harp/",
     noteMap: {
-        "A3": "a3.mp3", "A4": "a4.mp3", "A5": "a5.mp3",
-        "D#3": "ds3.mp3", "D#4": "ds4.mp3", "D#5": "ds5.mp3",
+        "A3": "a3.mp3", 
+        "A4": "a4.mp3", 
+        "A5": "a5.mp3",
+        "D#3": "ds3.mp3", 
+        "D#4": "ds4.mp3", 
+        "D#5": "ds5.mp3",
+    }
+});
+
+const aurora = createSampler({
+    name: "Aurora",
+    baseUrl: "./assets/audio/aurora/",
+    noteMap: {
+        "C4": "c4.mp3", 
+        "D4": "d4.mp3", 
+        "E4": "e4.mp3", 
+        "F4": "f4.mp3", 
+        "G4": "g4.mp3", 
+        "A4": "a4.mp3", 
+        "B4": "b4.mp3", 
+        "C5": "c5.mp3", 
+        "D5": "d5.mp3", 
+        "E5": "e5.mp3", 
+        "F5": "f5.mp3", 
+        "G5": "g5.mp3", 
+        "A5": "a5.mp3", 
+        "B5": "b5.mp3", 
+        "C6": "c6.mp3", 
+
+
     }
 });
 
@@ -168,17 +233,18 @@ export const instruments: any[] = [
     guitar,     // 6
     violin,     // 7
     harp,        // 8
+    aurora,     // 9
     
     // synth
-    basicSynth, // 9
-    duoSynth,   // 10
-    fmSynth,    // 11
-    amSynth,    // 12
+    basicSynth, // 10
+    duoSynth,   // 11
+    fmSynth,    // 12
+    amSynth,    // 13
     
     // goof
-    meow,       // 13
-    ottoDoo,    // 14
-    ottoSynth,  // 15
+    meow,       // 14
+    ottoDoo,    // 15
+    ottoSynth,  // 16
     
 
 ];
@@ -205,11 +271,12 @@ export const instrumentNames: string[] = [
     "Guitar (Sampler)", // 6
     "Violin (Sampler)", // 7
     "Harp (Sampler)", // 8
-    "Synth", // 9
-    "Duo Synth", // 10
-    "FM Synth", // 11
-    "AM Synth", // 12
-    "Meow", // 13
-    "Otto - Doo", // 14
-    "Otto - Synth", // 15
+    "Aurora (Sampler)", // 9
+    "Synth", // 10
+    "Duo Synth", // 11
+    "FM Synth", // 12
+    "AM Synth", // 13
+    "Meow", // 14
+    "Otto - Doo", // 15
+    "Otto - Synth", // 16
 ];

@@ -67,9 +67,9 @@ export function updateCharacter(idle: boolean) {
         states.charCurrentSpriteID = 0;
         if (instrumentSpriteCounts[states.currentInstrumentIndex] === 0) {
             char.innerHTML = `<img id="character-image" src="./assets/char/idle/0.png" class="fixed ml-auto mr-auto left-1/2 -translate-x-1/2 bottom-0 translate-y-1/5" alt="skykid character">`;
-            return;
-        };
+        } else {
         char.innerHTML = `<img id="character-image" src="./assets/char/idle/${states.currentInstrumentIndex}.png" class="fixed ml-auto mr-auto left-1/2 -translate-x-1/2 bottom-0 translate-y-1/5" alt="skykid character">`;
+        } 
     }   
     else {
 

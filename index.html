@@ -25,11 +25,17 @@
     
     <nav id="navbar" class="bg-[#80b3ff] z-1000 rounded-l-2xl text-black fixed top-0 bottom-0 right-0 h-full w-[55px] overflow-hidden transition-[width] duration-200 ease-linear transform-gpu scale-100 shadow-[1px_0_15px_rgba(0,0,0,0.07)] opacity-100 group min-h-[60px]">
         <h1 id="menu-title" class="text-xl p-3 m-1 text-center hidden">menu (esc)</h1>
-        <ul class="text-sm p-1 m-1">
+        <ul class="text-sm">
+
+            <li class="flex justify-center items-center min-h-[72px]">
+                <div class="hidden ml-2 whitespace-nowrap">
+                    <button id="show-controls-button" class="ml-2 whitespace-nowrap p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]"><b>Show Controls</b></button>
+                </div>
+            </li>
 
             <!-- INSTRUMENT SELECTION -->
-            <li class="flex items-center pt-2 min-h-[72px]">
-                <i class="fa-solid fa-gear shrink-0 w-[50px]"></i>
+            <li class="flex items-center min-h-[72px]">
+                <i class="pl-5 fa-solid fa-gear shrink-0 w-[50px]"></i>
                 <div class="hidden ml-2 whitespace-nowrap">
                     instrument: <br \>
                     <select name="instrument selection" id="instrument-selection" class="p-3 m-1 rounded-lg border-2 border-white"></select>
@@ -37,8 +43,8 @@
             </li>
 
             <!-- EFFECT SELECTION -->
-            <li class="flex items-center pt-2 min-h-[72px]">
-                <i class="fa-solid fa-wand-magic-sparkles shrink-0 w-[50px]"></i>
+            <li class="flex items-center min-h-[72px]">
+                <i class="pl-5 fa-solid fa-wand-magic-sparkles shrink-0 w-[50px]"></i>
                 <div class="hidden ml-2 whitespace-nowrap">
                     effect (experimental): <br \>
                     <select name="effect selection" id="effect-selection" class="p-3 m-1 rounded-lg border-2 border-white"></select>
@@ -47,8 +53,8 @@
             </li>
 
             <!-- FINAL GAIN SLIDEBAR -->
-            <li class="flex items-center pt-2 min-h-[72px]">
-                <i class="fa-solid fa-volume-high shrink-0 w-[50px]"></i>
+            <li class="flex items-center min-h-[72px]">
+                <i class="pl-5 fa-solid fa-volume-high shrink-0 w-[50px]"></i>
                 <div class="hidden ml-2 whitespace-nowrap">
                     final gain: <span id="volume-value">100% (default)</span><br \>
                     <input type="range" id="volume-control" min="0" max="100" value="100">
@@ -56,8 +62,8 @@
             </li>
 
             <!-- KEYBOARD SELECT -->
-            <li class="flex items-center pt-2 min-h-[72px]">
-                <i class="fa-solid fa-keyboard shrink-0 w-[50px]"></i>
+            <li class="flex items-center min-h-[72px]">
+                <i class="pl-5 fa-solid fa-keyboard shrink-0 w-[50px]"></i>
                 <div class="hidden ml-2 whitespace-nowrap">
                    keyboard (backspace): <br \> 
                    <button id="switch-keyboard-button" class="p-3 m-1 rounded-lg border-2 border-white">+12</button>
@@ -65,8 +71,8 @@
             </li>
 
             <!-- MISC: CLEAR & TOGGLE -->
-            <li class="flex items-center pt-2 min-h-[72px]">
-                <i class="fa-solid fa-ban shrink-0 w-[50px]"></i>
+            <li class="flex items-center min-h-[72px]">
+                <i class="pl-5 fa-solid fa-ban shrink-0 w-[50px]"></i>
                 <div class="hidden ml-2 whitespace-nowrap">
                     misc: <br \>
                     <button id="clear-status-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">clear status messages</button>
@@ -80,8 +86,8 @@
             </li>
 
             <!-- STOP AUDIO WHEN KEY RELEASED -->
-            <li class="flex items-center pt-2 min-h-[72px]">
-                <i class="fa-solid fa-file-audio shrink-0 w-[50px]"></i>
+            <li class="flex items-center min-h-[72px]">
+                <i class="pl-5 fa-solid fa-file-audio shrink-0 w-[50px]"></i>
                 <div class="hidden ml-2 whitespace-nowrap">
                     stop audio when key released: <br \>
                     <button id="stop-audio-when-released-button" class="p-3 m-1 w-auto rounded-lg border-2 border-white">smooth release</button> 
@@ -90,22 +96,22 @@
             </li>
 
             <!-- RECORDING FUNCTION -->
-            <li class="flex items-center pt-2 min-h-[72px]">
-                <i class="fa-solid fa-record-vinyl w-[50px]"></i>
+            <li class="flex items-center min-h-[72px]">
+                <i class="pl-5 fa-solid fa-record-vinyl w-[50px]"></i>
                 <div class="hidden ml-2 whitespace-nowrap">
                     recording: <br \>
                     <button id="start-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">start recording<button>
                     <button id="stop-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">stop recording<button>
                 </div>
             </li>
-            <li class="flex items-center pt-2 min-h-[72px]">
+            <li class="flex items-center min-h-[72px]">
                 <!-- <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> -->
                 <div class="hidden ml-2 whitespace-nowrap">
                     <button id="play-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">play recording<button>
                     <button id="stop-playback-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">stop playback</button>
                 </div>
             </li>
-            <li class="flex items-center pt-2 min-h-[72px]">
+            <li class="flex items-center min-h-[72px]">
                 <!-- <i class="fa-solid fa-gear w-[30px] flex-shrink-0"></i> -->
                 <div class="hidden ml-2 whitespace-nowrap">
                     <button id="save-record-button" class="p-3 m-1 rounded-lg border-2 border-white hover:bg-[#F08080]">save recording<button>
@@ -114,8 +120,8 @@
             </li>
 
             <!-- TOGGLE LIGHTS ON / OFF -->
-            <li class="flex items-center pt-2 min-h-[72px]">
-                <i class="fa-solid fa-lightbulb shrink-0 w-[50px]"></i>
+            <li class="flex items-center min-h-[72px]">
+                <i class="pl-5 fa-solid fa-lightbulb shrink-0 w-[50px]"></i>
                 <div class="hidden ml-2 whitespace-nowrap">
                     light switch:
                     <button id="light-switch" class="p-3 m-1 rounded-lg border-2 border-white bg-[#588157]">on / off<button> (\ to toggle)
@@ -135,36 +141,50 @@
 
 <!-- controls guide -->
     <div id="modal-overlay" class="fixed top-0 left-0 w-full h-full bg-gray-800/50 hidden flex justify-center items-center z-50">
-        <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-4">
-            <button id="close-modal" class="absolute top-2 right-2 text-5xl">×</button>
+        <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-4 relative">
+            <button id="close-modal" class="absolute top-2 right-2 text-5xl text-black">×</button>
             <div id="modal-content">
-                <h2 class="text-3xl pb-5">Controls</h2>
-                <ul>
-                    <li><span id="modal-backspace" class="keys-MCG key-button-MCG">Backspace</span>Switch Keyboard Modes (+12, +1, -1)</li>
-                    <li><span id="modal-transpose" class="keys-MCG key-button-MCG">Number Row Keys (` to =)</span>Transpose</li>
-                    <li><span id="modal-transpose-down" class="keys-MCG key-button-MCG">[</span><span id="modal-transpose-up" class="keys-MCG key-button-MCG">]</span>Transpose by 1 Semitone</li>
-                    <li><span id="modal-arrow-left" class="keys-MCG key-button-MCG">←</span><span id="modal-arrow-down" class="keys-MCG key-button-MCG">↓</span>Octave Down</li>
-                    <li><span id="modal-arrow-right" class="keys-MCG key-button-MCG">→</span><span id="modal-arrow-up" class="keys-MCG key-button-MCG">↑</span>Octave Up</li>
-                    <li><span id="modal-shift" class="keys-MCG key-button-MCG">Shift</span>+1 Semitone (Temp, Global)</li>
-                    <li><span id="modal-alt-l" class="keys-MCG key-button-MCG">Left Alt</span>+1 Semitone (Temp, Left)</li>
-                    <li><span id="modal-alt-r" class="keys-MCG key-button-MCG">Right Alt</span>+1 Semitone (Temp, Right)</li>
-                    <li><span id="modal-capslock" class="keys-MCG key-button-MCG">Caps Lock</span>Toggle: Smooth | Instant Release</li>
-                    <li><span id="modal-\" class="keys-MCG key-button-MCG">\</span>Light Switch</li>
-                    <li><span id="modal-tab" class="keys-MCG key-button-MCG">Tab</span>Controls Guide (This Page)</li>
-                    <li><span id="modal-esc" class="keys-MCG key-button-MCG">Esc</span>Menu</li>
-                </ul>
-                <br>
-                <hr>
-                <div id="acknowledgements" class="p-2">
+                <div id="controls-modal" class="hidden"> <!-- CONTROLS -->
+                    <h2 class="text-3xl pb-5">Controls</h2>
+                    <ul>
+                        <li><span id="modal-backspace" class="keys-MCG key-button-MCG">Backspace</span>Switch Keyboard Modes (+12, +1, -1)</li>
+                        <li><span id="modal-transpose" class="keys-MCG key-button-MCG">Number Row Keys (` to =)</span>Transpose</li>
+                        <li><span id="modal-transpose-down" class="keys-MCG key-button-MCG">[</span><span id="modal-transpose-up" class="keys-MCG key-button-MCG">]</span>Transpose by 1 Semitone</li>
+                        <li><span id="modal-arrow-left" class="keys-MCG key-button-MCG">←</span><span id="modal-arrow-down" class="keys-MCG key-button-MCG">↓</span>Octave Down</li>
+                        <li><span id="modal-arrow-right" class="keys-MCG key-button-MCG">→</span><span id="modal-arrow-up" class="keys-MCG key-button-MCG">↑</span>Octave Up</li>
+                        <li><span id="modal-shift" class="keys-MCG key-button-MCG">Shift</span>+1 Semitone (Temp, Global)</li>
+                        <li><span id="modal-alt-l" class="keys-MCG key-button-MCG">Left Alt</span>+1 Semitone (Temp, Left)</li>
+                        <li><span id="modal-alt-r" class="keys-MCG key-button-MCG">Right Alt</span>+1 Semitone (Temp, Right)</li>
+                        <li><span id="modal-capslock" class="keys-MCG key-button-MCG">Caps Lock</span>Toggle: Smooth | Instant Release</li>
+                        <li><span id="modal-\" class="keys-MCG key-button-MCG">\</span>Light Switch</li>
+                        <li><span id="modal-tab" class="keys-MCG key-button-MCG">Tab</span>Controls Guide (This Page)</li>
+                        <li><span id="modal-esc" class="keys-MCG key-button-MCG">Esc</span>Menu</li>
+                    </ul>
+                    <br>
+                    <hr>
+                    <div id="acknowledgements" class="p-2">
+    
+                        made by @manystarsapart <br>
+                        for any feedback, please contact <a href="mailto:support@skysynth.space" class="text-emerald-800"><u>support@skysynth.space</u></a><br>
+                        last updated: <span id="last-updated-date">loading...</span><br>
+                        current version: <span id="current-version">loading...</span><br>
+                        <a href="https://github.com/manystarsapart/skysynth/blob/main/CHANGELOG.md" target="_blank" class="text-emerald-800"><u>view changelog</u></a> 
+                        | <a href="https://www.old.skysynth.space" target="_blank" class="text-emerald-800"><u>old version (0.9.1)</u></a>
+                        | <a href="https://www.mobile.skysynth.space" target="_blank" class="text-emerald-800"><u>mobile version (M-0.1.0)</u></a>
+            
+                    </div>
+                </div>
 
-                    made by @manystarsapart <br>
-                    for any feedback, please contact <a href="mailto:support@skysynth.space" class="text-emerald-800"><u>support@skysynth.space</u></a><br>
-                    last updated: <span id="last-updated-date">loading...</span><br>
-                    current version: <span id="current-version">loading...</span><br>
-                    <a href="https://github.com/manystarsapart/skysynth/blob/main/CHANGELOG.md" target="_blank" class="text-emerald-800"><u>view changelog</u></a> 
-                    | <a href="https://www.old.skysynth.space" target="_blank" class="text-emerald-800"><u>old version (0.9.1)</u></a>
-                    | <a href="https://www.mobile.skysynth.space" target="_blank" class="text-emerald-800"><u>mobile version (M-0.1.0)</u></a>
-        
+                <div id="transcribe-modal"> <!-- TRANSCRIBE -->
+                    <h2 class="text-3xl pb-5">Transcribe</h2>
+                    <ul>
+                        <li><button id="toggle-transcribe-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Start transcribing</button></li>
+                        <li><button id="download-transcribe-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Download transcription</button></li>
+                    </ul>
+                    <br \>
+                    Songs:
+                    <br \>
+                    <span id="songlist-modal">No transcription yet!</span>
                 </div>
             </div>
         </div>
@@ -172,11 +192,13 @@
     
 </header>
 
+
+
+<main id="main-content" class="-z-10 min-h-dvh">
+
 <div>
     <input type="range" name="char size input" id="char-size-input" class="fixed left-[1%] bottom-[1%] z-100">
 </div>
-
-<main id="main-content" class="-z-10">
 <div class="fixed right-10 top-0 m-4"> note history:
     <div id="notes-div" class="fixed max-h-60 min-h-40 right-10 top-5 text-right p-5 m-4 overflow-y-scroll">
     </div>
@@ -187,14 +209,11 @@
         <li class="text-yellow-800">current transpose value = <span id="transpose-value">0</span> | current key: <span id="scale-value">C</span></li> 
         <li class="text-base">(i.e. the current "D" key on the keyboard maps to the music note: <span id="scale-value-2">C</span>)</li>
         <li class="text-yellow-800">current octave shift: <span id="octave-value">0 (default)</span></li> 
-        <li class="text-yellow-800">esc to open menu | tab to see controls</li>
+        <li class="text-yellow-800">esc to open menu | tab to transcribe</li>
         
     </ul>
     
 </div>
-
-<button id="toggle-transcribe-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Start transcribing</button>
-<button id="download-transcribe-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Download transcription</button>
 
     <ul class="text-base">
         <li class="">here's a (dynamic) visual guide for you. try pressing number keys to change keys!</li>
