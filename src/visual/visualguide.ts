@@ -194,7 +194,7 @@ function mapNumbersToNotes(leftright: number) {
 
 
 function createNoteDiv(id: string, note: string, octave: number) {
-    return `<div id="${id}" class="flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 relative bg-white/80">
+    return `<div id="${id}" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 relative bg-white/80">
                 <div>
                     ${note}<sub class="text-lg">${octave}</sub>
                 </div>

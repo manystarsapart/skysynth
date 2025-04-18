@@ -216,4 +216,19 @@ function incrementCumKeypress() { // logs each time a key is pressed
     localStorage.setItem("cumulativeKeypress", cumulativeKeypress.toString());
 }
 
+// ======================
+// mobile
 
+document.addEventListener('pointerdown', (e:PointerEvent) => {
+    const target: HTMLElement = e.target as HTMLElement;
+    if (target.closest('.keyboard-key')) { 
+        e.preventDefault();
+    }
+}, { passive: false });
+
+document.addEventListener('pointerup', (e:PointerEvent) => {
+    const target: HTMLElement = e.target as HTMLElement;
+    if (target.closest('.keyboard-key')) {
+        e.preventDefault();
+    }
+}, { passive: false });

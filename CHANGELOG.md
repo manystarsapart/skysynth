@@ -73,6 +73,12 @@ FUTURE PLANS
 
  -->
 
+## [0.19.3] - 2025-04-19
+### Fixed
+- improve slightly on touchscreen compatibility support
+
+
+
 ## [0.19.2] - 2025-04-17
 ### Added
 - song name & player name & initial boolean for stopaudiowhenreleased in RecordedSong
