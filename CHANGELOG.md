@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.19.3 - 2025-04-19](#0193---2025-04-19)
 - [0.19.2 - 2025-04-17](#0192---2025-04-17)
 - [0.19.1 - 2025-04-16](#0191---2025-04-16)
 - [0.19.0 - 2025-04-15](#0190---2025-04-15)
@@ -76,7 +77,6 @@ FUTURE PLANS
 ## [0.19.3] - 2025-04-19
 ### Fixed
 - improve slightly on touchscreen compatibility support
-
 
 
 ## [0.19.2] - 2025-04-17
