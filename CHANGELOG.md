@@ -82,6 +82,7 @@ FUTURE PLANS
 - sheet playing, sheet importing (PROOF OF CONCEPT). only visualising sheet left
 
 ### Changed
+- sheet format
 
 ## [0.19.3] - 2025-04-19
 ### Added
