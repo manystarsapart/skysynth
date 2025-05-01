@@ -87,7 +87,8 @@ function handleClickOutside(e: PointerEvent) {
     if (!modalContent.contains(e.target as Node)) {
         toggleModal(false);
     } else {
-        e.preventDefault();
+        // e.preventDefault();
+        // TEMPORARILY DISABLED TO ALLOW DROPDOWN TO BE CLICKED
     }
 }
 

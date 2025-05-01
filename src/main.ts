@@ -10,6 +10,7 @@ import './core/time.ts';
 import { keyEventToBaseKey, registerKeyDown, registerKeyUp } from './core/keypress.ts';
 import { states } from './core/states.ts';
 // import './sheets/transcribe.ts';
+import './sheets/sheetPlayer.ts'
 
 
 document.addEventListener("DOMContentLoaded", () => {

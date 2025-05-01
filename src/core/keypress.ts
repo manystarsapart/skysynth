@@ -136,7 +136,7 @@ export function registerKeyDown(key:string) {
         incrementCumKeypress();
 
         if (states.isTranscribing) {
-            transcribeKeypress(true, key, midiNote, false);
+            transcribeKeypress(true, key, midiNote, true);
         }
         
     } 
@@ -202,6 +202,7 @@ export function registerKeyUp(key:string) {
         if (states.stopAudioWhenReleased == false) return; // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH
         states.currentInstrument.triggerRelease(Tone.Frequency(midiNote, "midi"));
         states.currentInstrument.triggerRelease(Tone.Frequency(midiNote+1, "midi"));
+        transcribeKeypress(true, key, midiNote, false);
     }
 }
 

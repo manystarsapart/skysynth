@@ -1,28 +1,27 @@
 import { states, pressedKeys } from "../core/states";
-import { songs, keypresses } from "./songs";
-import { rightKeyboardKeys, relativeMapping } from "../core/maps";
+import { songs } from "./songs";
+import { rightKeyboardKeys } from "../core/maps";
 import { pitchMap } from "../core/maps";
 import { getFormattedDateTimeForDownload, updateStatusMsg } from "../core/logging";
+import { refreshSongSelect } from "./sheetPlayer";
 
 type KeyboardMode = "+12" | "+1" | "-1";
 type SheetType = "recorded" | "composed";
 
-interface RecordedNote {
+export interface RecordedNote {
     index: number;
     MIDI: number;
-    relativeKeyValue: number; // 0-14
+    keyboardKey: string; // qwert etc
     leftright: 0 | 1; // 0: left, 1: right
+    isKeyDown: boolean;
+    semitonePlusOne: boolean;
 }
 
-interface RecordedOperation {
+export interface RecordedOperation {
     index: number;
-    nature: number; // 0: tranpose, 1: octave, 2: temp-transpose
+    nature: number; // 0: tranpose, 1: octave, 
     updatedTranspose?: number; // only for transpose operations
     updatedOctave?: number; // only for octave operations
-    tempTranspose?: {
-        isKeyDown: boolean;
-        key?: number; // 0: shift, 1: L alt, 2: R alt. NO NEED IF ISKEYDOWN == FALSE
-    };
 }
 
 export interface Keypress {
@@ -91,6 +90,9 @@ function toggleTranscribingState() {
         updateStatusMsg("started transcribing. transcribing song ID: " + states.lastTranscribedSongID);
         toggleTranscribeButton.style.backgroundColor = "#F08080";
         toggleTranscribeButton.textContent = "Stop Transcribing";
+
+        // refresh songlist for playing transcribing
+        refreshSongSelect();
     }
 
     states.isTranscribing = !states.isTranscribing;
@@ -98,6 +100,10 @@ function toggleTranscribingState() {
 
 function startTranscribing() {
     states.currentSongStartTime = performance.now();
+
+    // keypresses.length = 0;
+
+    const nowKeypresses: Keypress[] = [];
     const song: RecordedSong = {
         id: states.lastTranscribedSongID,
         name: `New Song ${states.lastTranscribedSongID}`,
@@ -106,25 +112,18 @@ function startTranscribing() {
         skysynthVersion: states.skysynthVersion,
         keyboardMode: states.currentKeyboardMode,
         sheetType: "recorded",
-        // bpm: 
         instruments: states.currentInstrumentName,
         startingTranspose: states.transposeValue,
         startingStopAudioWhenReleased: states.stopAudioWhenReleased,
-        keypresses: keypresses
+        keypresses: nowKeypresses
     };
     songs.push(song);
     console.log(song);
-
-}
-
-const getTempTransposeKey = () => {
-    if (states.shiftPressed) return 0;
-    else if (states.leftAltPressed) return 1;
-    else if (states.rightAltPressed) return 2; 
 }
 
 
-export function transcribeKeypress(keyIsNote: boolean, key: string, finalMIDI: number | null = null, tempTransposeIsKeyDown: boolean = false) {
+
+export function transcribeKeypress(keyIsNote: boolean, key: string, finalMIDI: number | null = null, noteIsKeyDown: boolean = true) {
     let note: RecordedNote | null = null;
     let operation: RecordedOperation | null = null;
 
@@ -132,11 +131,14 @@ export function transcribeKeypress(keyIsNote: boolean, key: string, finalMIDI: n
         note = {
             index: states.latestTranscribeNoteIndex,
             MIDI: finalMIDI as number,
-            relativeKeyValue: relativeMapping[key],
-            leftright: 0 // set as left first
+            keyboardKey: key,
+            leftright: 0, // set as left first
+            isKeyDown: noteIsKeyDown,
+            semitonePlusOne: (states.shiftPressed || states.leftAltPressed) ? true : false
         }
         if (rightKeyboardKeys.has(key)) {
             note.leftright = 1;
+            note.semitonePlusOne = (states.shiftPressed || states.rightAltPressed) ? true : false;
         }
         states.latestTranscribeNoteIndex++;
 
@@ -149,10 +151,6 @@ export function transcribeKeypress(keyIsNote: boolean, key: string, finalMIDI: n
         } else if (key == "arrowleft" || key == "arrowright" || key == "arrowup" || key == "arrowdown") {
             // octave
             nature = 1;
-        } else {
-            // temp transpose
-            nature = 2;
-            
         }
 
         operation = {
@@ -160,10 +158,6 @@ export function transcribeKeypress(keyIsNote: boolean, key: string, finalMIDI: n
             nature: nature,
             updatedTranspose: states.transposeValue,
             updatedOctave: states.octave,
-            tempTranspose: {
-                isKeyDown: tempTransposeIsKeyDown,
-                key: getTempTransposeKey(),
-            }
             
         }
         states.latestTranscribeOperationIndex++;

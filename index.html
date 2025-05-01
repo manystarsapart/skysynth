@@ -22,7 +22,7 @@
 
 <header>
     <h1 class="text-5xl font-pressstart2p p-5">SkySynth | hello, user <span id="display-name-box" class="bg-amber-300/50">anonymous</span></h1>
-    
+
     <nav id="navbar" class="bg-[#80b3ff] z-1000 rounded-l-2xl text-black fixed top-0 bottom-0 right-0 h-full w-[55px] overflow-hidden transition-[width] duration-200 ease-linear transform-gpu scale-100 shadow-[1px_0_15px_rgba(0,0,0,0.07)] opacity-100 group min-h-[60px]">
         <h1 id="menu-title" class="text-xl p-3 m-1 text-center hidden">menu (esc)</h1>
         <ul class="text-sm">
@@ -178,8 +178,14 @@
                 <div id="transcribe-modal"> <!-- TRANSCRIBE -->
                     <h2 class="text-3xl pb-5">Transcribe</h2>
                     <ul>
-                        <li><button id="toggle-transcribe-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Start transcribing</button></li>
-                        <li><button id="download-transcribe-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Download transcription</button></li>
+                        <li><button id="toggle-transcribe-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Start transcribing</button>
+                        <button id="download-transcribe-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Download transcription</button></li>
+                        <li><button id="play-transcription-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">playtranscribed</button>
+                        <select name="transcribe selection" id="transcribe-selection" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]"></select></li>
+                        <input type="file" id="song-import" accept=".json" class="hidden">
+                        <li><button onclick="document.getElementById('song-import').click()" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">
+                            Import Songs From File
+                        </button></li>
                     </ul>
                     <br \>
                     Songs:

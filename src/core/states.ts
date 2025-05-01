@@ -43,6 +43,8 @@ export let states: any = {
     latestTranscribeOperationIndex: 0,
     lastTranscribedSongID: 0,
     currentSongStartTime: 0,
+
+    songIDToPlay: 0,
 }
 
 export const pressedKeys: Set<string> = new Set();

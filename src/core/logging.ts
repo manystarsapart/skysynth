@@ -41,6 +41,8 @@ export function updateStatusMsg(message:string) {
     const status: string = messageLog.join('<br>');
     messageLogDiv.innerHTML = status;
     messageLogDiv.scrollTop = messageLogDiv.scrollHeight;
+    
+    console.log(message);
 }
 
 clearStatusButton.addEventListener("pointerdown", () => {
