@@ -19,12 +19,17 @@ export interface RecordedNote {
 
 export interface RecordedOperation {
     index: number;
-    nature: number; // 0: tranpose, 1: octave, 
+    nature: number; // 0: tranpose, 1: octave, 2: temp transpose
     updatedTranspose?: number; // only for transpose operations
     updatedOctave?: number; // only for octave operations
+    tempTranspose: {
+        isSemitoneUp?: boolean;
+        leftright?: string; // "left" vs "right"
+    }
 }
 
 export interface Keypress {
+    key: string;
     isNote: boolean;
     time: number; 
     note?: RecordedNote; // note content if nature is "note"
@@ -35,13 +40,14 @@ export interface RecordedSong {
     id: number;
     name: string;
     user: string;
-    version: number; // 1 for now
+    sheetVersion: string;
     skysynthVersion: string; // skysynth version at time of recording (eg. "0.18.1")
     keyboardMode: KeyboardMode; // keyboard mode (0: +12, 1: +1, 2: -1)
     sheetType: SheetType; // always "recorded" for now
     // bpm: number; // TODO: find BPM for recorded songs?
     instruments: string; // TODO
     startingTranspose: number; // initial transpose value. default to 0 by “?? 0” during creation
+    startingOctave: number; // initial octave
     startingStopAudioWhenReleased: boolean;
     keypresses: Keypress[]; 
 }
@@ -105,12 +111,13 @@ function startTranscribing() {
         id: states.lastTranscribedSongID,
         name: `New Song ${states.lastTranscribedSongID}`,
         user: "Anonymous User",
-        version: 1,
+        sheetVersion: states.skysynthSheetVersion,
         skysynthVersion: states.skysynthVersion,
         keyboardMode: states.currentKeyboardMode,
         sheetType: "recorded",
         instruments: states.currentInstrumentName,
         startingTranspose: states.transposeValue,
+        startingOctave: states.octave,
         startingStopAudioWhenReleased: states.stopAudioWhenReleased,
         keypresses: nowKeypresses
     };
@@ -120,7 +127,7 @@ function startTranscribing() {
 
 
 
-export function transcribeKeypress(keyIsNote: boolean, key: string, finalMIDI: number | null = null, noteIsKeyDown: boolean = true) {
+export function transcribeKeypress(keyIsNote:boolean, key:string, finalMIDI:number|null = null, noteIsKeyDown:boolean = true, tempTransposeIsSemitoneUp:boolean = false, tempTransposeLeftRight:string = "") {
     let note: RecordedNote | null = null;
     let operation: RecordedOperation | null = null;
 
@@ -148,6 +155,12 @@ export function transcribeKeypress(keyIsNote: boolean, key: string, finalMIDI: n
         } else if (key == "arrowleft" || key == "arrowright" || key == "arrowup" || key == "arrowdown") {
             // octave
             nature = 1;
+        } else if (key == "[" || key == "]") {
+            // transpose by 1: "[" or "]"
+            nature = 2
+        } else {
+            // temp transpose
+            nature = 3;
         }
 
         operation = {
@@ -155,13 +168,16 @@ export function transcribeKeypress(keyIsNote: boolean, key: string, finalMIDI: n
             nature: nature,
             updatedTranspose: states.transposeValue,
             updatedOctave: states.octave,
-            
+            tempTranspose: {
+                isSemitoneUp: tempTransposeIsSemitoneUp,
+                leftright: tempTransposeLeftRight,
+            }
         }
         states.latestTranscribeOperationIndex++;
         
     }
     
-    const keypress: Keypress = generateKeypressToPush(keyIsNote, note, operation);
+    const keypress: Keypress = generateKeypressToPush(keyIsNote, note, operation, key);
 
     songs[states.lastTranscribedSongID].keypresses.push(keypress);
     
@@ -169,11 +185,11 @@ export function transcribeKeypress(keyIsNote: boolean, key: string, finalMIDI: n
     
 }
 
-function generateKeypressToPush(keyIsNote:boolean, note: RecordedNote | null = null, operation: RecordedOperation | null = null) {
+function generateKeypressToPush(keyIsNote:boolean, note: RecordedNote | null = null, operation: RecordedOperation | null = null, key:string) {
     return {
+        key: key,
         isNote: keyIsNote,
         time: performance.now() - states.currentSongStartTime,
-        // note
         note: keyIsNote ? note : null,
         operation: keyIsNote ? null: operation
     } as Keypress

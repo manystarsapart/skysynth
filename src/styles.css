@@ -11,6 +11,17 @@
   transition: none;
 }
 
+.key-active-playback {
+  background-color: #FAE29C !important;
+  transition: all 0.1s ease-in-out !important;
+  transform: scale(0.85) !important;
+}
+
+.key-active-instant-playback {
+  background-color: #FAE29C !important;
+  transition: none;
+}
+
 
 /* from https://codepen.io/giumagnani/pen/jBNJKw */
 

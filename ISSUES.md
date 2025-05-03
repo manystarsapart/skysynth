@@ -1,7 +1,5 @@
 # KNOWN ISSUES
 
-
-
 4. water level does not cover the entire vertical screen if using low viewport width
 
 6. low viewport width also squishes the note visual guide
@@ -13,6 +11,8 @@
 11. when pressing alt on firefox (not tested on other browsers), the alt menu is brought up and affects playing. solve this by changing client side settings: navigate to about:config --> `ui.key.menuAccessKeyFocuses` --> false
  
 14. `ctrl + shift + r` is now broken. cant refresh. issue lies in [keypress.ts](src/core/keypress.ts).
+
+15. if user changes stopAudioWhenReleased setting during transcription, visual guide bugs out when playing
 
 
 # FIXED ISSUES BY DATE

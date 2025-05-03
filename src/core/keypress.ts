@@ -6,7 +6,6 @@ import { leftKeyboardKeys, rightKeyboardKeys, pitchMap } from "./maps";
 import { updateNoteHistory } from "./logging";
 import { applyVisualGuideStyleChange, leftAltIndicator, removeVisualGuideStyleChange, rightAltIndicator, shiftIndicator, updateVisualGuideOnOneSide } from '../visual/visualguide';
 import { transposeToKey, transposeDownOne, transposeUpOne, octaveDown, octaveUp } from '../audio/transposeOctave';
-import { toggleModal } from '../components/modal';
 import { toggleStopAudioWhenReleased } from '../audio/stopAudioWhenReleased';
 import { toggleLights } from '../visual/lights';
 import { toggleMenu } from '../components/menu';
@@ -27,36 +26,115 @@ document.addEventListener("DOMContentLoaded", () => {
         shiftIndicator.style.backgroundColor = "#588157";
         updateVisualGuideOnOneSide(0);
         updateVisualGuideOnOneSide(1);
+        transcribeKeypress(false, "shift", null, true, true);
     })
     shiftIndicator.addEventListener('pointerup', () => {
         states.shiftPressed = false;
         shiftIndicator.style.backgroundColor = "";
         updateVisualGuideOnOneSide(0);
         updateVisualGuideOnOneSide(1);
+        transcribeKeypress(false, "shift", null, true, false);
     })
     leftAltIndicator.addEventListener('pointerdown', (e) => {
         e.preventDefault();
         states.leftAltPressed = true;
         leftAltIndicator.style.backgroundColor = "#588157";
         updateVisualGuideOnOneSide(0);
+        transcribeKeypress(false, "altL", null, true, true, "left");
     })
     leftAltIndicator.addEventListener('pointerup', () => {
         states.leftAltPressed = false;
         leftAltIndicator.style.backgroundColor = "";
         updateVisualGuideOnOneSide(0);
+        transcribeKeypress(false, "altL", null, true, false, "left");
     })
     rightAltIndicator.addEventListener('pointerdown', (e) => {
         e.preventDefault();
         states.rightAltPressed = true;
         rightAltIndicator.style.backgroundColor = "#588157";
         updateVisualGuideOnOneSide(1);
+        transcribeKeypress(false, "altR", null, true, true, "right");
     })
     rightAltIndicator.addEventListener('pointerup', () => {
         states.rightAltPressed = false;
         rightAltIndicator.style.backgroundColor = "";
         updateVisualGuideOnOneSide(1);
+        transcribeKeypress(false, "altR", null, true, false, "right");
     })
 })
+
+// detects for SHIFT pressed & released AND alt pressed & released
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Shift') {
+        states.shiftPressed = true;
+        shiftIndicator.style.backgroundColor = "#588157";
+        updateVisualGuideOnOneSide(0);
+        updateVisualGuideOnOneSide(1);
+
+        if (states.isTranscribing === true) transcribeKeypress(false, "shift", null, true, true); // TRANSCRIBE
+
+        // if (!currentLightsOn) {
+        //     // toggleVGWhiteBg();
+        //     if (shiftIndicator.classList.contains("bg-white/80")) {
+        //         shiftIndicator.classList.toggle("bg-white/80");
+        //     }
+        //     if (leftAltIndicator.classList.contains("bg-white/80")) {
+        //         leftAltIndicator.classList.toggle("bg-white/80");
+        //     }
+        //     if (rightAltIndicator.classList.contains("bg-white/80")) {
+        //         rightAltIndicator.classList.toggle("bg-white/80");
+        //     }
+        // }
+    } 
+    else if (e.key === 'Alt' && e.location === 1) {
+        // left alt key
+        e.preventDefault();
+        states.leftAltPressed = true;
+        leftAltIndicator.style.backgroundColor = "#588157";
+        updateVisualGuideOnOneSide(0);
+
+        if (states.isTranscribing === true) transcribeKeypress(false, "altL", null, true, true, "left"); // TRANSCRIBE
+    } 
+    else if (e.key === 'Alt' && e.location === 2) {
+        // right alt key
+        e.preventDefault();
+        states.rightAltPressed = true;
+        rightAltIndicator.style.backgroundColor = "#588157";
+        updateVisualGuideOnOneSide(1);
+
+        if (states.isTranscribing === true) transcribeKeypress(false, "altR", null, true, true, "left"); // TRANSCRIBE
+    }
+
+   
+});
+
+document.addEventListener('keyup', function(e) {
+    if (e.key === 'Shift') {
+        states.shiftPressed = false;
+        shiftIndicator.style.backgroundColor = "";
+        updateVisualGuideOnOneSide(0);
+        updateVisualGuideOnOneSide(1);
+        if (states.isTranscribing === true) transcribeKeypress(false, "shift", null, true, false); 
+    }
+    else if (e.key === 'Alt' && e.location === 1 && states.leftAltPressed) {
+        // left alt key
+        states.leftAltPressed = false;
+        leftAltIndicator.style.backgroundColor = "";
+        updateVisualGuideOnOneSide(0);
+        if (states.isTranscribing === true) transcribeKeypress(false, "altL", null, true, false, "left"); 
+    } 
+    else if (e.key === 'Alt' && e.location === 2 && states.rightAltPressed) {
+        // right alt key
+        states.rightAltPressed = false;
+        rightAltIndicator.style.backgroundColor = "";
+        updateVisualGuideOnOneSide(1);
+        if (states.isTranscribing === true) transcribeKeypress(false, "altR", null, true, false, "right"); 
+    }
+
+
+});
+
 
 function getBaseKey(key: string): string { // unshifts shifted symbol key
     const shiftMap: Record<string, string> = {
@@ -136,56 +214,46 @@ export function registerKeyDown(key:string) {
         incrementCumKeypress();
 
         if (states.isTranscribing) {
-            transcribeKeypress(true, key, midiNote, true);
+            transcribeKeypress(true, key, midiNote, true, false);
         }
         
     } 
     else if (key in pitchMap && !pressedKeys.has(key)) {
         transposeToKey(key)
         if (states.isTranscribing) {
-            transcribeKeypress(false, key, 0, false);
+            transcribeKeypress(false, key, null, false, false);
         }
     } // transpose
     else if (key == '[') {
         transposeDownOne();
         if (states.isTranscribing) {
-            transcribeKeypress(false, key, 0, false);
+            transcribeKeypress(false, key, null, false, false);
         }
     } // transpose 1 semitone down
     else if (key == ']') {
         transposeUpOne()
         if (states.isTranscribing) {
-            transcribeKeypress(false, key, 0, false);
+            transcribeKeypress(false, key, null, false, false);
         }
     } // transpose 1 semitone up
-    else if (key == 'tab') {toggleModal(!states.modalShown ? true : false)}
     else if (key == 'capslock') {toggleStopAudioWhenReleased()} // stopaudiowhenreleased
     else if (key == '\\') {toggleLights()} // lights
     else if (key == 'escape') {toggleMenu()} // menu
     else if (key == 'backspace') {toggleKeyboardMode()} // keyboardmode
     switch(key) { // detect arrow key: octave change
         case 'arrowleft':
-            octaveDown();
-            if (states.isTranscribing) {
-                transcribeKeypress(false, key, 0, false);
-            }
-            break
         case 'arrowdown':
             octaveDown();
             if (states.isTranscribing) {
-                transcribeKeypress(false, key, 0, false);
+                transcribeKeypress(false, key, null, false, false);
             }
             break;
+
         case 'arrowright':
-            octaveUp();
-            if (states.isTranscribing) {
-                transcribeKeypress(false, key, 0, false);
-            }
-            break;
         case 'arrowup':
             octaveUp();
             if (states.isTranscribing) {
-                transcribeKeypress(false, key, 0, false);
+                transcribeKeypress(false, key, null, false, false);
             }
             break;
     }         
@@ -202,7 +270,7 @@ export function registerKeyUp(key:string) {
         if (states.stopAudioWhenReleased == false) return; // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH
         states.currentInstrument.triggerRelease(Tone.Frequency(midiNote, "midi"));
         states.currentInstrument.triggerRelease(Tone.Frequency(midiNote+1, "midi"));
-        transcribeKeypress(true, key, midiNote, false);
+        transcribeKeypress(true, key, midiNote, false, false);
     }
 }
 

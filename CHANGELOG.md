@@ -10,6 +10,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.19.6 - 2025-05-03](#0196---2025-05-03)
+- [0.19.5 - 2025-05-02](#0195---2025-05-02)
 - [0.19.4 - 2025-05-02](#0194---2025-05-02)
 - [0.19.3 - 2025-04-19](#0193---2025-04-19)
 - [0.19.2 - 2025-04-17](#0192---2025-04-17)
@@ -77,9 +79,17 @@ FUTURE PLANS
 
  -->
 
+## [0.19.6] - 2025-05-03
+### Added
+- transcription playback visualisation: notes, tranpose keys
+
+### Fixed
+- control guide not showing properly (due to propagation of pointerdown)
+
+
 ## [0.19.5] - 2025-05-02
 ### Added
-- delete transcription feature. transcriptions deemed unsatisfactory can now be deleted
+- delete song feature. transcriptions deemed unsatisfactory can now be deleted
 
 ### Fixed
 - song name not immediately reflected after saving transcription

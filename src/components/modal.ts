@@ -11,29 +11,47 @@ closeModalButton.addEventListener('pointerdown', () => toggleModal(false));
 // ==========
 // CONTROLS BUTTON
 
+const showControlsButton = document.getElementById("show-controls-button")!;
+showControlsButton.addEventListener('pointerdown', (e) => {
+    toggleModal(true, "controls");
+    e.stopPropagation(); // prevents it from bubbling up
+});
 
-// TODO: FIX THIS
-// const showControlsButton = document.getElementById("show-controls-button")!;
-// showControlsButton.addEventListener('pointerdown', showControlModal)
-// function showControlModal() {
-//     // alert("test")
-//     document.getElementById("controls-modal")!.classList.remove("hidden");
-//     toggleModal(true);
-//     document.getElementById("transcribe-modal")!.classList.add("hidden");
-// }
+// ==========
+// TAB
+
+document.addEventListener('keydown', function(e) {
+    if (!states.modalShown && e.key === 'Tab') {
+        e.preventDefault(); // prevent tabbing away
+        toggleModal(true, "transcribe");
+    }
+});
 
 // ==========
 
 let lastFocusedElement: HTMLElement | null = null;
 
-export function toggleModal(show: boolean) {
-    refreshSongVisuals()
+export function toggleModal(show:boolean, mode = "transcribe") {
+    console.log("toggleModal called", show, mode);
+
+    refreshSongVisuals();
+
+    // hide both
+    document.getElementById("controls-modal")!.classList.add("hidden");
+    document.getElementById("transcribe-modal")!.classList.add("hidden");
+
     if (show) {
-        document.getElementById("transcribe-modal")!.classList.remove("hidden");
+        console.log("Trying to show modal, mode:", mode);
+        if (mode === "controls") {
+            document.getElementById("controls-modal")!.classList.remove("hidden");
+        } else {
+            document.getElementById("transcribe-modal")!.classList.remove("hidden");
+        }
+
         lastFocusedElement = document.activeElement as HTMLElement;
         mainContent.classList.add("pointer-events-none", "opacity-50");
         modalOverlay.classList.remove("hidden");
-        trapFocus(modalContent);
+        console.log("Should be visible now:", modalOverlay.className);
         closeModalButton.focus();
     } else {
         mainContent.classList.remove("pointer-events-none", "opacity-50");
@@ -54,33 +72,13 @@ export function toggleModal(show: boolean) {
     }
 }
 
-// for tab
-function trapFocus(element: HTMLElement) {
-    const focusableElements = element.querySelectorAll(
-        'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
-    );
-    const firstElement = focusableElements[0] as HTMLElement;
-    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
-
-    element.addEventListener('keydown', (e: KeyboardEvent) => {
-        if (e.key === 'Tab') {
-            if (e.shiftKey && document.activeElement === firstElement) {
-                e.preventDefault();
-                lastElement.focus();
-            } else if (!e.shiftKey && document.activeElement === lastElement) {
-                e.preventDefault();
-                firstElement.focus();
-            }
-        }
-    });
-}
 
 function handleKeyDown(e: KeyboardEvent) {
     if (e.key === 'Escape' || e.key === 'Tab') {
         toggleModal(false);
         document.getElementById("controls-modal")!.classList.add("hidden");
+        document.getElementById("transcribe-modal")!.classList.add("hidden");
     }
-
 }
 
 function handleClickOutside(e: PointerEvent) {

@@ -4,7 +4,6 @@ import { pressedKeys, activeKeyTimeouts } from '../core/states.ts';
 import * as Tone from 'tone';
 import { midiToNote, midiToOctave } from '../core/logging.ts';
 import { refreshKeypressHandlers } from '../core/keypress.ts';
-import { transcribeKeypress } from '../sheets/transcribe.ts';
 
 // visual guide
 const notesDivL = document.getElementById("notes-div-left")!;
@@ -13,78 +12,6 @@ const notesDivR = document.getElementById("notes-div-right")!;
 export const shiftIndicator = document.getElementById("shift-indicator")!;
 export const leftAltIndicator = document.getElementById("l-alt-indicator")!;
 export const rightAltIndicator = document.getElementById("r-alt-indicator")!;
-
-// detects for SHIFT pressed & released AND alt pressed & released
-
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Shift') {
-        states.shiftPressed = true;
-        shiftIndicator.style.backgroundColor = "#588157";
-        updateVisualGuideOnOneSide(0);
-        updateVisualGuideOnOneSide(1);
-
-        if (states.isTranscribing === true) transcribeKeypress(false, e.key, null, true); // TRANSCRIBE
-
-        // if (!currentLightsOn) {
-        //     // toggleVGWhiteBg();
-        //     if (shiftIndicator.classList.contains("bg-white/80")) {
-        //         shiftIndicator.classList.toggle("bg-white/80");
-        //     }
-        //     if (leftAltIndicator.classList.contains("bg-white/80")) {
-        //         leftAltIndicator.classList.toggle("bg-white/80");
-        //     }
-        //     if (rightAltIndicator.classList.contains("bg-white/80")) {
-        //         rightAltIndicator.classList.toggle("bg-white/80");
-        //     }
-        // }
-    } 
-    else if (e.key === 'Alt' && e.location === 1) {
-        // left alt key
-        e.preventDefault();
-        states.leftAltPressed = true;
-        leftAltIndicator.style.backgroundColor = "#588157";
-        updateVisualGuideOnOneSide(0);
-
-        if (states.isTranscribing === true) transcribeKeypress(false, e.key, null, true); // TRANSCRIBE
-    } 
-    else if (e.key === 'Alt' && e.location === 2) {
-        // right alt key
-        e.preventDefault();
-        states.rightAltPressed = true;
-        rightAltIndicator.style.backgroundColor = "#588157";
-        updateVisualGuideOnOneSide(1);
-
-        if (states.isTranscribing === true) transcribeKeypress(false, e.key, null, true); // TRANSCRIBE
-    }
-
-   
-});
-document.addEventListener('keyup', function(e) {
-    if (e.key === 'Shift') {
-        states.shiftPressed = false;
-        shiftIndicator.style.backgroundColor = "";
-        updateVisualGuideOnOneSide(0);
-        updateVisualGuideOnOneSide(1);
-        if (states.isTranscribing === true) transcribeKeypress(false, e.key, null, false); 
-    }
-    else if (e.key === 'Alt' && e.location === 1 && states.leftAltPressed) {
-        // left alt key
-        states.leftAltPressed = false;
-        leftAltIndicator.style.backgroundColor = "";
-        updateVisualGuideOnOneSide(0);
-        if (states.isTranscribing === true) transcribeKeypress(false, e.key, null, false); 
-    } 
-    else if (e.key === 'Alt' && e.location === 2 && states.rightAltPressed) {
-        // right alt key
-        states.rightAltPressed = false;
-        rightAltIndicator.style.backgroundColor = "";
-        updateVisualGuideOnOneSide(1);
-        if (states.isTranscribing === true) transcribeKeypress(false, e.key, null, false); 
-    }
-
-
-});
-
 
 document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") {

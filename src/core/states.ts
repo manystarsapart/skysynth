@@ -4,6 +4,9 @@ import { instruments, effectNodes, instrumentNames } from "../audio/instruEffect
 export let states: any = {
     skysynthVersion: "0.19.5",
     skysynthLastUpdateDate: "2025-05-02",
+    skysynthSheetVersion: "1.1",
+        // sheet big version change: breaks
+        // sheet small patch change: non-breaking
 
     shiftPressed: false,
     leftAltPressed: false,

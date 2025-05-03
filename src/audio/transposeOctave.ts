@@ -12,14 +12,18 @@ const octaveValueDisplay = document.getElementById("octave-value")!; // past: oc
 
 
 export function transposeToKey(key:string) {
-    states.lastPressedTransposeKey = key;
-    states.transposeValue = pitchMap[key]; // in semitones
-    transposeValueDisplay.innerHTML = pitchMap[key].toString(); // returns semitone count
-    scaleValueDisplay1.innerHTML = transposeMap[pitchMap[key]].toString(); // returns scale ("C", "D", etc)
-    scaleValueDisplay2.innerHTML = transposeMap[pitchMap[key]].toString(); // returns the same scale for better visualisation
+    transposeToNumericalKey(pitchMap[key]);
+}
+
+export function transposeToNumericalKey(key:number) {
+    states.lastPressedTransposeKey = pitchMapReversed[key];
+    states.transposeValue = key; // in semitones
+    transposeValueDisplay.innerHTML = key.toString(); // returns semitone count
+    scaleValueDisplay1.innerHTML = transposeMap[key].toString(); // returns scale ("C", "D", etc)
+    scaleValueDisplay2.innerHTML = transposeMap[key].toString(); // returns the same scale for better visualisation
     updateVisualGuide();
     console.log(`transpose pressed: ${key}`);
-    updateStatusMsg(`transpose value updated to: ${pitchMap[key]}`);
+    updateStatusMsg(`transpose value updated to: ${key}`);
 }
 
 export function transposeUpOne() {
@@ -94,6 +98,18 @@ export function transposeDownOne() {
 
 // ===========================================
 // OCTAVE CHANGE
+
+export function octaveTo(octave:number) {
+    if (octave >= -2 && octave <= 3) {
+        states.octave = octave;
+        states.octaveAdjustment = 12 * octave
+    } else {
+        updateStatusMsg(`octave (${octave}) out of range`);
+    }
+    octaveValueDisplay.innerHTML = states.octave.toString();
+    updateStatusMsg(`octave shift updated to: ${states.octave}`);
+    updateVisualGuide();
+}
 
 export function octaveUp(diff:number | null = null) {
     if (diff == null) {
