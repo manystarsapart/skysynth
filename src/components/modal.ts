@@ -1,5 +1,5 @@
 import { states } from "../core/states";
-import { updateTranscribeModal } from "../sheets/transcribe";
+import { refreshSongVisuals } from "../sheets/transcribe";
 
 const modalOverlay = document.getElementById("modal-overlay")!;
 const closeModalButton = document.getElementById("close-modal")!;
@@ -27,7 +27,7 @@ closeModalButton.addEventListener('pointerdown', () => toggleModal(false));
 let lastFocusedElement: HTMLElement | null = null;
 
 export function toggleModal(show: boolean) {
-    updateTranscribeModal();
+    refreshSongVisuals()
     if (show) {
         document.getElementById("transcribe-modal")!.classList.remove("hidden");
         lastFocusedElement = document.activeElement as HTMLElement;

@@ -9,9 +9,16 @@ import { songs } from './songs';
 // I AM GOING TO USE THE TRANSCRIBED SONG DURING THE SESSION. NO IMPORT YET
 
 const playTranscribedButton = document.getElementById("play-transcription-button")!;
+const stopPlaybackButton = document.getElementById("stop-transcription-playback-button")!;
 
-
-playTranscribedButton.addEventListener("pointerdown", () => {playSong(songs[states.songIDToPlay])})
+playTranscribedButton.addEventListener("pointerdown", () => {
+  if (songs.length != 0) {
+    playSong(songs[states.songIDToPlay]);
+  } else {
+    alert("No transcriptions to play!")
+  }
+});
+stopPlaybackButton.addEventListener("pointerdown", stopSong);
 
 export const transcribeSelection = document.getElementById("transcribe-selection")!;
 
@@ -66,6 +73,8 @@ async function playSong(song: RecordedSong) {
   updateStatusMsg(`now playing: ${song.name}`);
   updateStatusMsg(`song id: ${states.songIDToPlay}`);
 
+  playTranscribedButton.style.backgroundColor = "#F08080";
+  
   const noteEvents: Array<[number, { MIDI: number, isKeyDown: boolean, semitonePlusOne: boolean }]> = [];
 
   for (const keypress of song.keypresses) {
@@ -94,6 +103,16 @@ async function playSong(song: RecordedSong) {
     }
   }, noteEvents);
 
+  const lastKeypressTime = noteEvents.length > 0 ? noteEvents[noteEvents.length - 1][0] : 0; // catches 0 length transcriptions
+  const songDuration = lastKeypressTime + 3; // small buffer to ensure all keypresses finish
+
+  setTimeout(() => {
+    playTranscribedButton.style.backgroundColor = ""; // reset background
+    // console.log("time: " + (performance.now() - debugtimenow));
+    console.log("song duration: " + songDuration);
+    stopSong();
+  }, songDuration*1000);
+
   part.start(0);
   transport.start();
 
@@ -102,4 +121,28 @@ async function playSong(song: RecordedSong) {
   return part;
 }
 
+export async function stopSong() {
+  // const context = Tone.getContext();
+  const transport = Tone.getTransport();
 
+  // stop existing part
+  if (currentPart) {
+    currentPart.stop();
+    currentPart.dispose();
+    currentPart = null;
+  }
+
+  // remove existing transport
+  transport.stop();
+  transport.cancel();
+  transport.position = 0; // reset to time 0
+
+  states.currentInstrument.triggerRelease()
+
+  for (let midi = 0; midi < 128; midi++) {
+    states.currentInstrument.triggerRelease(Tone.Frequency(midi, "midi"));
+  }
+  // failsafe
+
+  playTranscribedButton.style.backgroundColor = ""; // reset bg
+}

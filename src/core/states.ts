@@ -2,7 +2,7 @@ import { keyboardMode0 } from "./maps";
 import { instruments, effectNodes, instrumentNames } from "../audio/instruEffect";
 
 export let states: any = {
-    skysynthVersion: "0.19.4",
+    skysynthVersion: "0.19.5",
     skysynthLastUpdateDate: "2025-05-02",
 
     shiftPressed: false,

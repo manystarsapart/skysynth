@@ -164,13 +164,13 @@
                     <hr>
                     <div id="acknowledgements" class="p-2">
     
-                        made by @manystarsapart <br>
-                        for any feedback, please contact <a href="mailto:support@skysynth.space" class="text-emerald-800"><u>support@skysynth.space</u></a><br>
-                        last updated: <span id="last-updated-date">loading...</span><br>
-                        current version: <span id="current-version">loading...</span><br>
-                        <a href="https://github.com/manystarsapart/skysynth/blob/main/CHANGELOG.md" target="_blank" class="text-emerald-800"><u>view changelog</u></a> 
-                        | <a href="https://www.old.skysynth.space" target="_blank" class="text-emerald-800"><u>old version (0.9.1)</u></a>
-                        | <a href="https://www.mobile.skysynth.space" target="_blank" class="text-emerald-800"><u>mobile version (M-0.1.0)</u></a>
+                        Made by @manystarsapart <br>
+                        For any feedback, please contact <a href="mailto:support@skysynth.space" class="text-emerald-800"><u>support@skysynth.space</u></a><br>
+                        Last updated: <span id="last-updated-date">Loading...</span><br>
+                        Current version: <span id="current-version">Loading...</span><br>
+                        <a href="https://github.com/manystarsapart/skysynth/blob/main/CHANGELOG.md" target="_blank" class="text-emerald-800"><u>View Changelog</u></a> 
+                        | <a href="https://www.old.skysynth.space" target="_blank" class="text-emerald-800"><u>Old version (0.9.1)</u></a>
+                        | <a href="https://www.mobile.skysynth.space" target="_blank" class="text-emerald-800"><u>Mobile version (M-0.1.0)</u></a>
             
                     </div>
                 </div>
@@ -178,9 +178,10 @@
                 <div id="transcribe-modal"> <!-- TRANSCRIBE -->
                     <h2 class="text-3xl pb-5">Transcribe</h2>
                     <ul>
-                        <li><button id="toggle-transcribe-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Start transcribing</button>
-                        <button id="download-transcribe-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Download transcription</button></li>
-                        <li><button id="play-transcription-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">playtranscribed</button>
+                        <li><button id="toggle-transcribe-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Start Transcribing</button>
+                        <button id="download-transcribe-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Download Transcription</button></li>
+                        <li><button id="play-transcription-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Play Sheet</button>
+                        <button id="stop-transcription-playback-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Stop Playback</button>
                         <select name="transcribe selection" id="transcribe-selection" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]"></select></li>
                         <input type="file" id="song-import" accept=".json" class="hidden">
                         <li><button onclick="document.getElementById('song-import').click()" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">
@@ -188,7 +189,7 @@
                         </button></li>
                     </ul>
                     <br \>
-                    Songs:
+                    <b>Songs:</b> (To delete from list, click "×")
                     <br \>
                     <span id="songlist-modal">No transcription yet!</span>
                 </div>

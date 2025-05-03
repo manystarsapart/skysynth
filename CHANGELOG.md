@@ -77,6 +77,15 @@ FUTURE PLANS
 
  -->
 
+## [0.19.5] - 2025-05-02
+### Added
+- delete transcription feature. transcriptions deemed unsatisfactory can now be deleted
+
+### Fixed
+- song name not immediately reflected after saving transcription
+- tone not releasing non-terminating notes after forceful song end: fixed with blanket tone stop
+
+
 ## [0.19.4] - 2025-05-02 
 ### Added
 - sheet playing, sheet importing (PROOF OF CONCEPT). only visualising sheet left
