@@ -10,19 +10,26 @@ export const effectNodes: any[] = [
     new Tone.Freeverb(),    // 4
 ];
 
+export const instrumentNames: string[] = [];
+export const instrumentSpriteCounts: number[] = []
 
 // helper for sampler
 type NoteMap = Record<string, string>;
 
-const createSampler = (config: {
+function createSampler (config: {
     baseUrl: string;
     noteMap: NoteMap;
     name: string;
-}) => new Tone.Sampler({
-    urls: config.noteMap,
-    baseUrl: config.baseUrl,
-    onload: () => console.log(`${config.name} samples loaded`),
-});
+}, sprites:number) {
+    instrumentNames.push(config.name);
+    instrumentSpriteCounts.push(sprites)
+    return new Tone.Sampler({
+        urls: config.noteMap,
+        baseUrl: config.baseUrl,
+        onload: () => console.log(`${config.name} samples loaded`),
+})};
+
+
 
 // ============================
 
@@ -43,7 +50,19 @@ const piano = createSampler({
         "D#6": "ds6.mp3", 
         "D#7": "ds7.mp3"
     }
-});
+}, 10);
+
+const grandpiano = createSampler({
+    name: "Grand Piano",
+    baseUrl: "./assets/audio/grandpiano/",
+    noteMap: {
+        "C4": "c4.wav", 
+        "C5": "c5.wav", 
+        "C6": "c6.wav", 
+        "F4": "f4.wav",
+        "F5": "f5.wav"
+    }
+}, 0); // use piano as default
 
 const eGuitar = createSampler({
     name: "E-Guitar",
@@ -56,7 +75,7 @@ const eGuitar = createSampler({
         "D#4": "ds4.mp3", 
         "D#5": "ds5.mp3",
     }
-});
+}, 5); // use guitar as default
 
 const musicBox = createSampler({
     name: "Music Box",
@@ -71,8 +90,63 @@ const musicBox = createSampler({
         "D#6": "ds6.mp3", 
         "D#7": "ds7.mp3"
     }
-});
+}, 0);
 
+const banjo = createSampler({
+    name: "Banjo",
+    baseUrl: "./assets/audio/banjo/",
+    noteMap: {
+        "A3": "a3.wav", 
+        "A4": "a4.wav", 
+        "C3": "c3.wav", 
+        "C4": "c4.wav", 
+        "C5": "c5.wav", 
+        "F3": "f3.wav",
+        "F4": "f4.wav"
+    }
+}, 5); // use guitar as default
+
+const pipa = createSampler({
+    name: "Pipa",
+    baseUrl: "./assets/audio/pipa/",
+    noteMap: {
+        "A3": "a3.wav", 
+        "A4": "a4.wav", 
+        "C3": "c3.wav", 
+        "C4": "c4.wav", 
+        "C5": "c5.wav", 
+        "F3": "f3.wav",
+        "F4": "f4.wav"
+    }
+}, 5); // use guitar as default
+
+const kalimba = createSampler({
+    name: "Kalimba",
+    baseUrl: "./assets/audio/kalimba/",
+    noteMap: {
+        "A4": "a4.wav", 
+        "A5": "a5.wav", 
+        "C4": "c4.wav", 
+        "C5": "c5.wav", 
+        "C6": "c6.wav", 
+        "F4": "f4.wav",
+        "F5": "f5.wav"
+    }
+}, 0);
+
+const xylophone = createSampler({
+    name: "Xylophone",
+    baseUrl: "./assets/audio/xylophone/",
+    noteMap: {
+        "A4": "a4.wav", 
+        "A5": "a5.wav", 
+        "C4": "c4.wav", 
+        "C5": "c5.wav", 
+        "C6": "c6.wav", 
+        "F4": "f4.wav",
+        "F5": "f5.wav"
+    }
+}, 0);
 
 // wind
 const flute = createSampler({
@@ -86,7 +160,7 @@ const flute = createSampler({
         "D#5": "ds5.mp3", 
         "D#6": "ds6.mp3",
     }
-});
+}, 5);
 
 const horn = createSampler({
     name: "Horn",
@@ -99,7 +173,7 @@ const horn = createSampler({
         "D#4": "ds4.mp3", 
         "D#5": "ds5.mp3",
     }
-});
+}, 7);
 
 const bugle = createSampler({
     name: "Bugle",
@@ -112,8 +186,63 @@ const bugle = createSampler({
         "D#5": "ds5.mp3", 
         "D#6": "ds6.mp3",
     }
-});
+}, 7);
 
+const saxophone_short = createSampler({
+    name: "Saxophone (Short)",
+    baseUrl: "./assets/audio/saxophone_short/",
+    noteMap: {
+        "A3": "a3.wav", 
+        "A4": "a4.wav", 
+        "C3": "c3.wav", 
+        "C4": "c4.wav", 
+        "C5": "c5.wav", 
+        "F3": "f3.wav",
+        "F4": "f4.wav"
+    }
+}, 0);
+
+const saxophone_long = createSampler({
+    name: "Saxophone (Long)",
+    baseUrl: "./assets/audio/saxophone_long/",
+    noteMap: {
+        "A3": "a3.wav", 
+        "A4": "a4.wav", 
+        "C3": "c3.wav", 
+        "C4": "c4.wav", 
+        "C5": "c5.wav", 
+        "F3": "f3.wav",
+        "F4": "f4.wav"
+    }
+}, 0);
+
+const harmonica_short = createSampler({
+    name: "Harmonica (Short)",
+    baseUrl: "./assets/audio/harmonica_short/",
+    noteMap: {
+        "A4": "a4.wav", 
+        "A5": "a5.wav", 
+        "C4": "c4.wav", 
+        "C5": "c5.wav", 
+        "C6": "c6.wav", 
+        "F4": "f4.wav",
+        "F5": "f5.wav"
+    }
+}, 0);
+
+const harmonica_long = createSampler({
+    name: "Harmonica (Long)",
+    baseUrl: "./assets/audio/harmonica_long/",
+    noteMap: {
+        "A4": "a4.wav", 
+        "A5": "a5.wav", 
+        "C4": "c4.wav", 
+        "C5": "c5.wav", 
+        "C6": "c6.wav", 
+        "F4": "f4.wav",
+        "F5": "f5.wav"
+    }
+}, 0);
 
 // string
 const guitar = createSampler({
@@ -127,21 +256,31 @@ const guitar = createSampler({
         "D#4": "ds4.mp3", 
         "D#5": "ds5.mp3",
     }
-});
+}, 5);
 
-const violin = createSampler({
-    name: "Violin",
-    baseUrl: "./assets/audio/violin/",
+const violin_short = createSampler({
+    name: "Violin (Short)",
+    baseUrl: "./assets/audio/violin_short/",
     noteMap: {
-        "A3": "a3.wav", 
-        "A4": "a4.wav", 
-        "A5": "a5.wav",
-        "D#4": "ds4.wav", 
-        "D#5": "ds5.wav", 
-        "D#6": "ds6.wav", 
-        "F#6": "fs6.wav"
+        "C4": "c4.wav", 
+        "C5": "c5.wav", 
+        "C6": "c6.wav", 
+        "F4": "f4.wav",
+        "F5": "f5.wav"
     }
-});
+}, 0);
+
+const violin_long = createSampler({
+    name: "Violin (Long)",
+    baseUrl: "./assets/audio/violin_long/",
+    noteMap: {
+        "C4": "c4.wav", 
+        "C5": "c5.wav", 
+        "C6": "c6.wav", 
+        "F4": "f4.wav",
+        "F5": "f5.wav"
+    }
+}, 0);
 
 const harp = createSampler({
     name: "Harp",
@@ -154,7 +293,7 @@ const harp = createSampler({
         "D#4": "ds4.mp3", 
         "D#5": "ds5.mp3",
     }
-});
+}, 5);
 
 const aurora = createSampler({
     name: "Aurora",
@@ -175,17 +314,26 @@ const aurora = createSampler({
         "A5": "a5.mp3", 
         "B5": "b5.mp3", 
         "C6": "c6.mp3", 
-
-
     }
-});
+}, 0);
 
 
 // synths
 const basicSynth = new Tone.PolySynth(Tone.Synth);
+instrumentNames.push("Synth");
+instrumentSpriteCounts.push(0);
+
 const duoSynth = new Tone.PolySynth(Tone.DuoSynth);
+instrumentNames.push("Duo Synth");
+instrumentSpriteCounts.push(0);
+
 const fmSynth = new Tone.PolySynth(Tone.FMSynth);
+instrumentNames.push("FM Synth");
+instrumentSpriteCounts.push(0);
+
 const amSynth = new Tone.PolySynth(Tone.AMSynth);
+instrumentNames.push("AM Synth");
+instrumentSpriteCounts.push(0);
 
 
 // goof
@@ -196,7 +344,7 @@ const meow = createSampler({
         "A3": "a3.mp3", "B2": "b2.mp3", "B4": "b4.mp3", "B5": "b5.mp3",
         "C4": "c4.mp3", "D#4": "ds4.mp3", "F3": "f3.mp3", "F4": "f4.mp3", "F5": "f5.mp3"
     }
-});
+}, 7);
 
 const ottoDoo = createSampler({
     name: "Otto - Doo",
@@ -205,7 +353,7 @@ const ottoDoo = createSampler({
         "F3": "f3.wav", "A3": "a3.wav", "C4": "c4.wav", "F4": "f4.wav",
         "Bb4": "bb4.wav", "C5": "c5.wav", "F5": "f5.wav", "C6": "c6.wav", "F6": "f6.wav",
     }
-});
+}, 7);
 
 const ottoSynth = createSampler({
     name: "Otto - Synth",
@@ -214,45 +362,57 @@ const ottoSynth = createSampler({
         "C3": "c3.wav", "F3": "f3.wav", "C4": "c4.wav", "F4": "f4.wav",
         "Bb4": "bb4.wav", "C5": "c5.wav", "F5": "f5.wav", "C6": "c6.wav", "F6": "f6.wav",
     }
-});
+}, 0);
 
 
 // inst array
 export const instruments: any[] = [
     // acoustic
-    piano,      // 0
-    eGuitar,    // 1
-    musicBox,   // 2
+    piano,          // 0
+    grandpiano,     // 1
+    eGuitar,        // 2
+    musicBox,       // 3
+    banjo,          // 4
+    pipa,           // 5
+    kalimba,        // 6
+    xylophone,      // 7
     
     // wind
-    flute,      // 3
-    horn,       // 4
-    bugle,      // 5
+    flute,          // 8
+    horn,           // 9
+    bugle,          // 10
+    saxophone_short, // 11
+    saxophone_long, // 12
+    harmonica_short, // 13
+    harmonica_long, // 14
 
     // string
-    guitar,     // 6
-    violin,     // 7
-    harp,        // 8
-    aurora,     // 9
+    guitar,         // 15
+    violin_short,   // 16
+    violin_long,    // 17
+    harp,           // 18
+    aurora,         // 19
     
     // synth
-    basicSynth, // 10
-    duoSynth,   // 11
-    fmSynth,    // 12
-    amSynth,    // 13
+    basicSynth,     // 20
+    duoSynth,       // 21
+    fmSynth,        // 22
+    amSynth,        // 23
     
-    // goof
-    meow,       // 14
-    ottoDoo,    // 15
-    ottoSynth,  // 16
+    // fun
+    meow,           // 24
+    ottoDoo,        // 25
+    ottoSynth,      // 26
     
 
 ];
 
 export const RELEASE_SETTINGS = {
     "INSTANT_RELEASE_INSTRUMENTS": [
-        "E-Guitar (Sampler)",
-        "Violin (Sampler)",
+        "E-Guitar",
+        "Saxophone (Long)",
+        "Harmonica (Long)",
+        "Violin (Long)",
         "Synth",
         "Duo Synth",
         "FM Synth",
@@ -261,22 +421,9 @@ export const RELEASE_SETTINGS = {
     ]
 };
 
-export const instrumentNames: string[] = [
-    "Piano (Sampler)", // 0
-    "E-Guitar (Sampler)", // 1
-    "Music Box (Sampler)", // 2
-    "Flute (Sampler)", // 3
-    "Horn (Sampler)", // 4
-    "Bugle (Sampler)", // 5
-    "Guitar (Sampler)", // 6
-    "Violin (Sampler)", // 7
-    "Harp (Sampler)", // 8
-    "Aurora (Sampler)", // 9
-    "Synth", // 10
-    "Duo Synth", // 11
-    "FM Synth", // 12
-    "AM Synth", // 13
-    "Meow", // 14
-    "Otto - Doo", // 15
-    "Otto - Synth", // 16
-];
+console.log(instrumentNames);
+
+
+// for (let i = 0; i < instruments.length; i++) {
+//     instrumentNames.push(instruments[i].name);
+// }

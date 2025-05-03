@@ -15,6 +15,7 @@ export interface RecordedNote {
     leftright: 0 | 1; // 0: left, 1: right
     isKeyDown: boolean;
     semitonePlusOne: boolean;
+    stopAudioWhenReleased: boolean; // CURRENTLY UNUSED. MAY BE USEFUL
 }
 
 export interface RecordedOperation {
@@ -118,7 +119,7 @@ function startTranscribing() {
         instruments: states.currentInstrumentName,
         startingTranspose: states.transposeValue,
         startingOctave: states.octave,
-        startingStopAudioWhenReleased: states.stopAudioWhenReleased,
+        startingStopAudioWhenReleased: states.stopAudioWhenReleased, // CURRENTLY UNUSED. MAY BE USEFUL
         keypresses: nowKeypresses
     };
     songs.push(song);
@@ -138,7 +139,8 @@ export function transcribeKeypress(keyIsNote:boolean, key:string, finalMIDI:numb
             keyboardKey: key,
             leftright: 0, // set as left first
             isKeyDown: noteIsKeyDown,
-            semitonePlusOne: (states.shiftPressed || states.leftAltPressed) ? true : false
+            semitonePlusOne: (states.shiftPressed || states.leftAltPressed) ? true : false,
+            stopAudioWhenReleased: states.stopAudioWhenReleased
         }
         if (rightKeyboardKeys.has(key)) {
             note.leftright = 1;

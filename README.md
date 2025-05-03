@@ -41,6 +41,7 @@ vanilla html is used, with tailwindcss used for styling purposes. vite with type
 13. water collection feature (reward TBC)
 14. transposing by one semitone: `[` for down, `]` for up
 15. see a skykid play instruments. currently supported: `piano, guitar, flute, horn, harp`
+16. transcribe, share & import sheets. only skysynth sheets can be imported to skysynth for now
 
 just press random keys to get started. it can be a lot of fun !
 (especially if you're familiar with the Sky: CoTL music keyboard like i am)
@@ -49,26 +50,40 @@ tap away!
 
 
 ## Instrument Selection
-1. piano (sky*)
-2. e-guitar (sky*)
-3. music box (mcbeeringi)
-4. flute (sky*)
-5. horn (sky*)
-6. bugle (sky*)
-7. guitar (sky*)
-8. violin (freesound.org)
-9. harp (sky*)
-10. aurora (sky**)
-11. synth
-12. duo synth
-13. FM synth
-14. AM synth
-15. meow
-16. otto - doo
-17. otto - synth
+
+0. "Piano" *
+1. "Grand Piano" ***
+2. "E-Guitar" *
+3. "Music Box" (mcbeeringi)
+4. "Banjo" ***
+5. "Pipa" ***
+6. "Kalimba" ***
+7. "Xylophone" ***
+8. "Flute" *
+9. "Horn" *
+10. "Bugle" *
+11. "Saxophone (Short)" ***
+12. "Saxophone (Long)" ***
+13. "Harmonica (Short)" ***
+14. "Harmonica (Long)" ***
+15. "Guitar" *
+16. "Violin (Short)" ***
+17. "Violin (Long)" ***
+18. "Harp" * 
+19. "Aurora" **
+20. "Synth" 
+21. "Duo Synth"
+22. "FM Synth"
+23. "AM Synth"
+24. "Meow"
+25. "Otto - Doo" 
+26. "Otto - Synth"
 
     *these are the sky instrument samples recorded in game by mcbeeringi. all credits go to TGC & many thanks to mcbeeringi
-    *these are the sky instrument samples recorded in game by Specy. all credits go to TGC & many thanks to mcbeeringi
+
+    **these are the sky instrument samples recorded in game by Specy. all credits go to TGC & many thanks to Specy
+    
+    ***these are the sky instrument samples recorded in game by myself. all credits go to TGC
 
 # Acknowledgements
 

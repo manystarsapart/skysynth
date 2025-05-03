@@ -11,7 +11,7 @@ closeModalButton.addEventListener('pointerdown', () => toggleModal(false));
 // ==========
 // CONTROLS BUTTON
 
-const showControlsButton = document.getElementById("show-controls-button")!;
+export const showControlsButton = document.getElementById("show-controls-button")!;
 showControlsButton.addEventListener('pointerdown', (e) => {
     toggleModal(true, "controls");
     e.stopPropagation(); // prevents it from bubbling up

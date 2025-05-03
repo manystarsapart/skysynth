@@ -188,7 +188,7 @@ export function refreshKeypressHandlers() {
 export function registerKeyDown(key:string) {
     // const keyPressTime: number = performance.now(); // for latency
     let midiNote: number = 0;
-    
+
     if (key in states.letterMap && !pressedKeys.has(key)) { 
         incrementWater();
         updateCharacter(false);
@@ -267,10 +267,10 @@ export function registerKeyUp(key:string) {
         removeVisualGuideStyleChange(document.getElementById(key) as HTMLElement);
         pressedKeys.delete(key);
         let midiNote = states.letterMap[key] + states.transposeValue + states.octaveAdjustment;
+        if (states.isTranscribing) {transcribeKeypress(true, key, midiNote, false, false);}
         if (states.stopAudioWhenReleased == false) return; // IF SAMPLER && NOT E-GUITAR && NOT OTTO-SYNTH
         states.currentInstrument.triggerRelease(Tone.Frequency(midiNote, "midi"));
         states.currentInstrument.triggerRelease(Tone.Frequency(midiNote+1, "midi"));
-        transcribeKeypress(true, key, midiNote, false, false);
     }
 }
 

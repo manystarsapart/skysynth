@@ -1,3 +1,4 @@
+import { instrumentSpriteCounts } from "../audio/instruEffect";
 import { states } from "../core/states";
 
 // function preloadImages(imagePaths:string[]) {
@@ -13,24 +14,7 @@ import { states } from "../core/states";
 //   ]);
 
 
-const instrumentSpriteCounts: Record<number, number> = {
-    0: 10, // piano
-    1: 0, //  e-guitar
-    2: 0, // music box
-    3: 5, // flute
-    4: 7, // horn
-    5: 7, // bugle
-    6: 5, // guitar
-    7: 0, // violin
-    8: 5, // harp
-    9: 0, // synth
-    10: 0, // duo synth
-    11: 0, // fm synth
-    12: 0, // am synth
-    13: 0, // meow
-    14: 7, // otto - doo
-    15: 0, // otto - synth
-}
+
 
 let idleTimeout: ReturnType<typeof setTimeout>;
 

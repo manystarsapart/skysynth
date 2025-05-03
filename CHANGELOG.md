@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.19.7 - 2025-05-04](#0197---2025-05-04)
 - [0.19.6 - 2025-05-03](#0196---2025-05-03)
 - [0.19.5 - 2025-05-02](#0195---2025-05-02)
 - [0.19.4 - 2025-05-02](#0194---2025-05-02)
@@ -70,14 +71,32 @@ FUTURE PLANS
 - LEADERBOARD LEADERBOARD LEADERBOARD. needs auth to work
 - actual real sustain pedal key. tab to sustain and release tab to release
 
-- transcriber & export & import. may require overhaul for recorder logic
+- overhaul for recorder logic? is recording still needed?
 - background customisation
-
-- TRANSCRIBER MODAL: change songlist-modal to an interactive interface such that users can DELETE transcriptions or DOWNLOAD INDIVIDUAL ones
 
 - PRELOAD / CACHE IMAGES FOR SKYKID
 
  -->
+
+## [0.19.7] - 2025-05-04
+### Added
+- instruments: 
+    - grand piano
+    - banjo
+    - pipa
+    - kalimba
+    - xylophone
+    - saxophone
+    - harmonica (?)
+    - violin (fix)
+- different website behaviour between first-time visitor & not. shows controls modal
+
+### Changed
+- slightly more streamedlined instrument selection & char sprite
+
+### Fixed
+- sheetPlayer logic for stopAudioWhenReleased broken due to lack of individual property
+
 
 ## [0.19.6] - 2025-05-03
 ### Added

@@ -4,7 +4,7 @@ import { toggleStopAudioWhenReleased } from './audio/stopAudioWhenReleased.ts';
 import { toggleKeyboardMode } from './audio/switchKeyboard.ts';
 import { toggleLights } from './visual/lights.ts';
 import { octaveUp, octaveDown, transposeUpOne, transposeDownOne } from './audio/transposeOctave.ts';
-import { toggleModal } from './components/modal.ts';
+import { showControlsButton, toggleModal } from './components/modal.ts';
 import './audio/recording.ts';
 import './core/time.ts';
 import { keyEventToBaseKey, registerKeyDown, registerKeyUp } from './core/keypress.ts';
@@ -16,6 +16,26 @@ import './sheets/sheetPlayer.ts'
 document.addEventListener("DOMContentLoaded", () => {
 
     // NOT IN THIS CODE: FIREBASE & ALL SERVER INTERACTION
+
+    // ===========================================
+
+    function isFirstVisit(): boolean {
+        if (!localStorage.getItem('visited')) {
+          localStorage.setItem('visited', 'true');
+          return true;
+        }
+        return false;
+      }
+      
+      if (isFirstVisit()) {
+        // first time
+        document.getElementById("skysynth-greeting")!.textContent = "hello"
+        showControlsButton.dispatchEvent(new Event("pointerdown"));
+      } else {  
+        // repeated visit
+        document.getElementById("skysynth-greeting")!.textContent = "welcome back"
+
+      }
 
     // ===========================================
     // CONTROL GUIDE

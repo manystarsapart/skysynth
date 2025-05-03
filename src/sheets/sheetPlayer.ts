@@ -5,6 +5,7 @@ import { updateStatusMsg } from '../core/logging';
 import { songs } from './songs';
 import { octaveTo, transposeDownOne, transposeToNumericalKey, transposeUpOne } from '../audio/transposeOctave';
 import { leftAltIndicator, rightAltIndicator, shiftIndicator, updateVisualGuide, updateVisualGuideOnOneSide } from '../visual/visualguide';
+import { RELEASE_SETTINGS } from '../audio/instruEffect';
 
 const playTranscribedButton = document.getElementById("play-transcription-button")!;
 const stopPlaybackButton = document.getElementById("stop-transcription-playback-button")!;
@@ -99,7 +100,7 @@ async function playSong(song: RecordedSong) {
 
   playTranscribedButton.style.backgroundColor = "#F08080";
   
-  const noteEvents: Array<[number, { MIDI: number, isKeyDown: boolean, semitonePlusOne: boolean, keyboardKey: string}]> = [];
+  const noteEvents: Array<[number, { MIDI:number, isKeyDown:boolean, semitonePlusOne:boolean, keyboardKey:string, stopAudioWhenReleased:boolean }]> = [];
   const operations: Keypress[] = [];
 
 
@@ -116,6 +117,7 @@ async function playSong(song: RecordedSong) {
           isKeyDown: keypress.note.isKeyDown,
           semitonePlusOne: keypress.note.semitonePlusOne,
           keyboardKey: keypress.note.keyboardKey,
+          stopAudioWhenReleased: keypress.note.stopAudioWhenReleased, // CURRENTLY UNUSED. MAY BE USEFUL
         }
       ]);
     } else if (keypress.operation) {
@@ -128,23 +130,32 @@ async function playSong(song: RecordedSong) {
     const noteFreq = Tone.Frequency(value.MIDI, "midi");
     const noteFreqPlusOne = Tone.Frequency(value.MIDI+1, "midi");
     if (value.isKeyDown) {
-      // console.log(`attack: ${value.MIDI}`);
+      // keydown
       states.currentInstrument.triggerAttack(noteFreq, time);
-      if (song.startingStopAudioWhenReleased) { 
-        // ISSUE HERE: IF USER CHANGES STOPAUDIOWHENRELEASED SETTING DURING TRANSCRIPTION, VISUAL GUIDE BUGS OUT WHEN PLAYING
+      if (value.stopAudioWhenReleased || RELEASE_SETTINGS.INSTANT_RELEASE_INSTRUMENTS.includes(states.currentInstrumentName)) {
+        // instant release OR forced instant release due to instrument
         document.getElementById(value.keyboardKey)!.classList.add("key-active-instant-playback");
       } else {
+        // smooth release
         document.getElementById(value.keyboardKey)!.classList.add("key-active-playback");
         setTimeout(() => {
           document.getElementById(value.keyboardKey)!.classList.remove("key-active-playback")
         },500)
+        setTimeout(() => {
+          if (!value.semitonePlusOne) states.currentInstrument.triggerRelease(noteFreq);
+          else states.currentInstrument.triggerRelease(noteFreqPlusOne);
+        },3000)
       }
-    } else {
-      // console.log(`release: ${value.MIDI}`);
-      if (!value.semitonePlusOne) states.currentInstrument.triggerRelease(noteFreq, time);
-      else states.currentInstrument.triggerRelease(noteFreqPlusOne, time);
-      if (song.startingStopAudioWhenReleased) {
+
+    } else { 
+      // keyup
+      if (value.stopAudioWhenReleased || RELEASE_SETTINGS.INSTANT_RELEASE_INSTRUMENTS.includes(states.currentInstrumentName)) {
+        // instant release OR forced instant release due to instrument
+        if (!value.semitonePlusOne) states.currentInstrument.triggerRelease(noteFreq, time);
+        else states.currentInstrument.triggerRelease(noteFreqPlusOne, time);
         document.getElementById(value.keyboardKey)!.classList.remove("key-active-instant-playback");
+      } else {
+        // smooth release: do nothing on keyup
       }
     }
   }, noteEvents);
@@ -230,10 +241,6 @@ async function playSong(song: RecordedSong) {
   }
 
 
-
-
-
-
   part.start(0);
   transport.start();
 
@@ -262,15 +269,12 @@ export async function stopSong() {
 
   for (let midi = 0; midi < 128; midi++) {
     states.currentInstrument.triggerRelease(Tone.Frequency(midi, "midi"));
-  }
-  // failsafe
+  } // failsafe
 
   // remove timeouts
-
   for (var i=0; i<operationTimeouts.length; i++) {
     clearTimeout(operationTimeouts[i]);
   }
   operationTimeouts.length = 0;
-
   playTranscribedButton.style.backgroundColor = ""; // reset bg
 }

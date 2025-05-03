@@ -12,18 +12,20 @@
  
 14. `ctrl + shift + r` is now broken. cant refresh. issue lies in [keypress.ts](src/core/keypress.ts).
 
-15. if user changes stopAudioWhenReleased setting during transcription, visual guide bugs out when playing
-
 
 # FIXED ISSUES BY DATE
 
-### 10-04-2025
+### 2025-05-04
+
+15. if user changes stopAudioWhenReleased setting during transcription, visual guide bugs out when playing
+
+### 2025-04-10
 
 12. when holding both alt keys, right alt key release causes code to detect a left alt key release
 
 13. visual guide incorrectly displays octave numbers as a result of poorly integrated visualguide changing
 
-### 23-03-2025
+### 2025-03-23
 
 1. selection dropdown can be janky and requires holding down to select
 
@@ -33,7 +35,7 @@
 
 10. instrument violin after transpose does not stop audio when released
 
-### 17-03-2025
+### 2025-03-17
 
 3. transposing to +12 uses the visual guide for +0
 
