@@ -81,7 +81,7 @@ FUTURE PLANS
 
 ## [0.19.6] - 2025-05-03
 ### Added
-- transcription playback visualisation: notes, tranpose keys
+- transcription playback visualisation: notes, transpose keys
 
 ### Fixed
 - control guide not showing properly (due to propagation of pointerdown)
