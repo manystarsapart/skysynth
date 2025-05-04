@@ -15,6 +15,11 @@ import './sheets/sheetPlayer.ts'
 
 document.addEventListener("DOMContentLoaded", () => {
 
+
+    document.addEventListener("touchstart", function (e) {
+      e.preventDefault();
+    }, { passive: false });
+
     // NOT IN THIS CODE: FIREBASE & ALL SERVER INTERACTION
 
     // ===========================================
