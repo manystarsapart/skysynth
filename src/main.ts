@@ -16,7 +16,7 @@ import './sheets/sheetPlayer.ts'
 document.addEventListener("DOMContentLoaded", () => {
 
 
-    document.addEventListener("touchstart", function (e) {
+    document.getElementById("no-touch")!.addEventListener("touchstart", function (e) {
       e.preventDefault();
     }, { passive: false });
 
