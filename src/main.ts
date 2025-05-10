@@ -6,7 +6,7 @@ import { toggleLights } from './visual/lights.ts';
 import { octaveUp, octaveDown, transposeUpOne, transposeDownOne } from './audio/transposeOctave.ts';
 import { showControlsButton, toggleModal } from './components/modal.ts';
 import './audio/recording.ts';
-import './core/time.ts';
+import './core/cumTime.ts';
 import { keyEventToBaseKey, registerKeyDown, registerKeyUp } from './core/keypress.ts';
 import { states } from './core/states.ts';
 // import './sheets/transcribe.ts';

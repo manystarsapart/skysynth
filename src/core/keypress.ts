@@ -279,7 +279,7 @@ export function registerKeyUp(key:string) {
 // increment keypress
 
 function incrementCumKeypress() { // logs each time a key is pressed
-    cumulativeKeypress = parseInt(localStorage.getItem("cumulativeKeypress") ?? '0');
+    cumulativeKeypress = parseInt(localStorage.getItem("cumulativeKeypress") ?? '0') || 0;
     cumulativeKeypress++; 
     cumKeypressDisplay.textContent = cumulativeKeypress.toString();
     localStorage.setItem("cumulativeKeypress", cumulativeKeypress.toString());
