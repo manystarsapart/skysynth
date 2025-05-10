@@ -10,7 +10,8 @@ import { RELEASE_SETTINGS } from '../audio/instruEffect';
 const playTranscribedButton = document.getElementById("play-transcription-button")!;
 const stopPlaybackButton = document.getElementById("stop-transcription-playback-button")!;
 
-const operationTimeouts: number[] = [];
+const operationTimeouts: any[] = [];
+// TODO: FIX. USE TIMEOUT INTERFACE. THIS IS A TEMPORARY FIX
 
 playTranscribedButton.addEventListener("pointerdown", () => {
   if (songs.length != 0) {

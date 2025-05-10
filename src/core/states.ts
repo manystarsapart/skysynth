@@ -7,6 +7,7 @@ export let states: any = {
     skysynthSheetVersion: "1.1",
         // sheet big version change: breaks
         // sheet small patch change: non-breaking
+    skysynthVersionOnLastVisit: null,
 
     shiftPressed: false,
     leftAltPressed: false,

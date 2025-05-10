@@ -9,11 +9,14 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/node": "^22.15.14",
+    "@types/showdown": "^2.0.6",
     "typescript": "~5.7.2",
     "vite": "^6.2.2"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.14",
+    "showdown": "^2.1.0",
     "tailwindcss": "^4.0.14",
     "tone": "^15.0.4"
   },

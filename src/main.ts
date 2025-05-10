@@ -11,6 +11,9 @@ import { keyEventToBaseKey, registerKeyDown, registerKeyUp } from './core/keypre
 import { states } from './core/states.ts';
 // import './sheets/transcribe.ts';
 import './sheets/sheetPlayer.ts'
+// import changelogMD from '/CHANGELOG.md?raw';
+// import showdown from 'showdown';
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -29,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem('visited', 'true');
           return true;
         }
+        // else
         return false;
       }
       
@@ -39,8 +43,29 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {  
         // repeated visit
         document.getElementById("skysynth-greeting")!.textContent = "welcome back"
-
+        if (isFirstVisitAfterUpdate()) {
+          // // show modal that shows most recent update
+          // const changelogModalContent = document.getElementById("changelog-modal-content")!;
+          // // convert changelog md to html
+          // showdown.setFlavor('github');
+          // const showdownConverter = new showdown.Converter();
+          // const showdownText = changelogMD;
+          // const showDdownHTML = showdownConverter.makeHtml(showdownText);
+          // changelogModalContent.innerHTML = showDdownHTML;
+          // toggleModal(true, "changelog");
+        }
       }
+
+      function isFirstVisitAfterUpdate(): boolean {
+        if (localStorage.getItem('lastVisitedVersion') != states.skysynthVersion) {
+          states.skysynthVersionOnLastVisit = localStorage.getItem('lastVisitedVersion');
+          localStorage.setItem('lastVisitedVersion', states.skysynthVersion);
+          return true;
+        }
+        // else
+        return false;
+      }
+
 
     // ===========================================
     // CONTROL GUIDE

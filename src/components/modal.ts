@@ -36,16 +36,17 @@ export function toggleModal(show:boolean, mode = "transcribe") {
 
     refreshSongVisuals();
 
-    // hide both
+    // hide all modals
     document.getElementById("controls-modal")!.classList.add("hidden");
     document.getElementById("transcribe-modal")!.classList.add("hidden");
+    document.getElementById("changelog-modal")!.classList.add("hidden");
 
     if (show) {
         console.log("Trying to show modal, mode:", mode);
-        if (mode === "controls") {
-            document.getElementById("controls-modal")!.classList.remove("hidden");
+        if (mode === "controls" || mode === "transcribe" || mode === "changelog") {
+            document.getElementById(`${mode}-modal`)!.classList.remove("hidden");
         } else {
-            document.getElementById("transcribe-modal")!.classList.remove("hidden");
+            return;
         }
 
         lastFocusedElement = document.activeElement as HTMLElement;
@@ -78,6 +79,7 @@ function handleKeyDown(e: KeyboardEvent) {
         toggleModal(false);
         document.getElementById("controls-modal")!.classList.add("hidden");
         document.getElementById("transcribe-modal")!.classList.add("hidden");
+        document.getElementById("changelog-modal")!.classList.add("hidden");
     }
 }
 

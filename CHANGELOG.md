@@ -78,6 +78,10 @@ FUTURE PLANS
 
  -->
 
+## [0.19.8] - 2025-05-10
+### Fixed
+- z index of character image is too high and interferes with touchscreen playing
+
 ## [0.19.7] - 2025-05-04
 ### Added
 - instruments: 

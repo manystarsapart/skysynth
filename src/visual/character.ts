@@ -50,9 +50,9 @@ export function updateCharacter(idle: boolean) {
         states.charIdle = true;
         states.charCurrentSpriteID = 0;
         if (instrumentSpriteCounts[states.currentInstrumentIndex] === 0) {
-            char.innerHTML = `<img id="character-image" src="./assets/char/idle/0.png" class="fixed ml-auto mr-auto left-1/2 -translate-x-1/2 bottom-0 translate-y-1/5" alt="skykid character">`;
+            char.innerHTML = `<img id="character-image" src="./assets/char/idle/0.png" class="fixed ml-auto mr-auto left-1/2 -translate-x-1/2 bottom-0 translate-y-1/5 -z-10" alt="skykid character">`;
         } else {
-        char.innerHTML = `<img id="character-image" src="./assets/char/idle/${states.currentInstrumentIndex}.png" class="fixed ml-auto mr-auto left-1/2 -translate-x-1/2 bottom-0 translate-y-1/5" alt="skykid character">`;
+        char.innerHTML = `<img id="character-image" src="./assets/char/idle/${states.currentInstrumentIndex}.png" class="fixed ml-auto mr-auto left-1/2 -translate-x-1/2 bottom-0 translate-y-1/5 -z-10" alt="skykid character">`;
         } 
     }   
     else {
@@ -85,7 +85,7 @@ export function updateCharacter(idle: boolean) {
             } while (newSpriteID === states.charCurrentSpriteID);
         
             states.charCurrentSpriteID = newSpriteID;
-            char.innerHTML = `<img id="character-image" src="./assets/char/playing/${states.currentInstrumentIndex}/${states.charCurrentSpriteID}.png" class="fixed ml-auto mr-auto left-1/2 -translate-x-1/2 bottom-0 translate-y-1/5" alt="skykid character">`;
+            char.innerHTML = `<img id="character-image" src="./assets/char/playing/${states.currentInstrumentIndex}/${states.charCurrentSpriteID}.png" class="fixed ml-auto mr-auto left-1/2 -translate-x-1/2 bottom-0 translate-y-1/5 -z-10" alt="skykid character">`;
         } else {
             let newSpriteID;
             do {
@@ -93,7 +93,7 @@ export function updateCharacter(idle: boolean) {
             } while (newSpriteID === states.charCurrentSpriteID);
         
             states.charCurrentSpriteID = newSpriteID;
-            char.innerHTML = `<img id="character-image" src="./assets/char/playing/0/${states.charCurrentSpriteID}.png" class="fixed ml-auto mr-auto left-1/2 -translate-x-1/2 bottom-0 translate-y-1/5" alt="skykid character">`;
+            char.innerHTML = `<img id="character-image" src="./assets/char/playing/0/${states.charCurrentSpriteID}.png" class="fixed ml-auto mr-auto left-1/2 -translate-x-1/2 bottom-0 translate-y-1/5 -z-10" alt="skykid character">`;
         }
         
     } 
