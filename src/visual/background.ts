@@ -7,7 +7,8 @@ toggleBackgroundButton.addEventListener("pointerdown", toggleBackground);
 
 function toggleBackground() {
     const background = staticBackground as HTMLImageElement;
-    background.src = `assets/${states.backgroundShown ? "white.jpg" : "SAOlake.jpg"}`;
+    background.classList.toggle("hidden");
+    // background.src = `assets/${states.backgroundShown ? "white.jpg" : "SAOlake.jpg"}`;
 
     states.backgroundShown = !states.backgroundShown;
 }   

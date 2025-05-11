@@ -1,9 +1,11 @@
 let messageLog: string[] = []; // past: messages
-const messageLogDiv = document.getElementById("status-div")!; // past: statusDiv
+const messageLogDiv = document.getElementById("message-log-div")!; // past: statusDiv
+const latestMessageDiv = document.getElementById("latest-message-div")!;
 const clearStatusButton = document.getElementById("clear-status-button")!; 
 
 let noteHistory: string[] = [];
 const notesLogDiv = document.getElementById("notes-div")!; // past: notesDiv
+const latestNoteDiv = document.getElementById("latest-note-div")!;
 const clearNoteHistoryButton = document.getElementById("clear-note-history-button")!;
 
 
@@ -34,14 +36,14 @@ export const getFormattedDateTimeForDownload = (): string => {
 export function updateStatusMsg(message:string) {
     const now: Date = new Date(Date.now());
     const formattedTime: string = now.toLocaleString();
-    messageLog.push(`${message} | Time: ${formattedTime}`);
+    messageLog.push(`${message}<br>Time: ${formattedTime}`);
     if (messageLog.length > 50) {
         messageLog.shift();
     } 
     const status: string = messageLog.join('<br>');
     messageLogDiv.innerHTML = status;
     messageLogDiv.scrollTop = messageLogDiv.scrollHeight;
-    
+    latestMessageDiv.innerHTML = messageLog[messageLog.length-1];
     console.log(message);
 }
 
@@ -51,13 +53,14 @@ clearStatusButton.addEventListener("pointerdown", () => {
 });
 
 export function updateNoteHistory(note:number, cumulativeKeypress:number) {
-    noteHistory.push(`${midiToSPN(note)} | ${cumulativeKeypress+1}`);
+    noteHistory.push(`${midiToSPN(note)} (#${cumulativeKeypress+1})`);
     if (noteHistory.length > 20) {
         noteHistory.shift();
     } 
     const noteHistoryContent: string = noteHistory.join('<br>');
     notesLogDiv.innerHTML = noteHistoryContent;
     notesLogDiv.scrollTop = notesLogDiv.scrollHeight;
+    latestNoteDiv.innerHTML = `${midiToSPN(note)} (Note #${cumulativeKeypress+1})`
 }
 
 function midiToSPN(midiNumber:number) {

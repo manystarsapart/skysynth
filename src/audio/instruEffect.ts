@@ -39,7 +39,7 @@ function createSampler (config: {
 
 const piano = createSampler({
     name: "Piano",
-    baseUrl: "./assets/audio/piano/",
+    baseUrl: "../assets/audio/piano/",
     noteMap: {
         "A4": "a4.mp3", 
         "A5": "a5.mp3", 
@@ -54,7 +54,7 @@ const piano = createSampler({
 
 const grandpiano = createSampler({
     name: "Grand Piano",
-    baseUrl: "./assets/audio/grandpiano/",
+    baseUrl: "../assets/audio/grandpiano/",
     noteMap: {
         "C4": "c4.wav", 
         "C5": "c5.wav", 
@@ -66,7 +66,7 @@ const grandpiano = createSampler({
 
 const eGuitar = createSampler({
     name: "E-Guitar",
-    baseUrl: "./assets/audio/eguitar/",
+    baseUrl: "../assets/audio/eguitar/",
     noteMap: {
         "A3": "a3.mp3", 
         "A4": "a4.mp3", 
@@ -79,7 +79,7 @@ const eGuitar = createSampler({
 
 const musicBox = createSampler({
     name: "Music Box",
-    baseUrl: "./assets/audio/musicbox/",
+    baseUrl: "../assets/audio/musicbox/",
     noteMap: {
         "A3": "a3.mp3", 
         "A4": "a4.mp3", 
@@ -94,7 +94,7 @@ const musicBox = createSampler({
 
 const banjo = createSampler({
     name: "Banjo",
-    baseUrl: "./assets/audio/banjo/",
+    baseUrl: "../assets/audio/banjo/",
     noteMap: {
         "A3": "a3.wav", 
         "A4": "a4.wav", 
@@ -108,7 +108,7 @@ const banjo = createSampler({
 
 const pipa = createSampler({
     name: "Pipa",
-    baseUrl: "./assets/audio/pipa/",
+    baseUrl: "../assets/audio/pipa/",
     noteMap: {
         "A3": "a3.wav", 
         "A4": "a4.wav", 
@@ -122,7 +122,7 @@ const pipa = createSampler({
 
 const kalimba = createSampler({
     name: "Kalimba",
-    baseUrl: "./assets/audio/kalimba/",
+    baseUrl: "../assets/audio/kalimba/",
     noteMap: {
         "A4": "a4.wav", 
         "A5": "a5.wav", 
@@ -136,7 +136,7 @@ const kalimba = createSampler({
 
 const xylophone = createSampler({
     name: "Xylophone",
-    baseUrl: "./assets/audio/xylophone/",
+    baseUrl: "../assets/audio/xylophone/",
     noteMap: {
         "A4": "a4.wav", 
         "A5": "a5.wav", 
@@ -151,7 +151,7 @@ const xylophone = createSampler({
 // wind
 const flute = createSampler({
     name: "Flute",
-    baseUrl: "./assets/audio/flute/",
+    baseUrl: "../assets/audio/flute/",
     noteMap: {
         "A4": "a4.mp3", 
         "A5": "a5.mp3", 
@@ -164,7 +164,7 @@ const flute = createSampler({
 
 const horn = createSampler({
     name: "Horn",
-    baseUrl: "./assets/audio/horn/",
+    baseUrl: "../assets/audio/horn/",
     noteMap: {
         "A3": "a3.mp3", 
         "A4": "a4.mp3", 
@@ -177,7 +177,7 @@ const horn = createSampler({
 
 const bugle = createSampler({
     name: "Bugle",
-    baseUrl: "./assets/audio/bugle/",
+    baseUrl: "../assets/audio/bugle/",
     noteMap: {
         "A4": "a4.mp3", 
         "A5": "a5.mp3", 
@@ -190,7 +190,7 @@ const bugle = createSampler({
 
 const saxophone_short = createSampler({
     name: "Saxophone (Short)",
-    baseUrl: "./assets/audio/saxophone_short/",
+    baseUrl: "../assets/audio/saxophone_short/",
     noteMap: {
         "A3": "a3.wav", 
         "A4": "a4.wav", 
@@ -204,7 +204,7 @@ const saxophone_short = createSampler({
 
 const saxophone_long = createSampler({
     name: "Saxophone (Long)",
-    baseUrl: "./assets/audio/saxophone_long/",
+    baseUrl: "../assets/audio/saxophone_long/",
     noteMap: {
         "A3": "a3.wav", 
         "A4": "a4.wav", 
@@ -218,7 +218,7 @@ const saxophone_long = createSampler({
 
 const harmonica_short = createSampler({
     name: "Harmonica (Short)",
-    baseUrl: "./assets/audio/harmonica_short/",
+    baseUrl: "../assets/audio/harmonica_short/",
     noteMap: {
         "A4": "a4.wav", 
         "A5": "a5.wav", 
@@ -232,7 +232,7 @@ const harmonica_short = createSampler({
 
 const harmonica_long = createSampler({
     name: "Harmonica (Long)",
-    baseUrl: "./assets/audio/harmonica_long/",
+    baseUrl: "../assets/audio/harmonica_long/",
     noteMap: {
         "A4": "a4.wav", 
         "A5": "a5.wav", 
@@ -247,7 +247,7 @@ const harmonica_long = createSampler({
 // string
 const guitar = createSampler({
     name: "Guitar",
-    baseUrl: "./assets/audio/guitar/",
+    baseUrl: "../assets/audio/guitar/",
     noteMap: {
         "A3": "a3.mp3", 
         "A4": "a4.mp3", 
@@ -260,7 +260,7 @@ const guitar = createSampler({
 
 const violin_short = createSampler({
     name: "Violin (Short)",
-    baseUrl: "./assets/audio/violin_short/",
+    baseUrl: "../assets/audio/violin_short/",
     noteMap: {
         "C4": "c4.wav", 
         "C5": "c5.wav", 
@@ -272,7 +272,7 @@ const violin_short = createSampler({
 
 const violin_long = createSampler({
     name: "Violin (Long)",
-    baseUrl: "./assets/audio/violin_long/",
+    baseUrl: "../assets/audio/violin_long/",
     noteMap: {
         "C4": "c4.wav", 
         "C5": "c5.wav", 
@@ -284,7 +284,7 @@ const violin_long = createSampler({
 
 const harp = createSampler({
     name: "Harp",
-    baseUrl: "./assets/audio/harp/",
+    baseUrl: "../assets/audio/harp/",
     noteMap: {
         "A3": "a3.mp3", 
         "A4": "a4.mp3", 
@@ -297,7 +297,7 @@ const harp = createSampler({
 
 const aurora = createSampler({
     name: "Aurora",
-    baseUrl: "./assets/audio/aurora/",
+    baseUrl: "../assets/audio/aurora/",
     noteMap: {
         "C4": "c4.mp3", 
         "D4": "d4.mp3", 
@@ -339,7 +339,7 @@ instrumentSpriteCounts.push(0);
 // goof
 const meow = createSampler({
     name: "Meow",
-    baseUrl: "./assets/audio/meow/",
+    baseUrl: "../assets/audio/meow/",
     noteMap: {
         "A3": "a3.mp3", "B2": "b2.mp3", "B4": "b4.mp3", "B5": "b5.mp3",
         "C4": "c4.mp3", "D#4": "ds4.mp3", "F3": "f3.mp3", "F4": "f4.mp3", "F5": "f5.mp3"
@@ -348,7 +348,7 @@ const meow = createSampler({
 
 const ottoDoo = createSampler({
     name: "Otto - Doo",
-    baseUrl: "./assets/audio/otto-doo/",
+    baseUrl: "../assets/audio/otto-doo/",
     noteMap: {
         "F3": "f3.wav", "A3": "a3.wav", "C4": "c4.wav", "F4": "f4.wav",
         "Bb4": "bb4.wav", "C5": "c5.wav", "F5": "f5.wav", "C6": "c6.wav", "F6": "f6.wav",
@@ -357,7 +357,7 @@ const ottoDoo = createSampler({
 
 const ottoSynth = createSampler({
     name: "Otto - Synth",
-    baseUrl: "./assets/audio/otto-synth/",
+    baseUrl: "../assets/audio/otto-synth/",
     noteMap: {
         "C3": "c3.wav", "F3": "f3.wav", "C4": "c4.wav", "F4": "f4.wav",
         "Bb4": "bb4.wav", "C5": "c5.wav", "F5": "f5.wav", "C6": "c6.wav", "F6": "f6.wav",

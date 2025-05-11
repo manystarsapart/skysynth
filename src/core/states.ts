@@ -2,8 +2,8 @@ import { keyboardMode0 } from "./maps";
 import { instruments, effectNodes, instrumentNames } from "../audio/instruEffect";
 
 export let states: any = {
-    skysynthVersion: "0.19.8",
-    skysynthLastUpdateDate: "2025-05-10",
+    skysynthVersion: "0.20.0",
+    skysynthLastUpdateDate: "2025-05-11",
     skysynthSheetVersion: "1.1",
         // sheet big version change: breaks
         // sheet small patch change: non-breaking
@@ -16,8 +16,8 @@ export let states: any = {
     stopAudioWhenReleased: false,
     navbarExtended: false,
     modalShown: false,
-    waterMaskShown: true,
-    backgroundShown: true,
+    waterMaskShown: false,
+    backgroundShown: false,
 
 
     currentInstrument: instruments[0],

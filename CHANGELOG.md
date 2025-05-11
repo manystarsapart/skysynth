@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.20.0 - 2025-05-11](#0200---2025-05-11)
 - [0.19.8 - 2025-05-10](#0198---2025-05-10)
 - [0.19.7 - 2025-05-04](#0197---2025-05-04)
 - [0.19.6 - 2025-05-03](#0196---2025-05-03)
@@ -78,6 +79,22 @@ FUTURE PLANS
 - PRELOAD / CACHE IMAGES FOR SKYKID
 
  -->
+
+## [0.20.0] - 2025-05-11
+### Added
+- landing page
+- blog page (todo)
+- TGC acknowledgements 
+
+### Changed
+- UI changes!!!
+- move status div (for status messages) into debug modal. leaves only the latest
+- move note history into debug modal. leaves only the latest
+- move statistics paragraph into statistics modal 
+- move misc buttons in menu into customisation modal
+- improve positioning of main notes div
+- improve size of shift & alt indicators
+- background gradient shades
 
 ## [0.19.8] - 2025-05-10
 ### Fixed

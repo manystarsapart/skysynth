@@ -12,20 +12,78 @@ closeModalButton.addEventListener('pointerdown', () => toggleModal(false));
 // CONTROLS BUTTON
 
 export const showControlsButton = document.getElementById("show-controls-button")!;
-showControlsButton.addEventListener('pointerdown', (e) => {
+showControlsButton.addEventListener("pointerdown", (e) => {
+    hideAllModals();
     toggleModal(true, "controls");
     e.stopPropagation(); // prevents it from bubbling up
 });
 
 // ==========
-// TAB
+// STATISTICS BUTTON
+const showStatisticsButton = document.getElementById("show-statistics-button")!;
+showStatisticsButton.addEventListener("pointerdown", (e) => {
+    hideAllModals();
+    toggleModal(true, "statistics");
+    e.stopPropagation(); // prevents bubbling up
+})
 
-document.addEventListener('keydown', function(e) {
+// ==========
+// TRANSCRIBE BUTTON & TAB
+
+const showTranscribeButton = document.getElementById("show-transcribe-button")!;
+document.addEventListener("keydown", function(e) {
     if (!states.modalShown && e.key === 'Tab') {
+        hideAllModals();
         e.preventDefault(); // prevent tabbing away
         toggleModal(true, "transcribe");
     }
 });
+showTranscribeButton.addEventListener("pointerdown", (e) => {
+    hideAllModals();
+    toggleModal(true, "transcribe");
+    e.stopPropagation(); // prevents bubbling up
+})
+
+// ==========
+// DEBUG BUTTON
+
+const showDebugButton = document.getElementById("show-debug-button")!;
+document.addEventListener("keydown", function(e) {
+    if (!states.modalShown && e.key === 'Delete') {
+        hideAllModals();
+        e.preventDefault(); // prevent tabbing away
+        toggleModal(true, "debug");
+    }
+});
+showDebugButton.addEventListener("pointerdown", (e) => {
+    hideAllModals();
+    toggleModal(true, "debug");
+    e.stopPropagation(); // prevents bubbling up
+})
+
+// ==========
+// CUSTOMISE BUTTON
+
+const showCustButton = document.getElementById("show-customise-button")!;
+showCustButton.addEventListener("pointerdown", (e) => {
+    hideAllModals();
+    toggleModal(true, "customise");
+    e.stopPropagation(); // prevents bubbling up
+})
+
+// ==========
+// HIDE ALL
+
+export function hideAllModals() {
+    document.getElementById("controls-modal")!.classList.add("hidden");
+    document.getElementById("transcribe-modal")!.classList.add("hidden");
+    document.getElementById("changelog-modal")!.classList.add("hidden");
+    document.getElementById("statistics-modal")!.classList.add("hidden");
+    document.getElementById("debug-modal")!.classList.add("hidden");
+    document.getElementById("customise-modal")!.classList.add("hidden");
+}
+
+// hideAllModals();
 
 // ==========
 
@@ -37,13 +95,11 @@ export function toggleModal(show:boolean, mode = "transcribe") {
     refreshSongVisuals();
 
     // hide all modals
-    document.getElementById("controls-modal")!.classList.add("hidden");
-    document.getElementById("transcribe-modal")!.classList.add("hidden");
-    document.getElementById("changelog-modal")!.classList.add("hidden");
+    
 
     if (show) {
         console.log("Trying to show modal, mode:", mode);
-        if (mode === "controls" || mode === "transcribe" || mode === "changelog") {
+        if (mode === "controls" || mode === "transcribe" || mode === "changelog" || mode === "statistics" || mode === "debug" || mode === "customise") {
             document.getElementById(`${mode}-modal`)!.classList.remove("hidden");
         } else {
             return;
@@ -75,11 +131,9 @@ export function toggleModal(show:boolean, mode = "transcribe") {
 
 
 function handleKeyDown(e: KeyboardEvent) {
-    if (e.key === 'Escape' || e.key === 'Tab') {
+    if (e.key === 'Escape' || e.key === 'Tab' || e.key === 'Delete') {
         toggleModal(false);
-        document.getElementById("controls-modal")!.classList.add("hidden");
-        document.getElementById("transcribe-modal")!.classList.add("hidden");
-        document.getElementById("changelog-modal")!.classList.add("hidden");
+        hideAllModals();
     }
 }
 
