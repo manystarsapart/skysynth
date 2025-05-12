@@ -3,7 +3,8 @@ import { songs } from "./songs";
 import { rightKeyboardKeys } from "../core/maps";
 import { pitchMap } from "../core/maps";
 import { getFormattedDateTimeForDownload, updateStatusMsg } from "../core/logging";
-import { refreshSongSelect, stopSong } from "./sheetPlayer";
+import { refreshSongSelect } from "./sheetPlayer";
+import { deleteSongFromList, renameSong } from "./songListActions";
 
 type KeyboardMode = "+12" | "+1" | "-1";
 type SheetType = "recorded" | "composed";
@@ -202,11 +203,12 @@ export function refreshSongVisuals() {
     let HTML: string = "";
     if (songs.length != 0) {
         for (let i = 0; i<songs.length; i++) {
-            HTML += `${songs[i].name} (ID: ${i}) | <span id="songlist-span-${i}" class="text-2xl"><b>×</b></span><br \>`;
+            HTML += `${songs[i].name} (ID: ${i}) | <span id="songlist-rename-${i}" class="text-2xl">✎</span> <span id="songlist-delete-${i}" class="text-2xl"><b>×</b></span><br \>`;
         }
         songlist.innerHTML = HTML;
         for (let i = 0; i<songs.length; i++) {
-            document.getElementById(`songlist-span-${i}`)!.addEventListener("pointerdown", () => deleteSongFromList(i));
+            document.getElementById(`songlist-rename-${i}`)!.addEventListener("pointerdown", () => renameSong(i));
+            document.getElementById(`songlist-delete-${i}`)!.addEventListener("pointerdown", () => deleteSongFromList(i));
         }
     } else {
         HTML = "No songs transcribed yet!";
@@ -217,19 +219,3 @@ export function refreshSongVisuals() {
 
 
 
-function deleteSongFromList(songID:number) {
-    const deleteConfirmation = confirm(`Are you sure you wish to delete song: ${songs[songID].name}?`);
-    if (deleteConfirmation) {
-        stopSong()
-        updateStatusMsg(`Deleting song ${songs[songID].name}`);
-        songs.splice(songID, 1); // remove the song
-        states.lastTranscribedSongID--;
-        for (let i = songID; i<songs.length; i++) {
-            songs[i].id--; // lower all subsequent IDs
-        }
-        refreshSongVisuals();
-        
-    } else {
-        updateStatusMsg("Cancelled song deletion");
-    }
-}

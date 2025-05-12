@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.20.1 - 2025-05-12](#0201---2025-05-12)
 - [0.20.0 - 2025-05-11](#0200---2025-05-11)
 - [0.19.8 - 2025-05-10](#0198---2025-05-10)
 - [0.19.7 - 2025-05-04](#0197---2025-05-04)
@@ -79,6 +80,11 @@ FUTURE PLANS
 - PRELOAD / CACHE IMAGES FOR SKYKID
 
  -->
+
+## [0.20.1] - 2025-05-12
+### Added
+- edit transcribed song name feature
+
 
 ## [0.20.0] - 2025-05-11
 ### Added
