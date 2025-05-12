@@ -29,7 +29,13 @@ export function deleteSongFromList(songID:number) {
 
 export function renameSong(songID:number) {
     let newNameInput: string | null = prompt(`Current name is "${songs[songID].name}". New name: `, songs[songID].name);
-    updateStatusMsg(`renamed song "${songs[songID].name}". new name: "${newNameInput as string}"`);
-    songs[songID].name = newNameInput as string;
+    const newName = newNameInput ? newNameInput : songs[songID].name;
+    if (newNameInput) {
+        updateStatusMsg(`renamed song "${songs[songID].name}". new name: "${newName}"`);
+    } else {
+        updateStatusMsg(`aborted renaming of song "${songs[songID].name}"`);
+    }
+
+    songs[songID].name = newName;
     refreshSongVisuals();
 }
