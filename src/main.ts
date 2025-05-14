@@ -10,6 +10,7 @@ import './core/cumTime.ts';
 import { keyEventToBaseKey, registerKeyDown, registerKeyUp } from './core/keypress.ts';
 import { states } from './core/states.ts';
 import './sheets/sheetPlayer.ts'
+import './visual/background.ts'
 // import changelogMD from '/CHANGELOG.md?raw';
 // import showdown from 'showdown';
 

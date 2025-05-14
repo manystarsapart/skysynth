@@ -85,11 +85,13 @@ FUTURE PLANS
 ### Added
 - move transcribed song up / down the list feature
 - option to turn off sprite
+- colours displaying on/off for customisation settings
 
 ### Fixed
 - clicking song list actions always closes the modal --> does not close the modal
 - volume setting persistence issues
 - shift & alt indicator touch: default --> prevent default
+- background toggling broken
 
 
 ## [0.20.1] - 2025-05-12

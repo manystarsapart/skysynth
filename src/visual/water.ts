@@ -19,8 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
 waterMaskToggle.addEventListener("pointerdown",toggleWaterMask);
 
 function toggleWaterMask() {
-    waterMask.style.display = states.waterMaskShown ? "none" : "block";
     states.waterMaskShown = !states.waterMaskShown;
+    waterMask.style.display = states.waterMaskShown ? "block" : "none";
+    waterMaskToggle.classList.remove(states.waterMaskShown ? "bg-[#F08080]" : "bg-[#588157]");
+    waterMaskToggle.classList.add(!states.waterMaskShown ? "bg-[#F08080]" : "bg-[#588157]");
 }
 
 function triggerWaterReward() {

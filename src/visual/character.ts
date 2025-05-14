@@ -1,4 +1,5 @@
 import { instrumentSpriteCounts } from "../audio/instruEffect";
+import { updateStatusMsg } from "../core/logging";
 import { states } from "../core/states";
 
 // function preloadImages(imagePaths:string[]) {
@@ -113,6 +114,9 @@ const toggleSpriteButton = document.getElementById("toggle-sprite-button")!;
 
 toggleSpriteButton.addEventListener("pointerdown", () => {
         states.charVisible = !states.charVisible;
+        toggleSpriteButton.classList.remove(states.charVisible ? "bg-[#F08080]" : "bg-[#588157]");
+        toggleSpriteButton.classList.add(!states.charVisible ? "bg-[#F08080]" : "bg-[#588157]");
         document.getElementById("character-div")!.classList.toggle("hidden");
         charSizeInput.classList.toggle("hidden");
+        updateStatusMsg("sprite toggled to: " + states.charVisible);
 })
