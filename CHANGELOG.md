@@ -87,6 +87,9 @@ FUTURE PLANS
 - option to turn off sprite
 - colours displaying on/off for customisation settings
 
+### Changed
+- condense the yellow chunk of text stating transpose & octave values to a smaller section at top right
+
 ### Fixed
 - clicking song list actions always closes the modal --> does not close the modal
 - volume setting persistence issues

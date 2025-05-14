@@ -5,7 +5,7 @@ import { updateStatusMsg } from "../core/logging";
 
 const transposeValueDisplay = document.getElementById("transpose-value")!; // past: transposeValueBox
 const scaleValueDisplay1 = document.getElementById("scale-value")!; // past: scaleValueBox
-const scaleValueDisplay2 = document.getElementById("scale-value-2")!; // past: scaleValueBox2
+// const scaleValueDisplay2 = document.getElementById("scale-value-2")!; // past: scaleValueBox2
 
 const octaveValueDisplay = document.getElementById("octave-value")!; // past: octaveValueBox
 
@@ -20,7 +20,7 @@ export function transposeToNumericalKey(key:number) {
     states.transposeValue = key; // in semitones
     transposeValueDisplay.innerHTML = key.toString(); // returns semitone count
     scaleValueDisplay1.innerHTML = transposeMap[key].toString(); // returns scale ("C", "D", etc)
-    scaleValueDisplay2.innerHTML = transposeMap[key].toString(); // returns the same scale for better visualisation
+    // scaleValueDisplay2.innerHTML = transposeMap[key].toString(); // returns the same scale for better visualisation
     updateVisualGuide();
     console.log(`transpose pressed: ${key}`);
     updateStatusMsg(`transpose value updated to: ${key}`);
@@ -42,7 +42,7 @@ export function transposeUpOne() {
     states.lastPressedTransposeKey = pitchMapReversed[states.transposeValue];
     transposeValueDisplay.innerHTML = states.transposeValue.toString();
     scaleValueDisplay1.innerHTML = transposeMap[states.transposeValue].toString();
-    scaleValueDisplay2.innerHTML = transposeMap[states.transposeValue].toString();
+    // scaleValueDisplay2.innerHTML = transposeMap[states.transposeValue].toString();
     updateVisualGuide();
     updateStatusMsg(`transpose value updated to: ${states.transposeValue}`);
 }
@@ -61,7 +61,7 @@ export function transposeDownOne() {
     states.lastPressedTransposeKey = pitchMapReversed[states.transposeValue];
     transposeValueDisplay.innerHTML = states.transposeValue.toString();
     scaleValueDisplay1.innerHTML = transposeMap[states.transposeValue].toString();
-    scaleValueDisplay2.innerHTML = transposeMap[states.transposeValue].toString();
+    // scaleValueDisplay2.innerHTML = transposeMap[states.transposeValue].toString();
     updateVisualGuide();
     updateStatusMsg(`transpose value updated to: ${states.transposeValue}`);
 }
