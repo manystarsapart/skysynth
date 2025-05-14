@@ -19,7 +19,19 @@ import './sheets/sheetPlayer.ts'
 document.addEventListener("DOMContentLoaded", () => {
 
 
-    document.getElementById("no-touch")!.addEventListener("touchstart", function (e) {
+    document.getElementById("no-touch")!.addEventListener("pointerdown", function (e) {
+      e.preventDefault();
+    }, { passive: false });
+
+    document.getElementById("shift-indicator")!.addEventListener("pointerdown", function (e) {
+      e.preventDefault();
+    }, { passive: false });
+
+    document.getElementById("l-alt-indicator")!.addEventListener("pointerdown", function (e) {
+      e.preventDefault();
+    }, { passive: false });
+
+    document.getElementById("r-alt-indicator")!.addEventListener("pointerdown", function (e) {
       e.preventDefault();
     }, { passive: false });
 

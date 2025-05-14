@@ -89,6 +89,7 @@ FUTURE PLANS
 ### Fixed
 - clicking song list actions always closes the modal --> does not close the modal
 - volume setting persistence issues
+- shift & alt indicator touch: default --> prevent default
 
 
 ## [0.20.1] - 2025-05-12
