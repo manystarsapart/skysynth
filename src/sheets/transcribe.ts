@@ -67,7 +67,10 @@ function downloadTranscription() {
       
         const a = document.createElement('a');
         a.href = url;
-        a.download = `songs_${getFormattedDateTimeForDownload()}.json`;
+        // a.download = `songs_${getFormattedDateTimeForDownload()}.json`;
+        let sheetName = prompt(`name of sheet: `);
+        if (sheetName) sheetName = sheetName.replace(/\s+/g, '-').toLowerCase(); // removes space globally and replaces with -
+        a.download = sheetName ? `${sheetName}.skysynth` : `songs_${getFormattedDateTimeForDownload()}.skysynth`;
         document.body.appendChild(a);
         a.click();
       

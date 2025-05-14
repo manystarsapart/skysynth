@@ -53,7 +53,7 @@ async function playSong(song: RecordedSong) {
   // catch for ver 1 skysheets
   if (!song.sheetVersion) {
     alert(`Old sheet version. Sheet player behaviour may not be optimal. 
-      \n(Sheet version: ${song.sheetVersion}; Patch version: ${states.skysynthSheetVersion})`);
+      \n(Uploaded sheet version: 1.0 (legacy); App version: ${states.skysynthSheetVersion})`);
       song.sheetVersion = "1.0";
   }
 
@@ -64,11 +64,11 @@ async function playSong(song: RecordedSong) {
 
   if (sheetVer != appVer) {
     alert(`Mismatched version! Sheet cannot be played. 
-      \n(Sheet version: ${song.sheetVersion}; Patch version: ${states.skysynthSheetVersion})`);
+      \n(Uploaded sheet version: ${song.sheetVersion}; App version: ${states.skysynthSheetVersion})`);
     return;
   } else if (sheetPatch != appPatch) {
     alert(`Mismatched patch number. Sheet player behaviour may not be optimal. 
-    \n(Sheet version: ${song.sheetVersion}; Patch version: ${states.skysynthSheetVersion})`);
+    \n(Uploaded sheet version: ${song.sheetVersion}; App version: ${states.skysynthSheetVersion})`);
   }
 
   // ====================

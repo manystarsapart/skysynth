@@ -10,6 +10,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.20.3 - 2025-05-15](#0203---2025-05-15)
+- [0.20.2 - 2025-05-14](#0202---2025-05-14)
 - [0.20.1 - 2025-05-12](#0201---2025-05-12)
 - [0.20.0 - 2025-05-11](#0200---2025-05-11)
 - [0.19.8 - 2025-05-10](#0198---2025-05-10)
@@ -80,6 +82,14 @@ FUTURE PLANS
 - PRELOAD / CACHE IMAGES FOR SKYKID
 
  -->
+
+## [0.20.3] - 2025-05-15
+### Added
+- option to name a transcription before downloading
+
+### Changed
+- sheet file extensinon: .json --> .skysynth (actual format unchanged)
+
 
 ## [0.20.2] - 2025-05-14
 ### Added

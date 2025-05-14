@@ -8,9 +8,9 @@ export let keypresses: Keypress[] = [];
 
 document.getElementById('song-import')?.addEventListener('change', async (e) => {
     const input = e.target as HTMLInputElement;
-    if (!input.files || input.files.length === 0) return;
+    const importedVersNumbers:string[] = [];
 
-    
+    if (!input.files || input.files.length === 0) return;
   
     const file = input.files[0];
     try {
@@ -35,13 +35,19 @@ document.getElementById('song-import')?.addEventListener('change', async (e) => 
         //   if (!songs.some(s => s.id === item.id && s.name === item.name)) {
             songs.push(item as RecordedSong);
             added++;
+            if (!item.sheetVersion) {
+              importedVersNumbers.push("old-v1"); // catch for old sheet ver
+            } else {
+              importedVersNumbers.push(item.sheetVersion);
+            }
             states.lastTranscribedSongID++;
         //   }
         }
       }
   
       refreshSongVisuals();
-      updateStatusMsg(`Imported ${added} new song(s).`);
+      updateStatusMsg(`Imported ${added} new song(s). Imported sheet version: ${importedVersNumbers}
+        \nCurrent App version: ${states.skysynthSheetVersion}`);
     } catch (err) {
       updateStatusMsg("Failed to import: Invalid JSON file.");
       console.error(err);

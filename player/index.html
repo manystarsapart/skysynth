@@ -167,7 +167,7 @@
             <li><button id="play-transcription-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Play Sheet</button>
             <button id="stop-transcription-playback-button" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Stop Playback</button>
             <select name="transcribe selection" id="transcribe-selection" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]"></select></li>
-            <input type="file" id="song-import" accept=".json" class="hidden">
+            <input type="file" id="song-import" accept=".skysynth,.json" class="hidden">
             <li><button onclick="document.getElementById('song-import').click()" class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">
               Import Songs From File
             </button></li>
@@ -247,22 +247,13 @@
   <input type="range" name="char size input" id="char-size-input" class="fixed left-[1%] bottom-[1%] z-100">
 </div>
 
+<!-- DEBUG: MESSAGE LOG & NOTE HISTORY -->
 <div class="fixed right-[4%] bottom-[1%] flex flex-col">
   <div id="latest-message-div" class=""></div>
   <div id="latest-note-div" class="">No Notes Played</div>
 </div>
 
-<!-- <div class="top-[20%] text-4xl w-fit m-auto">
-  <ul>
-    <li class="text-yellow-800">
-    <br></li>  -->
-    <!-- <li class="text-base">(i.e. the current "D" key on the keyboard maps to the music note: <span id="scale-value-2">C</span>)</li> -->
-    <!-- <li class="text-yellow-800"></li>  -->
-    <!-- <li class="text-yellow-800">esc to open menu | tab to transcribe</li> -->
-  <!-- </ul>
-</div> -->
-
-
+<!-- GUIDE: CURRENT TRANSPOSE & OCTAVE VALUES -->
 <div class="fixed top-[1%] right-[5%] flex flex-col text-right">
   <div>Transpose = <span id="transpose-value">0</span></div>
   <div>Key = <span id="scale-value">C</span></div>
