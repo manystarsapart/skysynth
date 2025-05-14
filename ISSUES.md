@@ -12,6 +12,8 @@
  
 14. `ctrl + shift + r` is now broken. cant refresh. issue lies in [keypress.ts](src/core/keypress.ts).
 
+16. if volume is set to 0% (mute), next time the webpage is loaded corrects volume to 100%
+
 
 # FIXED ISSUES BY DATE
 

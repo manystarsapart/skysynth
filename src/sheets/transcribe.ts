@@ -4,7 +4,7 @@ import { rightKeyboardKeys } from "../core/maps";
 import { pitchMap } from "../core/maps";
 import { getFormattedDateTimeForDownload, updateStatusMsg } from "../core/logging";
 import { refreshSongSelect } from "./sheetPlayer";
-import { deleteSongFromList, renameSong } from "./songListActions";
+import { deleteSongFromList, renameSong, shiftSongDownOne, shiftSongUpOne } from "./songListActions";
 
 type KeyboardMode = "+12" | "+1" | "-1";
 type SheetType = "recorded" | "composed";
@@ -203,11 +203,17 @@ export function refreshSongVisuals() {
     let HTML: string = "";
     if (songs.length != 0) {
         for (let i = 0; i<songs.length; i++) {
-            HTML += `${songs[i].name} (ID: ${i}) | <span id="songlist-rename-${i}" class="text-2xl">✎</span> <span id="songlist-delete-${i}" class="text-2xl"><b>×</b></span><br \>`;
+            HTML += `${songs[i].name} (ID: ${i}) | 
+            <span id="songlist-rename-${i}" class="text-2xl">✎</span> 
+            <span id="songlist-up-${i}" class="text-2xl">↑</span> 
+            <span id="songlist-down-${i}" class="text-2xl">↓</span> 
+            <span id="songlist-delete-${i}" class="text-2xl"><b>×</b></span><br \>`;
         }
         songlist.innerHTML = HTML;
         for (let i = 0; i<songs.length; i++) {
             document.getElementById(`songlist-rename-${i}`)!.addEventListener("pointerdown", () => renameSong(i));
+            document.getElementById(`songlist-up-${i}`)!.addEventListener("pointerdown", () => shiftSongUpOne(i))
+            document.getElementById(`songlist-down-${i}`)!.addEventListener("pointerdown", () => shiftSongDownOne(i))
             document.getElementById(`songlist-delete-${i}`)!.addEventListener("pointerdown", () => deleteSongFromList(i));
         }
     } else {

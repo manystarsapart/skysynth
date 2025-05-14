@@ -9,7 +9,7 @@ import { updateCharacter } from '../visual/character.ts';
 export let volumeNode = new Tone.Volume().toDestination();
 
 // volume
-const volumeControl = document.getElementById("volume-control")!;
+const volumeControl = document.getElementById("volume-control")! as HTMLInputElement;
 
 // instruments & effects
 const instrumentSelection = document.getElementById("instrument-selection")!;
@@ -20,6 +20,14 @@ export const volumeValueDisplay = document.getElementById("volume-value")!; // p
 
 // instruments & effects
 let effectLevel: number = 50;
+
+document.addEventListener("DOMContentLoaded", () => {
+    // const savedVolume:number = states.volume;
+    volumeControl.value = states.volume
+    volumeValueDisplay.textContent = `${states.volume}%`
+    volumeNode.volume.value = Tone.gainToDb(states.volume/100);
+    
+})
 
 volumeControl.addEventListener("input", (e:any) => {
     states.volume = e.target.value;

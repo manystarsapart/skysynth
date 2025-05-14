@@ -81,6 +81,16 @@ FUTURE PLANS
 
  -->
 
+## [0.20.2] - 2025-05-14
+### Added
+- move transcribed song up / down the list feature
+- option to turn off sprite
+
+### Fixed
+- clicking song list actions always closes the modal --> does not close the modal
+- volume setting persistence issues
+
+
 ## [0.20.1] - 2025-05-12
 ### Added
 - edit transcribed song name feature

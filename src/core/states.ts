@@ -2,8 +2,8 @@ import { keyboardMode0 } from "./maps";
 import { instruments, effectNodes, instrumentNames } from "../audio/instruEffect";
 
 export let states: any = {
-    skysynthVersion: "0.20.1",
-    skysynthLastUpdateDate: "2025-05-12",
+    skysynthVersion: "0.20.2",
+    skysynthLastUpdateDate: "2025-05-14",
     skysynthSheetVersion: "1.1",
         // sheet big version change: breaks
         // sheet small patch change: non-breaking
@@ -38,6 +38,7 @@ export let states: any = {
     totalWaterReward: parseInt(localStorage.getItem("totalWaterReward") ?? '0') || 0,
     volume: parseInt(localStorage.getItem("savedVolume") ?? '100') || 100,
 
+    charVisible: true,
     charIdle: true,
     charCurrentSpriteID: 0,
     charWidthPercentage: parseInt(localStorage.getItem("savedCharWidth") ?? '50') || 50,

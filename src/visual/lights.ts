@@ -15,7 +15,7 @@ const lightSwitch = document.getElementById("light-switch")!;
 lightSwitch.addEventListener("pointerdown", toggleLights);
 
 export function toggleLights() {
-    alert("sorry! lights are currently broken...")
+    alert("sorry! lights are currently broken...");
     // if (states.currentLightsOn) {
     //     states.currentLightsOn = false;
     //     staticBackground.classList.replace("brightness-110", "brightness-0");

@@ -39,3 +39,34 @@ export function renameSong(songID:number) {
     songs[songID].name = newName;
     refreshSongVisuals();
 }
+
+// ==========
+// SHIFT SONG
+
+export function shiftSongUpOne(songID: number) {
+    if (songID <= 0 || songID >= songs.length) {
+        updateStatusMsg("cannot move song up!");
+        return;
+    }
+
+    [songs[songID - 1], songs[songID]] = [songs[songID], songs[songID - 1]];
+
+    songs[songID - 1].id = songID - 1;
+    songs[songID].id = songID;
+    updateStatusMsg(`moved "${songs[songID - 1].name}" up`);
+    refreshSongVisuals();
+}
+
+export function shiftSongDownOne(songID: number) {
+    if (songID < 0 || songID >= songs.length - 1) {
+        updateStatusMsg("cannot move song down!");
+        return;
+    }
+
+    [songs[songID], songs[songID + 1]] = [songs[songID + 1], songs[songID]];
+
+    songs[songID].id = songID;
+    songs[songID + 1].id = songID + 1;
+    updateStatusMsg(`moved "${songs[songID].name}" down`);
+    refreshSongVisuals();
+}

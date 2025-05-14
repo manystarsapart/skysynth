@@ -43,6 +43,10 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 export function updateCharacter(idle: boolean) {
+    if (!states.charVisible) {
+        return;
+    }
+
     // idle value: the value to update to
     const char = document.getElementById("character-div")!
     if (idle) {
@@ -100,3 +104,15 @@ export function updateCharacter(idle: boolean) {
     document.getElementById("character-image")!.style.width = `${states.charWidthPercentage}%`;
     // char.style.width = "10%"
 }
+
+
+// ==========
+// turn off
+
+const toggleSpriteButton = document.getElementById("toggle-sprite-button")!;
+
+toggleSpriteButton.addEventListener("pointerdown", () => {
+        states.charVisible = !states.charVisible;
+        document.getElementById("character-div")!.classList.toggle("hidden");
+        charSizeInput.classList.toggle("hidden");
+})

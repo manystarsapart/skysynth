@@ -108,7 +108,7 @@ export function toggleModal(show:boolean, mode = "transcribe") {
         lastFocusedElement = document.activeElement as HTMLElement;
         mainContent.classList.add("pointer-events-none", "opacity-50");
         modalOverlay.classList.remove("hidden");
-        console.log("Should be visible now:", modalOverlay.className);
+        // console.log("Should be visible now:", modalOverlay.className);
         closeModalButton.focus();
     } else {
         mainContent.classList.remove("pointer-events-none", "opacity-50");
@@ -138,7 +138,8 @@ function handleKeyDown(e: KeyboardEvent) {
 }
 
 function handleClickOutside(e: PointerEvent) {
-    if (!modalContent.contains(e.target as Node)) {
+    if (!modalContent.contains(e.target as Node) && e !instanceof HTMLSpanElement) {
+        // not instanceof span: this allows for span elements (song list actions) to be selected without triggering the closing of the modal 
         toggleModal(false);
     } else {
         // e.preventDefault();
