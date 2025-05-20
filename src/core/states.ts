@@ -2,13 +2,14 @@ import { keyboardMode0 } from "./maps";
 import { instruments, effectNodes, instrumentNames } from "../audio/instruEffect";
 
 export let states: any = {
-    skysynthVersion: "0.20.3",
-    skysynthLastUpdateDate: "2025-05-15",
-    skysynthSheetVersion: "1.1",
+    skysynthVersion: "0.20.4",
+    skysynthLastUpdateDate: "2025-05-20",
+    skysynthSheetVersion: "1.2",
         // sheet big version change: breaks
         // sheet small patch change: non-breaking
     skysynthVersionOnLastVisit: null,
 
+    spacePressed: false,
     shiftPressed: false,
     leftAltPressed: false,
     rightAltPressed: false,
@@ -41,7 +42,7 @@ export let states: any = {
     charVisible: true,
     charIdle: true,
     charCurrentSpriteID: 0,
-    charWidthPercentage: parseInt(localStorage.getItem("savedCharWidth") ?? '50') || 50,
+    charWidthPercentage: parseInt(localStorage.getItem("savedCharWidth") ?? '30') || 30,
 
     isTranscribing: false,  
     latestTranscribeNoteIndex: 0,

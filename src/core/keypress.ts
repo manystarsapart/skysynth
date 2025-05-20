@@ -103,10 +103,9 @@ document.addEventListener('keydown', function(e) {
         rightAltIndicator.style.backgroundColor = "#588157";
         updateVisualGuideOnOneSide(1);
 
-        if (states.isTranscribing === true) transcribeKeypress(false, "altR", null, true, true, "left"); // TRANSCRIBE
+        if (states.isTranscribing === true) transcribeKeypress(false, "altR", null, true, true, "right"); // TRANSCRIBE
     }
 
-   
 });
 
 document.addEventListener('keyup', function(e) {
@@ -135,6 +134,51 @@ document.addEventListener('keyup', function(e) {
 
 });
 
+
+export const spaceIndicator = document.getElementById("space-indicator")!;
+document.addEventListener('keydown', (e)=>{
+    if (e.key === ' ' && !states.spacePressed) {
+        e.preventDefault();
+        tempOctaveUp();
+    }
+});
+
+spaceIndicator.addEventListener('pointerdown', (e)=>{
+    if (!states.spacePressed) {
+        e.preventDefault();
+        tempOctaveUp();
+    }
+})
+
+document.addEventListener('keyup', (e)=>{
+    if (e.key === ' ') {
+        e.preventDefault();
+        tempOctaveBackDown();
+    }
+})
+
+spaceIndicator.addEventListener('pointerup', (e)=>{
+    e.preventDefault();
+    tempOctaveBackDown();
+})
+
+function tempOctaveUp() {
+    states.spacePressed = true;
+    spaceIndicator.style.backgroundColor = "#588157";
+    octaveUp();
+    if (states.isTranscribing === true) transcribeKeypress(false, "space", null, true, true); // TRANSCRIBE
+    updateVisualGuideOnOneSide(0);
+    updateVisualGuideOnOneSide(1);
+}
+
+function tempOctaveBackDown() {
+    states.spacePressed = false;
+    spaceIndicator.style.backgroundColor = "";
+    octaveDown();
+    if (states.isTranscribing === true) transcribeKeypress(false, "space", null, false, true); // TRANSCRIBE
+    updateVisualGuideOnOneSide(0);
+    updateVisualGuideOnOneSide(1);
+}
 
 function getBaseKey(key: string): string { // unshifts shifted symbol key
     const shiftMap: Record<string, string> = {

@@ -19,22 +19,20 @@ import './visual/background.ts'
 
 document.addEventListener("DOMContentLoaded", () => {
 
+  // notouch for mobile
+    const notouchIDs:string[] = [
+      "no-touch",
+      "shift-indicator",
+      "l-alt-indicator",
+      "r-alt-indicator",
+      "space-indicator",
+    ]
 
-    document.getElementById("no-touch")!.addEventListener("pointerdown", function (e) {
-      e.preventDefault();
-    }, { passive: false });
-
-    document.getElementById("shift-indicator")!.addEventListener("pointerdown", function (e) {
-      e.preventDefault();
-    }, { passive: false });
-
-    document.getElementById("l-alt-indicator")!.addEventListener("pointerdown", function (e) {
-      e.preventDefault();
-    }, { passive: false });
-
-    document.getElementById("r-alt-indicator")!.addEventListener("pointerdown", function (e) {
-      e.preventDefault();
-    }, { passive: false });
+    notouchIDs.forEach(element => {
+      document.getElementById(element)!.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+      }, { passive: false });
+    });
 
     // NOT IN THIS CODE: FIREBASE & ALL SERVER INTERACTION
 

@@ -3,9 +3,10 @@ import { states } from "../core/states";
 import { Keypress, RecordedSong } from './transcribe';
 import { updateStatusMsg } from '../core/logging';
 import { songs } from './songs';
-import { octaveTo, transposeDownOne, transposeToNumericalKey, transposeUpOne } from '../audio/transposeOctave';
+import { octaveDown, octaveTo, octaveUp, transposeDownOne, transposeToNumericalKey, transposeUpOne } from '../audio/transposeOctave';
 import { leftAltIndicator, rightAltIndicator, shiftIndicator, updateVisualGuide, updateVisualGuideOnOneSide } from '../visual/visualguide';
 import { RELEASE_SETTINGS } from '../audio/instruEffect';
+import { spaceIndicator } from '../core/keypress';
 
 const playTranscribedButton = document.getElementById("play-transcription-button")!;
 const stopPlaybackButton = document.getElementById("stop-transcription-playback-button")!;
@@ -145,6 +146,8 @@ async function playSong(song: RecordedSong) {
         setTimeout(() => {
           if (!value.semitonePlusOne) states.currentInstrument.triggerRelease(noteFreq);
           else states.currentInstrument.triggerRelease(noteFreqPlusOne);
+
+          
         },3000)
       }
 
@@ -154,6 +157,9 @@ async function playSong(song: RecordedSong) {
         // instant release OR forced instant release due to instrument
         if (!value.semitonePlusOne) states.currentInstrument.triggerRelease(noteFreq, time);
         else states.currentInstrument.triggerRelease(noteFreqPlusOne, time);
+
+        
+
         document.getElementById(value.keyboardKey)!.classList.remove("key-active-instant-playback");
       } else {
         // smooth release: do nothing on keyup
@@ -195,46 +201,60 @@ async function playSong(song: RecordedSong) {
       } else if (keypress.operation!.nature === 3) {
         // TEMP TRANSPOSE
         const tempTranspose = keypress.operation!.tempTranspose
-        if (tempTranspose.isSemitoneUp) {
-          // note down --> semitone up
-          switch (keypress.key) {
-            case "shift":
-              states.shiftPressed = true;
-              shiftIndicator.style.backgroundColor = "#FAE29C";
-              updateVisualGuideOnOneSide(0);
-              updateVisualGuideOnOneSide(1);
-              break;
-            case "altL":
-              states.leftAltPressed = true;
-              leftAltIndicator.style.backgroundColor = "#FAE29C";
-              updateVisualGuideOnOneSide(0);
-              break;
-            case "altR":
-              states.rightAltPressed = true;
-              rightAltIndicator.style.backgroundColor = "#FAE29C";
-              updateVisualGuideOnOneSide(1);
-              break;
+          if (tempTranspose.isSemitoneUp) {
+            // note down --> semitone up
+            switch (keypress.key) {
+              case "shift":
+                states.shiftPressed = true;
+                shiftIndicator.style.backgroundColor = "#FAE29C";
+                updateVisualGuideOnOneSide(0);
+                updateVisualGuideOnOneSide(1);
+                break;
+              case "altL":
+                states.leftAltPressed = true;
+                leftAltIndicator.style.backgroundColor = "#FAE29C";
+                updateVisualGuideOnOneSide(0);
+                break;
+              case "altR":
+                states.rightAltPressed = true;
+                rightAltIndicator.style.backgroundColor = "#FAE29C";
+                updateVisualGuideOnOneSide(1);
+                break;
+            }
+          } else {
+            // note up --> semitone down
+            switch (keypress.key) {
+              case "shift":
+                states.shiftPressed = false;
+                shiftIndicator.style.backgroundColor = "";
+                updateVisualGuideOnOneSide(0);
+                updateVisualGuideOnOneSide(1);
+                break;
+              case "altL":
+                states.leftAltPressed = false;
+                leftAltIndicator.style.backgroundColor = "";
+                updateVisualGuideOnOneSide(0);
+                break;
+              case "altR":
+                states.rightAltPressed = false;
+                rightAltIndicator.style.backgroundColor = "";
+                updateVisualGuideOnOneSide(1);
+                break;
+            }
           }
+      } else if (keypress.operation!.nature === 4) {
+        if (keypress.operation!.isKeyDown) {
+          states.spacePressed = true;
+          spaceIndicator.style.backgroundColor = "#FAE29C";
+          octaveUp();
+          updateVisualGuideOnOneSide(0);
+          updateVisualGuideOnOneSide(1);
         } else {
-          // note up --> semitone down
-          switch (keypress.key) {
-            case "shift":
-              states.shiftPressed = false;
-              shiftIndicator.style.backgroundColor = "";
-              updateVisualGuideOnOneSide(0);
-              updateVisualGuideOnOneSide(1);
-              break;
-            case "altL":
-              states.leftAltPressed = false;
-              leftAltIndicator.style.backgroundColor = "";
-              updateVisualGuideOnOneSide(0);
-              break;
-            case "altR":
-              states.rightAltPressed = false;
-              rightAltIndicator.style.backgroundColor = "";
-              updateVisualGuideOnOneSide(1);
-              break;
-          }
+          states.spacePressed = false;
+          spaceIndicator.style.backgroundColor = "";
+          octaveDown();
+          updateVisualGuideOnOneSide(0);
+          updateVisualGuideOnOneSide(1);
         }
       }
   }, operationTime));
@@ -251,6 +271,11 @@ async function playSong(song: RecordedSong) {
 }
 
 export async function stopSong() {
+  leftAltIndicator.style.backgroundColor = "";
+  rightAltIndicator.style.backgroundColor = "";
+  shiftIndicator.style.backgroundColor = "";
+  spaceIndicator.style.backgroundColor = "";
+
   const transport = Tone.getTransport();
 
   // stop existing part

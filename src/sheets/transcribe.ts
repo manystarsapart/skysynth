@@ -21,13 +21,14 @@ export interface RecordedNote {
 
 export interface RecordedOperation {
     index: number;
-    nature: number; // 0: tranpose, 1: octave, 2: temp transpose
+    nature: number; // 0: tranpose, 1: octave, 2: transpose by 1 ('[' or ']'), 3: temp transpose, 4: temp octave
     updatedTranspose?: number; // only for transpose operations
     updatedOctave?: number; // only for octave operations
     tempTranspose: {
         isSemitoneUp?: boolean;
         leftright?: string; // "left" vs "right"
-    }
+    };
+    isKeyDown?: boolean;
 }
 
 export interface Keypress {
@@ -164,9 +165,11 @@ export function transcribeKeypress(keyIsNote:boolean, key:string, finalMIDI:numb
         } else if (key == "[" || key == "]") {
             // transpose by 1: "[" or "]"
             nature = 2
-        } else {
+        } else if (key == "altL" || key == "altR" || key == "shift") { // lower case shift because i wrote it that way
             // temp transpose
             nature = 3;
+        } else if (key == "space") {
+            nature = 4;
         }
 
         operation = {
@@ -177,7 +180,8 @@ export function transcribeKeypress(keyIsNote:boolean, key:string, finalMIDI:numb
             tempTranspose: {
                 isSemitoneUp: tempTransposeIsSemitoneUp,
                 leftright: tempTransposeLeftRight,
-            }
+            },
+            isKeyDown: noteIsKeyDown,
         }
         states.latestTranscribeOperationIndex++;
         
