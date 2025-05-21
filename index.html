@@ -16,6 +16,15 @@
 <body class="overflow-hidden h-screen bg-gradient-to-t p-10 from-[#9BB1FF] via-[#BFD7FF] to-[#E2FDFF]">
     <h1 class="text-5xl font-pressstart2p p-5">SkySynth | <span id="skysynth-greeting">hello</span>, user <span id="display-name-box" class="bg-amber-300/50">anonymous</span></h1>
     <a href="./player/"><button class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Player</button></a>
+
+    <script>
+        document.addEventListener('keydown', (e) => {
+            if (e.key === ' ') {
+                window.location.href = "./player/";
+            }
+        })
+    </script>
+
     <a href="./blog/"><button class="p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Blog</button></a>
     <footer class="fixed bottom-[1%] m-auto left-0 right-0 text-center">© All rights reserved by TGC. Other properties belong to their respective owners.</footer>
 </body>

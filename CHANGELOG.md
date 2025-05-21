@@ -92,6 +92,7 @@ FUTURE PLANS
 ## [0.20.4] - 2025-05-20
 ### Added
 - option to temporary octave up (spacebar)
+- tapping spacebar on landing page brings one straight to player page
 
 ### Changed
 - sheet ver: 1.1 --> 1.2 (due to abovementioned temp octave feature)
