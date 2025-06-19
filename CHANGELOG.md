@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Table of Contents
 
 <!-- - [Unreleased](#unreleased) -->
+- [0.20.5 - 2025-06-19](#0205---2025-06-19)
 - [0.20.4 - 2025-05-20](#0204---2025-05-20)
 - [0.20.3 - 2025-05-15](#0203---2025-05-15)
 - [0.20.2 - 2025-05-14](#0202---2025-05-14)
@@ -68,6 +69,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 - 
  -->
+
+## [0.20.5] - 2025-06-19
+### Added
+- zen mode
+
 
 ## [0.20.4] - 2025-05-20
 ### Added

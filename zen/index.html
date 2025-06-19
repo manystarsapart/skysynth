@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="SkySynth">
+  <meta property="og:description" content="Typescript-powered interactive music keyboard inspired by Sky: Children of the Light. Play, transpose, record, and explore instruments/synths with intuitive keyboard controls.">
+  <meta property="og:image" content="http://www.skysynth.space/assets/thumbnail.jpeg">
+  <meta property="og:url" content="https://www.skysynth.space/player/">
+
+  <title>SkySynth Player</title>
+  <link rel="icon" type="image/png" href="../assets/thumbnail.jpeg"/>
+  <link rel="stylesheet" href="../src/styles.css">
+  <script src="../src/zen/zmain.ts" type="module"></script>
+  <script src="https://kit.fontawesome.com/8e2e927b48.js" crossorigin="anonymous"></script>
+</head>
+
+<body id="body" class="overflow-hidden h-screen bg-gradient-to-t p-10 from-[#9BB1FF] via-[#BFD7FF] to-[#E2FDFF]">
+<!-- <body id="body" class="overflow-hidden h-screen bg-gradient-to-t p-10 from-[#A8B5E0] via-[#B4CBF0] to-[#DAF0F7]"> -->
+<!-- <body class="h-screen bg-[url(./assets/SAOlake.jpg)]"> -->
+<!-- <img src="./assets/SAOlake.jpg" id="static-background" class="fixed top-0 left-0 w-full h-full object-cover -z-10 brightness-110" alt="lake background"> -->
+<!-- <img src="../assets/SAOlake.jpg" id="static-background" class="fixed hidden top-0 left-0 w-full h-full object-cover -z-10 brightness-110" alt="lake background"> -->
+<!-- <img src="../assets/water-mask.jpg" id="water-mask" class="absolute hidden left-0 w-full object-cover -z-10 opacity-20 blur-sm" alt="water line"> -->
+
+    <!-- behaviour: 
+    esc - go back to home 
+    tab - controls modal
+     -->
+
+
+
+
+<main id="main-content" class="-z-10 min-h-dvh">
+
+<a href="/"><button class="fixed top-[5%] left-[5%] p-3 m-1 rounded-lg border-2 border-black bg-white/80 hover:bg-[#F08080]">Home</button></a>
+
+  <div id="shift-indicator" class="fixed text-xl left-1/12 top-2/3 p-5 rounded-lg border-3 border-black bg-white/80">
+    Shift
+  </div>
+  <div id="l-alt-indicator" class="fixed text-xl left-1/5 top-[70%] p-5 m-1 rounded-lg border-3 border-black bg-white/80">
+    L alt
+  </div>
+  <div id="r-alt-indicator" class="fixed text-xl right-1/5 top-[70%] p-5 m-1 rounded-lg border-3 border-black bg-white/80">
+    R alt
+  </div>
+  <div class="flex justify-center">
+    <div id="space-indicator" class="fixed text-xl top-[75%] text-center min-w-xl p-5 m-1 rounded-lg border-3 border-black bg-white/80">
+      Space
+    </div>
+  </div>
+
+
+  <!-- <div class="h-screen flex items-center justify-center top-0.5 "> -->
+    <div id="no-touch" class="absolute w-full gap-20 flex flex-row items-center justify-center m-0 top-1/2 -translate-y-1/2"> <!-- note visual guides-->
+      <div id="notes-div-left" class="grid grid-cols-5 gap-1 p-1 text-5xl">
+        <div id="q" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            C<sub class="text-lg">3</sub>
+          </div>
+          <span class="text-2xl">Q</span>
+        </div>
+        <div id="w" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            D<sub class="text-lg">3</sub>
+          </div>
+          <span class="text-2xl">W</span>
+        </div>
+        <div id="e" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            E<sub class="text-lg">3</sub>
+          </div>
+          <span class="text-2xl">E</span>
+        </div>
+        <div id="r" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            F<sub class="text-lg">3</sub>
+          </div>
+          <span class="text-2xl">R</span>
+        </div>
+        <div id="t" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            G<sub class="text-lg">3</sub>
+          </div>
+          <span class="text-2xl">T</span>
+        </div>
+        <div id="a" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            A<sub class="text-lg">3</sub>
+          </div>
+          <span class="text-2xl">A</span>
+        </div>
+        <div id="s" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            B<sub class="text-lg">3</sub>
+          </div>
+          <span class="text-2xl">S</span>
+        </div>
+        <div id="d" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            C<sub class="text-lg">4</sub>
+          </div>
+          <span class="text-2xl">D</span>
+        </div>
+        <div id="f" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            D<sub class="text-lg">4</sub>
+          </div>
+          <span class="text-2xl">F</span>
+        </div>
+        <div id="g" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            E<sub class="text-lg">4</sub>
+          </div>
+          <span class="text-2xl">G</span>
+        </div>
+        <div id="z" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            F<sub class="text-lg">4</sub>
+          </div>
+          <span class="text-2xl">Z</span>
+        </div>
+        <div id="x" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            G<sub class="text-lg">4</sub>
+          </div>
+          <span class="text-2xl">x</span> 
+        </div>
+        <div id="c" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            A<sub class="text-lg">4</sub>
+          </div>
+          <span class="text-2xl">C</span>
+        </div>
+        <div id="v" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            B<sub class="text-lg">4</sub>
+          </div>
+          <span class="text-2xl">V</span>
+        </div>
+        <div id="b" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            C<sub class="text-lg">5</sub>
+          </div>
+          <span class="text-2xl">B</span>
+        </div>
+
+      </div>
+        <!-- 
+        C D E F G 
+        A B C D E
+        F G A B C  
+        -->
+      <div id="notes-div-right" class="grid grid-cols-5 gap-1 p-1 text-5xl">
+        <div id="y" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            C<sub class="text-lg">4</sub>
+          </div>
+          <span class="text-2xl">Y</span>
+        </div>
+        <div id="u" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            D<sub class="text-lg">4</sub>
+          </div>
+          <span class="text-2xl">U</span>
+        </div>
+        <div id="i" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            E<sub class="text-lg">4</sub>
+          </div>
+          <span class="text-2xl">I</span>
+        </div>
+        <div id="o" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            F<sub class="text-lg">4</sub>
+          </div>
+          <span class="text-2xl">O</span>
+        </div>
+        <div id="p" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            G<sub class="text-lg">4</sub>
+          </div>
+          <span class="text-2xl">P</span>
+        </div>
+        <div id="h" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            A<sub class="text-lg">4</sub>
+          </div>
+          <span class="text-2xl">H</span>
+        </div>
+        <div id="j" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            B<sub class="text-lg">4</sub>
+          </div>
+          <span class="text-2xl">J</span>
+        </div>
+        <div id="k" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            C<sub class="text-lg">5</sub>
+          </div>
+          <span class="text-2xl">K</span>
+        </div>
+        <div id="l" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            D<sub class="text-lg">5</sub>
+          </div>
+          <span class="text-2xl">L</span>
+        </div>
+        <div id=";" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            E<sub class="text-lg">5</sub>
+          </div>
+          <span class="text-2xl">;</span>
+        </div>
+        <div id="n" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            F<sub class="text-lg">5</sub>
+          </div>
+          <span class="text-2xl">N</span>
+        </div>
+        <div id="m" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            G<sub class="text-lg">5</sub>
+          </div>
+          <span class="text-2xl">M</span>
+        </div>
+        <div id="," class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            A<sub class="text-lg">5</sub>
+          </div>
+          <span class="text-2xl">,</span>
+        </div>
+        <div id="." class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            B<sub class="text-lg">5</sub>
+          </div>
+          <span class="text-2xl">.</span>
+        </div>
+        <div id="/" class="keyboard-key flex flex-col items-center justify-center p-2 rounded-4xl border-3 text-center h-30 w-30 bg-white/80 z-50">
+          <div>
+            C<sub class="text-lg">6</sub>
+          </div>
+          <span class="text-2xl">/</span>
+        </div>
+      </div>
+    <!-- </div> -->
+    </div>
+
+  
+<div class="pointer-events-none opacity-50 transform scale-[85%] hidden bg-[#588157]">
+  
+</div>
+
+
+
+
+</main>
+
+  
+</body>
+</html>
+

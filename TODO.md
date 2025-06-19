@@ -13,7 +13,7 @@ last updated: 19 june 2025
 ## audio
 1. sample virtual singers? (legality check)
 2. sample more otto
-3. option to play two or more instruments at once ????? LOL this should be manageable in tone but i need to overhaul instrueffects.ts
+3. option to play two or more instruments at once: this should be manageable in tone but i need to overhaul instrueffect.ts
 
 ### final boss: sustain (dev w. specy)
 

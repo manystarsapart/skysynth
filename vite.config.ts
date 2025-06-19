@@ -12,6 +12,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         player: resolve(__dirname, 'player/index.html'),
         blog: resolve(__dirname, 'blog/index.html'),
+        zen: resolve(__dirname, 'zen/index.html'),
       },
     },
   },

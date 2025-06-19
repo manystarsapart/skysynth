@@ -1,6 +1,6 @@
 import { states } from "../core/states";
 import { pitchMap, transposeMap, pitchMapReversed } from "../core/maps";
-import { updateVisualGuide } from "../visual/visualguide";
+import { updateVisualGuide } from "../visual/visualGuide";
 import { updateStatusMsg } from "../core/logging";
 
 const transposeValueDisplay = document.getElementById("transpose-value")!; // past: transposeValueBox

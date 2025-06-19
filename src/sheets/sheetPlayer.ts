@@ -4,7 +4,7 @@ import { Keypress, RecordedSong } from './transcribe';
 import { updateStatusMsg } from '../core/logging';
 import { songs } from './songs';
 import { octaveDown, octaveTo, octaveUp, transposeDownOne, transposeToNumericalKey, transposeUpOne } from '../audio/transposeOctave';
-import { leftAltIndicator, rightAltIndicator, shiftIndicator, updateVisualGuide, updateVisualGuideOnOneSide } from '../visual/visualguide';
+import { leftAltIndicator, rightAltIndicator, shiftIndicator, updateVisualGuide, updateVisualGuideOnOneSide } from '../visual/visualGuide';
 import { RELEASE_SETTINGS } from '../audio/instruEffect';
 import { spaceIndicator } from '../core/keypress';
 
