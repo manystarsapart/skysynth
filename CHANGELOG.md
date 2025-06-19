@@ -69,26 +69,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - 
  -->
 
-
-<!-- 
-
-FUTURE PLANS
-
-- LEADERBOARD LEADERBOARD LEADERBOARD. needs auth to work
-- (put auth back again... its been ages... maybe try google auth?)
-
-- actual real sustain pedal key. tab to sustain and release tab to release
-
-- overhaul for recorder logic? is recording still needed?
-- background customisation
-- keybind customisation (VERY FAR)
-
-- PRELOAD / CACHE IMAGES FOR SKYKID
-
-- changelog modal on version update
-
- -->
-
 ## [0.20.4] - 2025-05-20
 ### Added
 - option to temporary octave up (spacebar)
