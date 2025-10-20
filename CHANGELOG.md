@@ -70,6 +70,15 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - 
  -->
 
+## [0.20.6] - 2025-10-20
+### Added
+- rhodes keyboard 
+- hachimi (accessible [here](https://www.skysynth.space/hachimi/)) & sound credits to [bilibili author](https://space.bilibili.com/3546795732896023)
+
+
+### Changed 
+- remove redundant assets
+
 ## [0.20.5] - 2025-06-19
 ### Added
 - zen mode
