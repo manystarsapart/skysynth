@@ -3,7 +3,7 @@
 last updated: 19 june 2025
 
 ## functionalities
-1. zen mode
+1. optimise zen mode (one menu for all: change instruments etc)
 2. customise key bindings & overhaul states.ts
 3. show changelog if isFirstVisitAfterUpdate
 4. do something about record function. maybe shift it inside transcription menu?
@@ -30,3 +30,7 @@ last updated: 19 june 2025
 1. move keypress event handlers outside keypress.ts into their individual component files
 2. fix phone optimisation & touch support (disable pinchzoom) and fix sizing issues on small viewport
 3. preload / cache image for character
+
+
+## completed
+* zen mode

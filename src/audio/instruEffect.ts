@@ -346,23 +346,40 @@ const meow = createSampler({
     }
 }, 7);
 
-const ottoDoo = createSampler({
-    name: "Otto - Doo",
-    baseUrl: "../assets/audio/otto-doo/",
-    noteMap: {
-        "F3": "f3.wav", "A3": "a3.wav", "C4": "c4.wav", "F4": "f4.wav",
-        "Bb4": "bb4.wav", "C5": "c5.wav", "F5": "f5.wav", "C6": "c6.wav", "F6": "f6.wav",
-    }
-}, 7);
 
-const ottoSynth = createSampler({
-    name: "Otto - Synth",
-    baseUrl: "../assets/audio/otto-synth/",
+// expt
+
+// const tet = createSampler({
+//     name: "tet",
+//     baseUrl: "../assets/audio/tet/",
+//     noteMap: {
+//         "C4": "c4.wav",
+//         "C5": "c5.wav",
+//     }
+// }, 0);
+
+const expt2 = createSampler({ 
+    name: "rhodes (expt)",
+    baseUrl: "../assets/audio/expt2/",
     noteMap: {
-        "C3": "c3.wav", "F3": "f3.wav", "C4": "c4.wav", "F4": "f4.wav",
-        "Bb4": "bb4.wav", "C5": "c5.wav", "F5": "f5.wav", "C6": "c6.wav", "F6": "f6.wav",
+        // "F6": "f6.wav" // diangun 凤鸣
+        "C4": "c5.wav" // rhodes not bad
+        // "C4": "brassc4.wav" // brass
+        // "C5": "saxc5.wav" // sax. i dont quite like the sound though
+        // "G5": "voiceg5.mp3" // this is TERRIBLE
+        // "C5": "bellsc5.wav" // tubular bells I HATE HTIS
+        // "C3": "slapbassc2.wav" // slap bass
+        // "C2": "bassc2.wav" // slap bass
     }
 }, 0);
+
+// const expt3 = createSampler({ // 嘟
+//     name: "expt3",
+//     baseUrl: "../assets/audio/expt3/",
+//     noteMap: {
+//         "Bb4": "bb4.wav"
+//     }
+// }, 0);
 
 
 // inst array
@@ -401,9 +418,11 @@ export const instruments: any[] = [
     
     // fun
     meow,           // 24
-    ottoDoo,        // 25
-    ottoSynth,      // 26
-    
+
+    // expt
+    // tet,
+    expt2,
+    // expt3
 
 ];
 
@@ -417,7 +436,9 @@ export const RELEASE_SETTINGS = {
         "Duo Synth",
         "FM Synth",
         "AM Synth",
-        "Otto - Synth"
+        // "tet",
+        "rhodes (expt)",
+        // "expt3"
     ]
 };
 

@@ -13,6 +13,7 @@ export default defineConfig({
         player: resolve(__dirname, 'player/index.html'),
         blog: resolve(__dirname, 'blog/index.html'),
         zen: resolve(__dirname, 'zen/index.html'),
+        hachimi: resolve(__dirname, 'hachimi/index.html'),
       },
     },
   },
