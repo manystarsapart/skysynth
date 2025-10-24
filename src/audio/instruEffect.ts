@@ -359,7 +359,7 @@ const meow = createSampler({
 // }, 0);
 
 const expt2 = createSampler({ 
-    name: "rhodes (expt)",
+    name: "Keyboard - Rhodes",
     baseUrl: "../assets/audio/expt2/",
     noteMap: {
         // "F6": "f6.wav" // diangun 凤鸣
@@ -437,7 +437,7 @@ export const RELEASE_SETTINGS = {
         "FM Synth",
         "AM Synth",
         // "tet",
-        "rhodes (expt)",
+        "Keyboard - Rhodes",
         // "expt3"
     ]
 };
